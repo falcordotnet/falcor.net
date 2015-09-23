@@ -45,7 +45,7 @@ let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router",
 let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "")
 
 let createContext (baseProjects : List<Project>) (version : string) = 
-    let projects = baseProjects @ [ falcorClient; (*falcorRouter;*) falcorWebRouter; falcorWeb ]
+    let projects = baseProjects @ [ falcorClient; falcorRouter; falcorWebRouter; falcorWeb ]
     // Initialize local environment variables 
     if File.Exists "local.json" then 
         let localVarProps = JsonValue.Parse(File.ReadAllText"local.json").Properties

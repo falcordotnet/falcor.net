@@ -9,7 +9,7 @@ open System
 
 RestorePackages()
 
-let version = "0.0.1-pre"
+let version = "0.0.3-pre"
 let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor")
 let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "")
 let projects = [ falcor; falcorServer ]
@@ -41,7 +41,7 @@ Target "CreatePackages" (fun _ ->
     createNuGetPackage falcor context useDefaults
     createNuGetPackage falcorClient context withCore
     createNuGetPackage falcorServer context withCore
-    createNuGetPackage falcorRouter context withCore
+    // createNuGetPackage falcorRouter context withCore
     createNuGetPackage falcorWeb context withCore
     createNuGetPackage falcorWebRouter context withCore)
 Target "Test" 
