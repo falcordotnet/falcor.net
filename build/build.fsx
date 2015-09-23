@@ -1,4 +1,4 @@
-#r @"temp\tools\FAKE.Core\tools\FakeLib.dll"
+#r @"packages\FAKE.Core\tools\FakeLib.dll"
 #load "BuildHelpers.fsx"
 
 open Fake
@@ -45,7 +45,7 @@ Target "CreatePackages" (fun _ ->
 Target "Test" 
     (fun _ -> 
     !!(sprintf "./src/Falcor.Tests/bin/Release/**/Falcor.Tests*.dll" ) 
-    |> xUnit2 (fun p -> { p with ToolPath = "./temp/tools/xunit.runner.console/tools/xunit.console.exe" }))
+    |> xUnit2 (fun p -> { p with ToolPath = "./build/packages/xunit.runner.console/tools/xunit.console.exe" }))
 // Target dependencies
 "Test" ==> "Default"
 "Compile" ==> "Test"

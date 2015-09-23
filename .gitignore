@@ -17,7 +17,7 @@
 [Rr]eleases/
 x64/
 x86/
-build/
+*/build/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -118,4 +118,5 @@ nuget.exe
 
 # Local Build settings
 local.json
-temp
+build/packages
+build/temp

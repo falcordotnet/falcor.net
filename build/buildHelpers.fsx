@@ -1,5 +1,5 @@
-#r @"temp\tools\FAKE.Core\tools\FakeLib.dll"
-#r @"temp\tools\FSharp.Data\lib\net40\FSharp.Data.dll"
+#r @"packages\FAKE.Core\tools\FakeLib.dll"
+#r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
 
 open Fake
 open Fake.Testing
@@ -16,14 +16,14 @@ exception InvalidSemVer of string
 exception EnvironmentVariableAlreadyExists of string
 
 type Project(name : string, description : string, tags : string) = 
-    let packagingRootPath = "temp" @@ "packaging"
+    let packagingRootPath = "./build" @@ "temp" @@ "packaging"
     member this.summary = ""
     member this.authors = [ "falcor.net" ]
     member this.name = name
     member this.description = name
     member this.tags = name
-    member this.assemblyInfoPath = "src" @@ name @@ "Properties" @@ "AssemblyInfo.cs"
-    member this.binPath = "src" @@ name @@ "bin"
+    member this.assemblyInfoPath = "./src" @@ name @@ "Properties" @@ "AssemblyInfo.cs"
+    member this.binPath = "./src" @@ name @@ "bin"
     member this.dllPath = this.binPath @@ "Release" @@ name + ".dll"
     member this.packagingPath = packagingRootPath @@ name
     member this.net45packagePath = this.packagingPath @@ "lib" @@ "net45"
