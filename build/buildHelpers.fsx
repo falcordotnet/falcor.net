@@ -45,7 +45,7 @@ let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router",
 let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "")
 
 let createContext (baseProjects : List<Project>) (version : string) = 
-    let projects = baseProjects @ [ falcorClient; falcorRouter; falcorWebRouter; falcorWeb ]
+    let projects = baseProjects @ [ falcorClient; (*falcorRouter;*) falcorWebRouter; falcorWeb ]
     // Initialize local environment variables 
     if File.Exists "local.json" then 
         let localVarProps = JsonValue.Parse(File.ReadAllText"local.json").Properties
@@ -69,7 +69,7 @@ let createContext (baseProjects : List<Project>) (version : string) =
       packagesDirPath = "packages"
       projects = projects
       publishUrl = environVarOrDefault "publishUrl" ""
-      publishApiKey = environVarOrDefault "publishApiKiey" ""
+      publishApiKey = environVarOrDefault "publishApiKey" ""
       tempPackagingPath = "temp" @@ "packaging"
       testResultsPath = "tests"
       version = buildVersion }
@@ -92,7 +92,7 @@ let createNuGetPackage (project : Project) (context : BuildContext)
                  Publish = context.publishUrl <> "" }
         |> match customParams with
            | Some(customParams) -> customParams (context)
-           | None -> (fun p -> p))) "./base.nuspec"
+           | None -> (fun p -> p))) "./build/base.nuspec"
 
 let useDefaults = None
 let withCustomParams (configuration : BuildContext -> NuGetParams -> NuGetParams) = Some(configuration)
