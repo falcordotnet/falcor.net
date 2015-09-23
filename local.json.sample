@@ -1,0 +1,5 @@
+{
+  "publishurl": "C:\\dev\\nuget\\packages",
+  "publishApiKey" : "123-456-7890",
+  "buildNumber" : "2"
+}
