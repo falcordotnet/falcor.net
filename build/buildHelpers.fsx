@@ -15,7 +15,7 @@ exception InvalidSemVer of string
 
 exception EnvironmentVariableAlreadyExists of string
 
-type Project(name : string, description : string, tags : string) = 
+type Project(name : string, description : string, tags : string) =
     let packagingRootPath = "./build" @@ "temp" @@ "packaging"
     member this.summary = ""
     member this.authors = [ "falcor.net" ]
@@ -43,9 +43,11 @@ let falcorClient = new Project("Falcor.Client", "Falcor .NET Client", "")
 let falcorRouter = new Project("Falcor.Router", "Falcor .NET Router", "")
 let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router", "")
 let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "")
+let falcorWebOwin = new Project("Falcor.Web.Owin", "Falcor .NET Web OWIN interface", "")
+let falcorServerOwin= new Project("Falcor.Server.Owin", "Falcor .NET server OWIN interface", "")
 
 let createContext (baseProjects : List<Project>) (version : string) = 
-    let projects = baseProjects @ [ falcorClient; falcorRouter; falcorWebRouter; falcorWeb ]
+    let projects = baseProjects //@ [ falcorClient; falcorRouter; falcorWebRouter; falcorWeb; falcorWebOwin; falcorServerOwin ]
     // Initialize local environment variables 
     if File.Exists "local.json" then 
         let localVarProps = JsonValue.Parse(File.ReadAllText"local.json").Properties

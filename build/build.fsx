@@ -9,7 +9,7 @@ open System
 
 RestorePackages()
 
-let version = "0.0.3-pre"
+let version = "0.0.4-pre"
 let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor")
 let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "")
 let projects = [ falcor; falcorServer ]
@@ -23,30 +23,29 @@ Target "Clean" (fun _ ->
     for p in context.projects do
         CleanDirs [ p.binPath; p.packagingPath ]
     CleanDirs [ context.testResultsPath; context.tempPackagingPath ])
-Target "AssemblyInfo" 
-    (fun _ -> 
-        for p in context.projects do
-            CreateCSharpAssemblyInfo p.assemblyInfoPath
-                [Attribute.Title p.name
-                 Attribute.Copyright context.copyright
-                 Attribute.Description p.description
-                 Attribute.Product "Falcor.NET"
-                 Attribute.Version context.version
-                 Attribute.FileVersion context.version]
-)
+Target "AssemblyInfo" (fun _ -> 
+    for p in context.projects do
+        CreateCSharpAssemblyInfo p.assemblyInfoPath [ Attribute.Title p.name
+                                                      Attribute.Copyright context.copyright
+                                                      Attribute.Description p.description
+                                                      Attribute.Product "Falcor.NET"
+                                                      Attribute.Version context.version
+                                                      Attribute.FileVersion context.version ])
 Target "Compile" 
-    (fun _ -> MSBuild null "Build" [ "Configuration",  "Release"] [ "./Falcor.sln" ] |> Log "Build-Output: ")
+    (fun _ -> MSBuild null "Build" [ "Configuration", "Release" ] [ "./Falcor.sln" ] |> Log "Build-Output: ")
 Target "CreatePackages" (fun _ -> 
     let withCore = dependsOn (falcor)
     createNuGetPackage falcor context useDefaults
     createNuGetPackage falcorClient context withCore
-    createNuGetPackage falcorServer context withCore
-    // createNuGetPackage falcorRouter context withCore
-    createNuGetPackage falcorWeb context withCore
-    createNuGetPackage falcorWebRouter context withCore)
+    createNuGetPackage falcorServer context withCore)
+// createNuGetPackage falcorRouter context withCore
+//createNuGetPackage falcorWeb context withCore
+//createNuGetPackage falcorWebOwin context withCore
+//createNuGetPackage falcorServerOwin context withCore
+//createNuGetPackage falcorWebRouter context withCore
 Target "Test" 
     (fun _ -> 
-    !!(sprintf "./src/Falcor.Tests/bin/Release/**/Falcor.Tests*.dll" ) 
+    !!(sprintf "./src/Falcor.Tests/bin/Release/**/Falcor.Tests*.dll") 
     |> xUnit2 (fun p -> { p with ToolPath = "./build/packages/xunit.runner.console/tools/xunit.console.exe" }))
 // Target dependencies
 "Test" ==> "Default"

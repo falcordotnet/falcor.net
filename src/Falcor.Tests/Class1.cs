@@ -19,5 +19,11 @@ namespace Falcor.Tests
             "The result should be 5"
                 .x(() => Assert.Equal(5, result));
         }
+
+        [Fact]
+        public void AssertTruth()
+        {
+            Assert.True(true);
+        }
     }
 }

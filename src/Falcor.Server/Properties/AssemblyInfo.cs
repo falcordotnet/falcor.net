@@ -5,10 +5,10 @@ using System.Reflection;
 [assembly: AssemblyCopyrightAttribute("2015 Falcor.NET")]
 [assembly: AssemblyDescriptionAttribute("Falcor.Server")]
 [assembly: AssemblyProductAttribute("Falcor.NET")]
-[assembly: AssemblyVersionAttribute("0.0.3")]
-[assembly: AssemblyFileVersionAttribute("0.0.3")]
+[assembly: AssemblyVersionAttribute("0.0.4")]
+[assembly: AssemblyFileVersionAttribute("0.0.4")]
 namespace System {
     internal static class AssemblyVersionInformation {
-        internal const string Version = "0.0.3";
+        internal const string Version = "0.0.4";
     }
 }

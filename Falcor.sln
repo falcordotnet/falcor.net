@@ -5,12 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{053672D2-EA31-4F46-A2EB-09B73FCFF0D1}"
 	ProjectSection(SolutionItems) = preProject
-		base.nuspec = base.nuspec
-		build.cmd = build.cmd
-		build.fsx = build.fsx
-		buildHelpers.fsx = buildHelpers.fsx
 		README.md = README.md
-		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor", "src\Falcor\Falcor.csproj", "{CF5C06BE-467B-40BA-8F60-0F292FA067A2}"
@@ -28,6 +23,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Tests", "src\Falcor.Tests\Falcor.Tests.csproj", "{8DEB1233-F633-4E54-9E29-F3636DCA4108}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Web.Router", "src\Falcor.Web.Router\Falcor.Web.Router.csproj", "{0F11DB37-6F94-43E0-8B60-78D4B2BE1604}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{9163BDCE-4F94-4398-A806-400438A3075D}"
+	ProjectSection(SolutionItems) = preProject
+		build\base.nuspec = build\base.nuspec
+		build.cmd = build.cmd
+		build\build.fsx = build\build.fsx
+		build\buildHelpers.fsx = build\buildHelpers.fsx
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Owin", "src\Falcor.Server.Owin\Falcor.Server.Owin.csproj", "{932D3A57-CCC8-466D-8FBD-1C1833661ED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Web.Owin", "src\Falcor.Web.Owin\Falcor.Web.Owin.csproj", "{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,13 +70,24 @@ Global
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{6208068B-EA00-40DC-B536-54E759C44988} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{4698DD12-FE7F-4068-A6C1-AF28AA353087} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{56FC815C-EB64-49DE-9E51-D73740B0EFA7} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
+		{932D3A57-CCC8-466D-8FBD-1C1833661ED8} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
+		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 	EndGlobalSection
 EndGlobal

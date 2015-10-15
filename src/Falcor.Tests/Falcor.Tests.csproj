@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sprache, Version=2.0.0.47, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sprache.2.0.0.47\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,7 +65,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="FalcorPathTests.cs" />
+    <Compile Include="FalcorValueTests.cs" />
+    <Compile Include="NumberKeyTests.cs" />
+    <Compile Include="IntegersPatternTests.cs" />
+    <Compile Include="KeySegementTests.cs" />
+    <Compile Include="KeySetTests.cs" />
+    <Compile Include="KeysPatternTests.cs" />
+    <Compile Include="NullKeyTests.cs" />
+    <Compile Include="NumberRangeTests.cs" />
+    <Compile Include="NumericKeyTests.cs" />
+    <Compile Include="NumericSetTests.cs" />
+    <Compile Include="PathValueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RangesPatternTests.cs" />
+    <Compile Include="Server\RouteMatchingTests.cs" />
+    <Compile Include="Server\RoutingGrammarTests.cs" />
+    <Compile Include="SimpleKeyTests.cs" />
+    <Compile Include="StringKeyTests.cs" />
+    <Compile Include="ValueTypeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,6 +93,14 @@
       <Project>{89cd64b4-7b29-4b69-94e1-06d1f974297d}</Project>
       <Name>Falcor.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Falcor\Falcor.csproj">
+      <Project>{CF5C06BE-467B-40BA-8F60-0F292FA067A2}</Project>
+      <Name>Falcor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
