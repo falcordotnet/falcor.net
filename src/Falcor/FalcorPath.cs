@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace Falcor
 {
-    public class FalcorPath : IEnumerable<KeySegment>, IEquatable<FalcorPath>
+    public class FalcorPath : IEquatable<FalcorPath>, IReadOnlyList<KeySegment>
     {
         public static FalcorPath Empty { get; } = new FalcorPath(new List<KeySegment>());
 
         private readonly KeySegment[] _keys;
 
-        protected FalcorPath(IEnumerable<KeySegment> keys)
+        public FalcorPath(IEnumerable<KeySegment> keys)
         {
             _keys = keys.ToArray();
             var test = _keys.GetEnumerator();
@@ -51,6 +52,9 @@ namespace Falcor
             return new FalcorPath(result);
         }
 
+        public KeySegment Head => _keys.First();
+        public FalcorPath Tail => new FalcorPath(_keys.Skip(1));
+
         //public FalcorPath Prepend(KeySegment key)
         //{
         //    throw new NotImplementedException();
@@ -78,5 +82,6 @@ namespace Falcor
 
         public KeySegment this[int i] => _keys[i];
 
+        public int Count => _keys.Length;
     }
 }

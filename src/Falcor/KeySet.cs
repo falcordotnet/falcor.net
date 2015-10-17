@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +23,7 @@ namespace Falcor
         {
         }
 
-        public KeySet(IEnumerable<SimpleKey> keys) 
+        public KeySet(IEnumerable<SimpleKey> keys)
         {
             Keys = new HashSet<SimpleKey>(keys);
         }
@@ -35,7 +34,7 @@ namespace Falcor
 
         }
 
-        public override HashSet<SimpleKey> AsKeySet() => Keys;
+        public override KeySet AsKeySet() => this;
 
         private bool Equals(KeySet other) => other != null && other.Keys.SequenceEqual(Keys);
 

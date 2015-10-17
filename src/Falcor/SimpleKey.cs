@@ -4,7 +4,7 @@ namespace Falcor
 {
     public abstract class SimpleKey : KeySegment
     {
-        public override HashSet<SimpleKey> AsKeySet() => new HashSet<SimpleKey> { this };
+        public override KeySet AsKeySet() => new KeySet(this);
 
         public static implicit operator SimpleKey(string value)
         {

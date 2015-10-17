@@ -146,7 +146,7 @@ namespace Falcor.Tests.Server
                     "".x(() =>
                     {
                         var expected = expectedRoutes[expectedRouteKey];
-                        var parsed = RoutingGrammar.Route.Parse(route).ToList();
+                        var parsed = RoutingGrammar.Action.Parse(route).ToList();
                         Assert.True(expected.SequenceEqual(parsed));
                     });
 

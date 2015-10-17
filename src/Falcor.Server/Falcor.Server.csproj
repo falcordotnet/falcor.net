@@ -60,13 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractOption.cs" />
+    <Compile Include="DynamicDictionary.cs" />
+    <Compile Include="Optional.cs" />
     <Compile Include="AppRouter.cs" />
     <Compile Include="FalcorRequest.cs" />
     <Compile Include="FalcorRouter.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="IMatch.cs" />
-    <Compile Include="IMatching.cs" />
+    <Compile Include="Matching.cs" />
     <Compile Include="IOption.cs" />
     <Compile Include="IRoutePattern.cs" />
     <Compile Include="Match.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="Rejected.cs" />
     <Compile Include="RouteBuilder.cs" />
-    <Compile Include="RouteExtensions.cs" />
     <Compile Include="RouteResult.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="Ranges.cs" />

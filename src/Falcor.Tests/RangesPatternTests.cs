@@ -13,7 +13,7 @@ namespace Falcor.Tests
         [Example(111, 3334)]
         public void EquatableWithAnyNumberRanges(int rangeFrom, int rangeTo, RangesPatternMatcher sut, NumberRange range)
         {
-            "Given the Ranges Route Pattern".x(() =>
+            "Given the Ranges Action Pattern".x(() =>
             {
                 //TODO sut = new RangesPatternMatcher("TestBinding");
             });

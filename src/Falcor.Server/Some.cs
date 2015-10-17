@@ -1,6 +1,6 @@
 namespace Falcor.Server
 {
-    internal sealed class Some<T> : AbstractOption<T>
+    internal sealed class Some<T> : Optional<T>
     {
         private readonly T _value;
 

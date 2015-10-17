@@ -38,6 +38,6 @@ namespace Falcor.Server
             return Reject();
         }
 
-        public IObservable<RouteResult> FirstOf(List<Route<TRequest>> routes) => FirstOf(routes, 0);
+        public IObservable<RouteResult> FirstOf(IReadOnlyList<Route<TRequest>> routes) => FirstOf(routes, 0);
     }
 }

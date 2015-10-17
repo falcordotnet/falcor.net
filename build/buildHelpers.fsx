@@ -11,9 +11,9 @@ open FSharp.Data.JsonExtensions
 open System
 open System.IO
 
-exception InvalidSemVer of string
+exception InvalidSemVerException of string
 
-exception EnvironmentVariableAlreadyExists of string
+exception EnvironmentVariableAlreadyExistsException of string
 
 type Project(name : string, description : string, tags : string) =
     let packagingRootPath = "./build" @@ "temp" @@ "packaging"
@@ -53,7 +53,7 @@ let createContext (baseProjects : List<Project>) (version : string) =
         let localVarProps = JsonValue.Parse(File.ReadAllText"local.json").Properties
         for key, jsonValue in localVarProps do
             let value = jsonValue.AsString()
-            if (environVarOrNone(key).IsSome) then raise (EnvironmentVariableAlreadyExists(key))
+            if (environVarOrNone(key).IsSome) then raise (EnvironmentVariableAlreadyExistsException(key))
             setEnvironVar key value
             printfn "loaded local config %A" key
     let buildNumber = 
@@ -66,7 +66,7 @@ let createContext (baseProjects : List<Project>) (version : string) =
         | Some(build) -> version + "-" + build
         | None -> version
     
-    if (isValidSemVer buildVersion = false) then raise (InvalidSemVer(version))
+    if (isValidSemVer buildVersion = false) then raise (InvalidSemVerException(version))
     { copyright = sprintf "%A Falcor.NET" DateTime.UtcNow.Year
       packagesDirPath = "packages"
       projects = projects

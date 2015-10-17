@@ -20,7 +20,7 @@ namespace Falcor
         public virtual NumberRange AsRange() => new NumberRange(0, 0);
         public virtual NumericSet AsNumericSet() => new NumericSet();
         public virtual SortedSet<long> AsSortedNumberSet() => new SortedSet<long>();
-        public virtual HashSet<SimpleKey> AsKeySet() => new HashSet<SimpleKey>();
+        public virtual KeySet AsKeySet() => new KeySet();
 
         //        protected abstract string StringValue { get; set; }
         //public static implicit operator string (KeySegment keySegment)

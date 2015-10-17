@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
@@ -8,19 +9,18 @@ namespace Falcor.Server
     {
         public FalcorRouter()
         {
-            //Route = Routes.First();
+            _route = Server.Route.FirstOf(Routes);
         }
 
         private readonly FalcorModel _model = new FalcorModel();
 
-        //public ICollection<Route> Routes { get; } = new List<Route>();
+        public List<Route<TRequest>> Routes { get; } = new List<Route<TRequest>>();
         private Route<TRequest> _route { get; }
 
-        public RouteBuilder<TRequest> Get => new RouteBuilder<TRequest>(FalcorMethod.Get, this);
+        protected RouteBuilder<TRequest> Get => new RouteBuilder<TRequest>(FalcorMethod.Get, this);
 
         private IObservable<PathValue> Resolve(Route<TRequest> route, RequestContext<TRequest> context)
         {
-            var em = Observable.Empty<PathValue>();
             if (!context.Unmatched.Any() || _model.Contains(context.Unmatched))
                 return Observable.Empty<PathValue>();
 
@@ -40,7 +40,9 @@ namespace Falcor.Server
                                 {
                                     var unmatched = pathValue.Value.AsRef().AppendAll(result.UnmatchedPath);
                                     return Resolve(route, context.WithPaths(FalcorPath.Empty, unmatched));
-                                });
+                                })
+                                //.StartWith(pathValues) // Is this nescessary?
+                                ;
                         }
                     }
                 }

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Sprache;
 
 namespace Falcor.Server
@@ -13,15 +15,24 @@ namespace Falcor.Server
             _router = router;
         }
 
-        public Route<TRequest> this[string route]
+        //public Route<TRequest> this[string path]
+        //{
+        //    set { AddRoute(value, path); }
+        //}
+
+        public Func<dynamic, Task<RouteResult>> this[string path]
         {
-            set { AddRoute(value, route); }
+            set { AddRoute(null, ""); }
         }
 
-        private void AddRoute(Route<TRequest> route, string routePath)
+
+
+        private void AddRoute(Route<TRequest> route, string path)
         {
-            //var pathMatchers = RoutingGrammar.Route.Parse(routePath);
+            //var pathMatchers = RoutingGrammar.Route.Parse(path);
             //_router.Routes.Add(Route.From(_method, handler, pathMatchers));
         }
     }
+
+
 }

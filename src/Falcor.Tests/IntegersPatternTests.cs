@@ -13,7 +13,7 @@ namespace Falcor.Tests
         [Example(9324524)]
         public void EquatableWithNumberKeysAndNumericSets(int number, IntegersPatternMatcher sut, NumberKey nk, NumericSet ns)
         {
-            "Given an Integers Route Pattern key".x(() =>
+            "Given an Integers Action Pattern key".x(() =>
             {
                 //TODO sut = new IntegersPatternMatcher("TestBinding");
             });
