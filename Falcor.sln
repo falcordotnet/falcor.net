@@ -36,6 +36,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Owin", "src\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Web.Owin", "src\Falcor.Web.Owin\Falcor.Web.Owin.csproj", "{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{92F30E2D-B622-4682-9C44-05053AC5929F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.WebExample", "examples\Falcor.WebExample\Falcor.WebExample.csproj", "{EC73AD98-B45C-4BD2-A63C-59C76344E448}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +82,10 @@ Global
 		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC73AD98-B45C-4BD2-A63C-59C76344E448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC73AD98-B45C-4BD2-A63C-59C76344E448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC73AD98-B45C-4BD2-A63C-59C76344E448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC73AD98-B45C-4BD2-A63C-59C76344E448}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +97,6 @@ Global
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{932D3A57-CCC8-466D-8FBD-1C1833661ED8} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
+		{EC73AD98-B45C-4BD2-A63C-59C76344E448} = {92F30E2D-B622-4682-9C44-05053AC5929F}
 	EndGlobalSection
 EndGlobal

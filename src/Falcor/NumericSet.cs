@@ -8,6 +8,7 @@ namespace Falcor
     {
         private readonly List<NumberRange> _ranges = new List<NumberRange>();
         public override KeyType KeyType { get; } = KeyType.RangeSet;
+        public override NumericSet AsNumericSet() => this;
 
 
         public NumericSet(IEnumerable<long> numericKeys)
@@ -29,5 +30,7 @@ namespace Falcor
         {
             return GetEnumerator();
         }
+
+
     }
 }

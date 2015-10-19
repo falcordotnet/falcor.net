@@ -40,6 +40,8 @@ namespace Falcor
 
         public NumberRange(long value) : this(value, value) { }
 
+        public override NumberRange AsRange() => this;
+
         //public override Range AsRange() => _keys;
         //public override IRangeSet AsNumericSet() => new IRangeSet(_keys);
         public override SortedSet<long> AsSortedNumberSet() => new SortedSet<long>(AsEnumerable());

@@ -1,4 +1,0 @@
-﻿namespace Falcor.Server
-{
-
-}

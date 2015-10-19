@@ -45,5 +45,7 @@ namespace Falcor
         {
             return new StringKey(value);
         }
+
+        public override string ToString() => Value;
     }
 }

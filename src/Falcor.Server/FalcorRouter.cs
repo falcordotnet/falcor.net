@@ -2,24 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using Falcor.Server.Routing;
 
 namespace Falcor.Server
 {
-    public abstract class FalcorRouter<TRequest>
+    public abstract class FalcorRouter
     {
         public FalcorRouter()
         {
-            _route = Server.Route.FirstOf(Routes);
+            _route = Routes.FirstToComplete();
         }
 
+        public List<Route> Routes { get; } = new List<Route>();
         private readonly FalcorModel _model = new FalcorModel();
+        private readonly Route _route;
 
-        public List<Route<TRequest>> Routes { get; } = new List<Route<TRequest>>();
-        private Route<TRequest> _route { get; }
+        protected RouteBuilder Get => new RouteBuilder(FalcorMethod.Get, this);
+        protected RouteBuilder Set => new RouteBuilder(FalcorMethod.Set, this);
+        protected RouteBuilder Call => new RouteBuilder(FalcorMethod.Call, this);
 
-        protected RouteBuilder<TRequest> Get => new RouteBuilder<TRequest>(FalcorMethod.Get, this);
+        protected RouteHandlerResult Complete(List<PathValue> values) => new CompleteHandlerResult(values);
+        protected RouteHandlerResult Error(string error = null) => new ErrorHandlerResult(error);
 
-        private IObservable<PathValue> Resolve(Route<TRequest> route, RequestContext<TRequest> context)
+        private IObservable<PathValue> Resolve(Route route, RequestContext context)
         {
             if (!context.Unmatched.Any() || _model.Contains(context.Unmatched))
                 return Observable.Empty<PathValue>();
@@ -39,7 +44,7 @@ namespace Falcor.Server
                                 .SelectMany(pathValue =>
                                 {
                                     var unmatched = pathValue.Value.AsRef().AppendAll(result.UnmatchedPath);
-                                    return Resolve(route, context.WithPaths(FalcorPath.Empty, unmatched));
+                                    return Resolve(route, context.WithUnmatched(unmatched));
                                 })
                                 //.StartWith(pathValues) // Is this nescessary?
                                 ;
@@ -58,8 +63,8 @@ namespace Falcor.Server
             return results;
         }
 
-        public IObservable<PathValue> Route(FalcorRequest<TRequest> request) =>
-            request.Paths.ToObservable().SelectMany(
-                path => Resolve(_route, new RequestContext<TRequest>(request, FalcorPath.Empty, path)));
+        public IObservable<PathValue> Route(FalcorRequest request) =>
+            request.Paths.ToObservable().SelectMany(unmatched => Resolve(_route, new RequestContext(request, unmatched)));
+
     }
 }

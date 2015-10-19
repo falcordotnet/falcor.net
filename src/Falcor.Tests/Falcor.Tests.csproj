@@ -64,8 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="FalcorPathTests.cs" />
+    <Compile Include="HelloWorldTests.cs" />
     <Compile Include="FalcorValueTests.cs" />
     <Compile Include="NumberKeyTests.cs" />
     <Compile Include="IntegersPatternTests.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="PathValueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangesPatternTests.cs" />
-    <Compile Include="Server\RouteMatchingTests.cs" />
     <Compile Include="Server\RoutingGrammarTests.cs" />
     <Compile Include="SimpleKeyTests.cs" />
     <Compile Include="StringKeyTests.cs" />
