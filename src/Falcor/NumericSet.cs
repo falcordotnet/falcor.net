@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Falcor
@@ -21,11 +22,13 @@ namespace Falcor
             _ranges.AddRange(numericKeys.Select(k => k.AsRange()));
         }
 
+        [DebuggerStepThrough]
         public IEnumerator<long> GetEnumerator()
         {
             return _ranges.SelectMany(r => r.AsEnumerable()).GetEnumerator();
         }
 
+        [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

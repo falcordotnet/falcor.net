@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Falcor
 {
@@ -27,14 +28,10 @@ namespace Falcor
 
         public override FalcorPath AsRef() => _path;
 
-        public IEnumerator<KeySegment> GetEnumerator()
-        {
-            return _path.GetEnumerator();
-        }
+        [DebuggerStepThrough]
+        public IEnumerator<KeySegment> GetEnumerator() => _path.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
