@@ -29,7 +29,7 @@ namespace Falcor
 
         public IEnumerator<KeySegment> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return _path.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

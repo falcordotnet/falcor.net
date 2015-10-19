@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 using Falcor.Server.Utils;
 
 namespace Falcor.Server.Routing
@@ -57,7 +59,13 @@ namespace Falcor.Server.Routing
             };
         }
 
-        public static Route ToRoute(this RouteHandler handler) =>
-    context => handler(context.Parameters);
+        public static Route ToRoute(this RouteHandler handler)
+        {
+            return context =>
+            {
+                return ((Task<RouteHandlerResult>)handler(context.Parameters)).ToObservable().Select(handlerResult => handlerResult.ToRouteResult(context.Unmatched));
+            };
+        }
+
     }
 }

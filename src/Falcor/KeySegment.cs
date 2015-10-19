@@ -41,7 +41,5 @@ namespace Falcor
         {
             return new NumberKey(value);
         }
-
-
     }
 }

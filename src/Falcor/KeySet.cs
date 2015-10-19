@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Falcor
 {
     public sealed class KeySet : KeySegment, IEnumerable<SimpleKey>
     {
-        public IEnumerator<SimpleKey> GetEnumerator() => Keys.GetEnumerator();
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -46,9 +45,11 @@ namespace Falcor
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        [DebuggerStepThrough]
+        public IEnumerator<SimpleKey> GetEnumerator() => Keys.GetEnumerator();
+
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
+
 }

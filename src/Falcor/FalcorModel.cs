@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Falcor
 {
+    /*
     public sealed class FalcorModel : IEnumerable<PathValue>
     {
         private readonly FalcorTree _cache;
@@ -19,4 +20,5 @@ namespace Falcor
 
         public bool Contains(FalcorPath path) => _cache.Contains(path);
     }
+    */
 }

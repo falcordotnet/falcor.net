@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Falcor.Server.Routing;
 using Sprache;
@@ -15,15 +14,14 @@ namespace Falcor.Tests.Server
         [Example("test")]
         [Example("test[foo]")]
         [Example("test.bar")]
-        public void IdentifierParser(string input)
+        public void StringKey(string routePath)
         {
             "".x(() =>
             {
-                var matcher = RoutingGrammar.StringKeyMatcher.Parse(input);
+                var matcher = RoutingGrammar.StringKeyMatcher.Parse(routePath);
                 Assert.True(matcher("test").IsMatched);
             });
         }
-
 
         [Scenario]
         public void PatternParser()
@@ -47,7 +45,6 @@ namespace Falcor.Tests.Server
                     var result = matcher(test.KeySegment);
                     if (test.ExpectName)
                         Assert.True(result.HasName && result.Name == "foo");
-
                     Assert.True(result.IsMatched);
                     Assert.True(result.HasValue);
                     Assert.Equal(test.KeySegment, result.Value);
@@ -83,57 +80,40 @@ namespace Falcor.Tests.Server
             });
         }
 
-        private List<PathMatcher> Matchers(params PathMatcher[] matchers) => matchers.ToList();
-
-        private class PathTest
-        {
-            public FalcorPath Path { get; set; }
-            public bool ShouldMatch { get; set; }
-        }
-        private class PathMatcherTest
-        {
-            public string RoutePath { get; set; }
-            public List<PathTest> PathTests { get; set; } = new List<PathTest>();
-            public List<PathMatcher> ExpectedMatchers { get; set; }
-
-            public PathMatcherTest ShouldBehaveLike(params PathMatcher[] pathMatchers)
-            {
-                ExpectedMatchers = pathMatchers.ToList();
-                return this;
-            }
-
-            public PathMatcherTest WhenMatching(params KeySegment[] keys)
-            {
-                PathTests.Add(new PathTest() { Path = new FalcorPath(keys), ShouldMatch = true });
-                return this;
-            }
-
-            public PathMatcherTest WhenNotMatching(params KeySegment[] keys)
-            {
-                PathTests.Add(new PathTest() { Path = new FalcorPath(keys), ShouldMatch = false });
-                return this;
-            }
-        }
-
-        private static PathMatcherTest Route(string routePath) => new PathMatcherTest() { RoutePath = routePath };
-
         [Scenario]
         public void RouteParsing()
         {
-            //[Example("foo.bar", 1)]
-            //[Example("foo.bar[{ranges:baz}]", 2)]
-            //[Example("foo.bar[{keys}]", 3)]
-            //[Example("foo.bar['baz', 'howdy']", 4)]
-            //[Example("foo.bar[{integers}].test", 5)]
-            //[Example("foo.bar[{integers:ids}]['baz','texas']", 6)] 
             new List<PathMatcherTest>()
             {
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar"),
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar"),
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar"),
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar"),
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar"),
-                Route("foo").ShouldBehaveLike(StringKey("foo")).WhenMatching("foo").WhenNotMatching("bar")
+                Route("foo").ShouldBehaveLike(PathMatchers.StringKey("foo")).ShouldMatch("foo").ShouldFail("bar"),
+
+                Route("foo.bar[{ranges:baz}]")
+                .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"), RangesPattern("baz"))
+                .ShouldMatch("foo", "bar", new NumberRange(0, 1))
+                .ShouldFail("bar"),
+
+                Route("foo.bar[{keys}]")
+                .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"), KeysPattern("any"))
+                .ShouldMatch("foo", "bar", new KeySet("baz"))
+                .ShouldFail("bar"),
+
+                Route("foo.bar['baz', 'howdy']")
+                .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"), KeySet("baz", "howdy"))
+                .ShouldMatch("foo", "bar", "baz")
+                .ShouldMatch("foo", "bar", "howdy")
+                .ShouldFail("bar"),
+
+                Route("foo.bar[{integers}].baz")
+                .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"), IntegersPattern(), PathMatchers.StringKey("baz"))
+                .ShouldMatch("foo", "bar", new NumericSet(1, 2, 3), "baz")
+                .ShouldMatch("foo", "bar", 1, "baz")
+                .ShouldFail("bar"),
+
+                Route("foo.bar[{integers:ids}]['baz','texas']")
+                .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"), IntegersPattern("ids"), KeySet("baz", "texas"))
+                .ShouldMatch("foo", "bar", 1, "baz")
+                .ShouldMatch("foo", "bar", 1, "texas")
+                .ShouldFail("bar")
             }
             .ForEach(test =>
             {
@@ -144,7 +124,8 @@ namespace Falcor.Tests.Server
                     {
                         var outputResult = IsMatch(output, testPath.Path);
                         var expectedResult = IsMatch(test.ExpectedMatchers, testPath.Path);
-                        Assert.True(testPath.ShouldMatch == outputResult == expectedResult);
+                        Assert.True(outputResult == expectedResult);
+                        Assert.True(outputResult == testPath.ShouldMatch);
                     }
                 });
             });
@@ -159,5 +140,38 @@ namespace Falcor.Tests.Server
             }
             return true;
         }
+
+        private class PathTest
+        {
+            public FalcorPath Path { get; set; }
+            public bool ShouldMatch { get; set; }
+        }
+
+        private class PathMatcherTest
+        {
+            public string RoutePath { get; set; }
+            public List<PathTest> PathTests { get; set; } = new List<PathTest>();
+            public List<PathMatcher> ExpectedMatchers { get; set; }
+
+            public PathMatcherTest ShouldBehaveLike(params PathMatcher[] pathMatchers)
+            {
+                ExpectedMatchers = pathMatchers.ToList();
+                return this;
+            }
+
+            public PathMatcherTest ShouldMatch(params KeySegment[] keys)
+            {
+                PathTests.Add(new PathTest() { Path = new FalcorPath(keys), ShouldMatch = true });
+                return this;
+            }
+
+            public PathMatcherTest ShouldFail(params KeySegment[] keys)
+            {
+                PathTests.Add(new PathTest() { Path = new FalcorPath(keys), ShouldMatch = false });
+                return this;
+            }
+        }
+
+        private static PathMatcherTest Route(string routePath) => new PathMatcherTest { RoutePath = routePath };
     }
 }

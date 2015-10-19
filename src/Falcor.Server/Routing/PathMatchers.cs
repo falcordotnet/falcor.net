@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Falcor.Server.Routing
 {
@@ -17,9 +18,10 @@ namespace Falcor.Server.Routing
         public static PathMatcher BooleanTrue = PathMatcher(k => k.IsBoolean(), k => k.AsBoolean(), b => b);
         public static PathMatcher BooleanFalse = PathMatcher(k => k.IsBoolean(), k => k.AsBoolean(), b => !b);
         public static PathMatcher StringKey(string value) => PathMatcher(k => k.IsString(), k => k.ToString(), s => s == value);
-        public static PathMatcher StringKeys(List<string> keys) => PathMatcher(k => k.IsString(), k => k.ToString(), keys.Contains);
-        public static PathMatcher RangesPattern(string name) => PatternPathMatcher(k => k.IsRange(), k => k.AsRange(), name);
-        public static PathMatcher IntegersPattern(string name) => PatternPathMatcher(k => k.IsNumericSet(), k => k.AsNumericSet(), name);
-        public static PathMatcher KeysPattern(string name) => PatternPathMatcher(k => k.IsKeySet(), k => k.AsKeySet(), name);
+        public static PathMatcher KeySet(params string[] keys) => KeySet(keys.ToList());
+        public static PathMatcher KeySet(List<string> keys) => PathMatcher(k => k.IsString(), k => k.ToString(), keys.Contains);
+        public static PathMatcher RangesPattern(string name = null) => PatternPathMatcher(k => k.IsRange(), k => k.AsRange(), name);
+        public static PathMatcher IntegersPattern(string name = null) => PatternPathMatcher(k => k.IsNumericSet(), k => k.AsNumericSet(), name);
+        public static PathMatcher KeysPattern(string name = null) => PatternPathMatcher(k => k.IsKeySet(), k => k.AsKeySet(), name);
     }
 }

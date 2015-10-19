@@ -14,7 +14,7 @@ namespace Falcor.Server.Routing
 
         public RouteHandler this[string path] { set { _router.Routes.Add(BuildRoute(value, path)); } }
 
-        private Route BuildRoute(RouteHandler handler, string path) =>
+        public Route BuildRoute(RouteHandler handler, string path) =>
             handler.ToRoute()
             .MatchAndBindParameters(RouteParser.Parse(path))
             .ForMethod(_method);

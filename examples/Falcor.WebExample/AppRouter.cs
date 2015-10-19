@@ -7,8 +7,8 @@ namespace Falcor.WebExample
     {
         public AppRouter()
         {
-            Get["howdy.hello"] = _ => Task.FromResult(Complete(null));
-            Call["howdy.hello.watchaDoin"] = _ => Task.FromResult(Complete(null));
+            //Get["howdy.hello"] = _ => Task.FromResult(Complete(null));
+            //Call["howdy.hello.watchaDoin"] = _ => Task.FromResult(Complete(null));
             Set["cool.huh"] = async parameters =>
             {
                 await Task.Delay(1000);

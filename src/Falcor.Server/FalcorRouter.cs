@@ -2,31 +2,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 using Falcor.Server.Routing;
 
 namespace Falcor.Server
 {
+    public class FalcorModel
+    {
+        private List<FalcorPath> _pathValues = new List<FalcorPath>();
+
+
+    }
+
+
     public abstract class FalcorRouter
     {
         public FalcorRouter()
         {
-            _route = Routes.FirstToComplete();
+            //_route = Routes.FirstToComplete();
         }
 
         public List<Route> Routes { get; } = new List<Route>();
-        private readonly FalcorModel _model = new FalcorModel();
-        private readonly Route _route;
+        private readonly FalcorResponseBuilder _responseBuilder = new FalcorResponseBuilder();
+        private Lazy<Route> LazyRootRoute => new Lazy<Route>(() => Routes.First());
+        private Route RootRoute => LazyRootRoute.Value;
 
         protected RouteBuilder Get => new RouteBuilder(FalcorMethod.Get, this);
         protected RouteBuilder Set => new RouteBuilder(FalcorMethod.Set, this);
         protected RouteBuilder Call => new RouteBuilder(FalcorMethod.Call, this);
 
-        protected RouteHandlerResult Complete(List<PathValue> values) => new CompleteHandlerResult(values);
-        protected RouteHandlerResult Error(string error = null) => new ErrorHandlerResult(error);
+        public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue>(1) { value });
+        public static RouteHandlerResult Complete(List<PathValue> values) => new CompleteHandlerResult(values);
+        public static RouteHandlerResult Error(string error = null) => new ErrorHandlerResult(error);
 
         private IObservable<PathValue> Resolve(Route route, RequestContext context)
         {
-            if (!context.Unmatched.Any() || _model.Contains(context.Unmatched))
+            if (!context.Unmatched.Any() || _responseBuilder.Contains(context.Unmatched))
                 return Observable.Empty<PathValue>();
 
             var results = route(context).SelectMany(result =>
@@ -36,14 +48,14 @@ namespace Falcor.Server
                     var pathValues = result.Values;
                     if (pathValues.Any())
                     {
-                        //TODO: this.model.putAll(pathValues);
+                        _responseBuilder.AddRange(pathValues);
                         if (result.UnmatchedPath.Any())
                         {
                             return pathValues.ToObservable()
-                                .Where(pathValue => pathValue.Value.IsRef)
+                                .Where(pathValue => pathValue.Value is Ref)
                                 .SelectMany(pathValue =>
                                 {
-                                    var unmatched = pathValue.Value.AsRef().AppendAll(result.UnmatchedPath);
+                                    var unmatched = ((Ref)pathValue.Value).AsRef().AppendAll(result.UnmatchedPath);
                                     return Resolve(route, context.WithUnmatched(unmatched));
                                 })
                                 //.StartWith(pathValues) // Is this nescessary?
@@ -54,7 +66,7 @@ namespace Falcor.Server
                 else
                 {
                     var error = new Error(result.Error);
-                    //TODO: this.model.put(context.getUnmatched(), (FalcorValue)error);
+                    _responseBuilder.Add(context.Unmatched, error);
                     return Observable.Return(new PathValue(context.Unmatched, error));
                 }
                 return Observable.Empty<PathValue>();
@@ -64,7 +76,13 @@ namespace Falcor.Server
         }
 
         public IObservable<PathValue> Route(FalcorRequest request) =>
-            request.Paths.ToObservable().SelectMany(unmatched => Resolve(_route, new RequestContext(request, unmatched)));
+            request.Paths.ToObservable().SelectMany(unmatched => Resolve(RootRoute, new RequestContext(request, unmatched)));
 
+        public async Task<FalcorResponse> RouteAsync(FalcorRequest request)
+        {
+            IList<PathValue> result = await Route(request).ToList().ToTask();
+            var response = _responseBuilder.CreateResponse();
+            return response;
+        }
     }
 }

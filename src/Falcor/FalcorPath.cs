@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
@@ -12,11 +13,15 @@ namespace Falcor
         public static FalcorPath Empty { get; } = new FalcorPath(new List<KeySegment>());
 
         private readonly KeySegment[] _keys;
+        private List<KeySegment> KeysList => _keys.ToList();
 
-        public FalcorPath(IEnumerable<KeySegment> keys)
+        public FalcorPath(params KeySegment[] keys)
         {
-            _keys = keys.ToArray();
-            var test = _keys.GetEnumerator();
+            _keys = keys;
+        }
+
+        public FalcorPath(IEnumerable<KeySegment> keys) : this(keys.ToArray())
+        {
         }
 
         public FalcorPath Append(IEnumerable<KeySegment> keys) =>
@@ -65,20 +70,20 @@ namespace Falcor
         //    throw new NotImplementedException();
         //}
 
-        public IEnumerator<KeySegment> GetEnumerator()
-        {
-            return (IEnumerator<KeySegment>)_keys.GetEnumerator();
-        }
+
+        [DebuggerStepThrough]
+        public IEnumerator<KeySegment> GetEnumerator() => KeysList.GetEnumerator();
 
         public override bool Equals(object obj) => Equals((FalcorPath)obj);
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public static bool operator ==(FalcorPath lhs, FalcorPath rhs) => Util.IfBothNullOrEquals(lhs, rhs);
 
         public static bool operator !=(FalcorPath lhs, FalcorPath rhs) => !(lhs == rhs);
+
+        public static implicit operator FalcorPath(List<KeySegment> keys) => new FalcorPath(keys);
 
         public KeySegment this[int i] => _keys[i];
 

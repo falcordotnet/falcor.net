@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 
 namespace Falcor.Server.Utils
@@ -89,35 +90,17 @@ namespace Falcor.Server.Utils
 
         #region IDictionary<string,object> Members
 
-        public void Add(string key, object value)
-        {
-            _dictionary.Add(key, value);
-        }
+        public void Add(string key, object value) => _dictionary.Add(key, value);
 
-        public bool ContainsKey(string key)
-        {
-            return _dictionary.ContainsKey(key);
-        }
+        public bool ContainsKey(string key) => _dictionary.ContainsKey(key);
 
-        public ICollection<string> Keys
-        {
-            get { return _dictionary.Keys; }
-        }
+        public ICollection<string> Keys => _dictionary.Keys;
 
-        public bool Remove(string key)
-        {
-            return _dictionary.Remove(key);
-        }
+        public bool Remove(string key) => _dictionary.Remove(key);
 
-        public bool TryGetValue(string key, out object value)
-        {
-            return _dictionary.TryGetValue(key, out value);
-        }
+        public bool TryGetValue(string key, out object value) => _dictionary.TryGetValue(key, out value);
 
-        public ICollection<object> Values
-        {
-            get { return _dictionary.Values; }
-        }
+        public ICollection<object> Values => _dictionary.Values;
 
         public object this[string key]
         {
@@ -136,58 +119,33 @@ namespace Falcor.Server.Utils
 
         #region ICollection<KeyValuePair<string,object>> Members
 
-        public void Add(KeyValuePair<string, object> item)
-        {
-            _dictionary.Add(item);
-        }
+        public void Add(KeyValuePair<string, object> item) => _dictionary.Add(item);
 
-        public void Clear()
-        {
-            _dictionary.Clear();
-        }
+        public void Clear() => _dictionary.Clear();
 
-        public bool Contains(KeyValuePair<string, object> item)
-        {
-            return _dictionary.Contains(item);
-        }
+        public bool Contains(KeyValuePair<string, object> item) => _dictionary.Contains(item);
 
-        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
-        {
-            _dictionary.CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex) => _dictionary.CopyTo(array, arrayIndex);
 
-        public int Count
-        {
-            get { return _dictionary.Count; }
-        }
+        public int Count => _dictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get { return _dictionary.IsReadOnly; }
-        }
+        public bool IsReadOnly => _dictionary.IsReadOnly;
 
-        public bool Remove(KeyValuePair<string, object> item)
-        {
-            return _dictionary.Remove(item);
-        }
+        public bool Remove(KeyValuePair<string, object> item) => _dictionary.Remove(item);
 
         #endregion ICollection<KeyValuePair<string,object>> Members
 
         #region IEnumerable<KeyValuePair<string,object>> Members
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return _dictionary.GetEnumerator();
-        }
+        [DebuggerStepThrough]
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => _dictionary.GetEnumerator();
 
         #endregion IEnumerable<KeyValuePair<string,object>> Members
 
         #region IEnumerable Members
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _dictionary.GetEnumerator();
-        }
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
 
         #endregion IEnumerable Members
 
@@ -229,35 +187,17 @@ namespace Falcor.Server.Utils
 
             #region IDictionary<string,TValue> Members
 
-            public void Add(TKey key, TValue value)
-            {
-                _dictionary.Add(key, value);
-            }
+            public void Add(TKey key, TValue value) => _dictionary.Add(key, value);
 
-            public bool ContainsKey(TKey key)
-            {
-                return _dictionary.ContainsKey(key);
-            }
+            public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
 
-            public ICollection<TKey> Keys
-            {
-                get { return _dictionary.Keys; }
-            }
+            public ICollection<TKey> Keys => _dictionary.Keys;
 
-            public bool Remove(TKey key)
-            {
-                return _dictionary.Remove(key);
-            }
+            public bool Remove(TKey key) => _dictionary.Remove(key);
 
-            public bool TryGetValue(TKey key, out TValue value)
-            {
-                return _dictionary.TryGetValue(key, out value);
-            }
+            public bool TryGetValue(TKey key, out TValue value) => _dictionary.TryGetValue(key, out value);
 
-            public ICollection<TValue> Values
-            {
-                get { return _dictionary.Values; }
-            }
+            public ICollection<TValue> Values => _dictionary.Values;
 
             public TValue this[TKey key]
             {
@@ -276,58 +216,33 @@ namespace Falcor.Server.Utils
 
             #region ICollection<KeyValuePair<string,TValue>> Members
 
-            public void Add(KeyValuePair<TKey, TValue> item)
-            {
-                _dictionary.Add(item);
-            }
+            public void Add(KeyValuePair<TKey, TValue> item) => _dictionary.Add(item);
 
-            public void Clear()
-            {
-                _dictionary.Clear();
-            }
+            public void Clear() => _dictionary.Clear();
 
-            public bool Contains(KeyValuePair<TKey, TValue> item)
-            {
-                return _dictionary.Contains(item);
-            }
+            public bool Contains(KeyValuePair<TKey, TValue> item) => _dictionary.Contains(item);
 
-            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-            {
-                _dictionary.CopyTo(array, arrayIndex);
-            }
+            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => _dictionary.CopyTo(array, arrayIndex);
 
-            public int Count
-            {
-                get { return _dictionary.Count; }
-            }
+            public int Count => _dictionary.Count;
 
-            public bool IsReadOnly
-            {
-                get { return _dictionary.IsReadOnly; }
-            }
+            public bool IsReadOnly => _dictionary.IsReadOnly;
 
-            public bool Remove(KeyValuePair<TKey, TValue> item)
-            {
-                return _dictionary.Remove(item);
-            }
+            public bool Remove(KeyValuePair<TKey, TValue> item) => _dictionary.Remove(item);
 
             #endregion ICollection<KeyValuePair<TKey,TValue>> Members
 
             #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
-            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            {
-                return _dictionary.GetEnumerator();
-            }
+            [DebuggerStepThrough]
+            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
 
             #endregion IEnumerable<KeyValuePair<TKey,TValue>> Members
 
             #region IEnumerable Members
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return _dictionary.GetEnumerator();
-            }
+            [DebuggerStepThrough]
+            IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
 
             #endregion IEnumerable Members
         }

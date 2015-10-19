@@ -22,6 +22,6 @@ namespace Falcor.Server.Routing
 
 
         public IObservable<RouteResult> Reject(string error = null) => Observable.Return(RouteResult.Reject(error));
-        public IObservable<RouteResult> Compelte(FalcorPath unmatched, params PathValue[] values) => Observable.Return(RouteResult.Complete(unmatched, values));
+        public IObservable<RouteResult> Complete(FalcorPath unmatched, params PathValue[] values) => Observable.Return(RouteResult.Complete(unmatched, values));
     }
 }

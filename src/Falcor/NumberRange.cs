@@ -42,8 +42,6 @@ namespace Falcor
 
         public override NumberRange AsRange() => this;
 
-        //public override Range AsRange() => _keys;
-        //public override IRangeSet AsNumericSet() => new IRangeSet(_keys);
         public override SortedSet<long> AsSortedNumberSet() => new SortedSet<long>(AsEnumerable());
 
         public static bool operator ==(NumberRange lhs, NumberRange rhs) => Util.IfBothNullOrEquals(lhs, rhs);
@@ -67,7 +65,10 @@ namespace Falcor
             return To == other.To && From == other.From;
         }
 
+        [DebuggerStepThrough]
         public IEnumerator<long> GetEnumerator() => AsEnumerable().GetEnumerator();
+
+        [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

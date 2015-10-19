@@ -40,7 +40,7 @@ namespace Falcor.Server.Routing
             from openingBracket in OpeningBracket
             from keys in CommaSeperatedSingleQuotedStrings
             from closingBracket in ClosingBracket
-            select PathMatchers.StringKeys(keys.ToList());
+            select PathMatchers.KeySet(keys.ToList());
 
         public static readonly Parser<IEnumerable<PathMatcher>> Route =
             from first in StringKeyMatcher

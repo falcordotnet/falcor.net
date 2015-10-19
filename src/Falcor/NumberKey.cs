@@ -8,7 +8,7 @@ namespace Falcor
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is NumberKey && Equals((NumberKey) obj);
+            return obj is NumberKey && Equals((NumberKey)obj);
         }
 
         private readonly long _value;
@@ -30,6 +30,8 @@ namespace Falcor
         {
             return _value.GetHashCode();
         }
+
+        public override string ToString() => _value.ToString();
 
         public bool Equals(NumberKey other)
         {
