@@ -4,6 +4,13 @@ using Newtonsoft.Json;
 
 namespace Falcor.Server.Routing
 {
+
+    public interface IResponseSerializer
+    {
+        string Serialize(FalcorResponse response);
+    }
+
+
     public class FalcorResponse
     {
         public FalcorResponse(IDictionary<string, object> jsonGraph, IList<IList<string>> paths)

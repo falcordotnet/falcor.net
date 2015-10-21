@@ -8,24 +8,14 @@ using Falcor.Server.Routing;
 
 namespace Falcor.Server
 {
-    public class FalcorModel
-    {
-        private List<FalcorPath> _pathValues = new List<FalcorPath>();
-
-
-    }
+    
 
 
     public abstract class FalcorRouter
     {
-        public FalcorRouter()
-        {
-            //_route = Routes.FirstToComplete();
-        }
-
         public List<Route> Routes { get; } = new List<Route>();
         private readonly FalcorResponseBuilder _responseBuilder = new FalcorResponseBuilder();
-        private Lazy<Route> LazyRootRoute => new Lazy<Route>(() => Routes.First());
+        private Lazy<Route> LazyRootRoute => new Lazy<Route>(() => Routes.FirstToComplete());
         private Route RootRoute => LazyRootRoute.Value;
 
         protected RouteBuilder Get => new RouteBuilder(FalcorMethod.Get, this);
@@ -84,5 +74,10 @@ namespace Falcor.Server
             var response = _responseBuilder.CreateResponse();
             return response;
         }
+    }
+
+    public static class DynamicHelpers
+    {
+        public static NumericSet AsNumericSet(this object obj) => (NumericSet)obj;
     }
 }

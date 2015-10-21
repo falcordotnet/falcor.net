@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitleAttribute("Falcor")]
+[assembly: AssemblyTitleAttribute("Falcor.Server.Owin")]
 [assembly: AssemblyCopyrightAttribute("2015 Falcor.NET")]
-[assembly: AssemblyDescriptionAttribute("Falcor")]
+[assembly: AssemblyDescriptionAttribute("Falcor.Server.Owin")]
 [assembly: AssemblyProductAttribute("Falcor.NET")]
 [assembly: AssemblyVersionAttribute("0.0.4")]
 [assembly: InternalsVisibleToAttribute("Falcor.Tests")]

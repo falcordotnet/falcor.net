@@ -12,7 +12,7 @@ RestorePackages()
 let version = "0.0.4-pre"
 let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor")
 let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "")
-let projects = [ falcor; falcorServer ]
+let projects = [ falcor; falcorServer; falcorServerOwin ]
 let context = createContext projects version
 
 // Targets
@@ -30,18 +30,19 @@ Target "AssemblyInfo" (fun _ ->
                                                       Attribute.Description p.description
                                                       Attribute.Product "Falcor.NET"
                                                       Attribute.Version context.version
+                                                      Attribute.InternalsVisibleTo "Falcor.Tests"
                                                       Attribute.FileVersion context.version ])
 Target "Compile" 
     (fun _ -> MSBuild null "Build" [ "Configuration", "Release" ] [ "./Falcor.sln" ] |> Log "Build-Output: ")
 Target "CreatePackages" (fun _ -> 
     let withCore = dependsOn (falcor)
     createNuGetPackage falcor context useDefaults
-    createNuGetPackage falcorClient context withCore
-    createNuGetPackage falcorServer context withCore)
+    createNuGetPackage falcorServer context withCore
+    createNuGetPackage falcorServerOwin context withCore)
+//createNuGetPackage falcorClient context withCore
 // createNuGetPackage falcorRouter context withCore
 //createNuGetPackage falcorWeb context withCore
 //createNuGetPackage falcorWebOwin context withCore
-//createNuGetPackage falcorServerOwin context withCore
 //createNuGetPackage falcorWebRouter context withCore
 Target "Test" 
     (fun _ -> 

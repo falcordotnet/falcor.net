@@ -4,7 +4,7 @@ namespace Falcor
 {
     public abstract class FalcorValue : FalcorNode
     {
-        public override bool IsValue() => false;
+        public override bool IsValue => false;
         public override FalcorValue AsValue() => this;
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree) => value(this);
         protected abstract ValueType ValueType { get; }

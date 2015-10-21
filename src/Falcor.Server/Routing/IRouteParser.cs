@@ -4,6 +4,11 @@ namespace Falcor.Server.Routing
 {
     public interface IRouteParser
     {
-        List<PathMatcher> Parse(string path);
+        IReadOnlyList<PathMatcher> Parse(string path);
+    }
+
+    public interface IPathParser
+    {
+        IReadOnlyList<FalcorPath> Parse(string paths);
     }
 }

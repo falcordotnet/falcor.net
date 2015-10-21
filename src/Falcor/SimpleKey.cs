@@ -10,5 +10,10 @@ namespace Falcor
         {
             return new StringKey(value);
         }
+
+        public static implicit operator SimpleKey(bool value)
+        {
+            return new BooleanKey(value);
+        }
     }
 }

@@ -13,10 +13,7 @@ namespace Falcor
 
         public override string AsError() => _error;
 
-        public override bool IsValue()
-        {
-            throw new NotImplementedException();
-        }
+        public override bool IsValue => true;
 
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {

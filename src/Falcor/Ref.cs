@@ -14,10 +14,7 @@ namespace Falcor
             _path = path;
         }
 
-        public override bool IsValue()
-        {
-            throw new NotImplementedException();
-        }
+        public override bool IsValue => false;
 
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {

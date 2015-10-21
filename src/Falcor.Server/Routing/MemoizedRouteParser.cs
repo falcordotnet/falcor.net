@@ -6,7 +6,7 @@ namespace Falcor.Server.Routing
 {
     internal class MemoizedRouteParser : IRouteParser
     {
-        private static readonly Dictionary<string, List<PathMatcher>> RouteParsingCache = new Dictionary<string, List<PathMatcher>>();
+        private static readonly Dictionary<string, IReadOnlyList<PathMatcher>> RouteParsingCache = new Dictionary<string, IReadOnlyList<PathMatcher>>();
         private readonly IRouteParser _innerParser;
 
         public MemoizedRouteParser(IRouteParser innerParser)
@@ -14,9 +14,9 @@ namespace Falcor.Server.Routing
             _innerParser = innerParser;
         }
 
-        public List<PathMatcher> Parse(string path)
+        public IReadOnlyList<PathMatcher> Parse(string path)
         {
-            List<PathMatcher> pathMatchers;
+            IReadOnlyList<PathMatcher> pathMatchers;
             if (!RouteParsingCache.TryGetValue(path, out pathMatchers))
                 RouteParsingCache[path] = pathMatchers = _innerParser.Parse(path);
             return pathMatchers;
@@ -25,6 +25,14 @@ namespace Falcor.Server.Routing
 
     internal class SpracheRouteParser : IRouteParser
     {
-        public List<PathMatcher> Parse(string path) => RoutingGrammar.Route.Parse(path).ToList();
+        public IReadOnlyList<PathMatcher> Parse(string path) => PathParsingGrammar.RouteMatcher.Parse(path).ToList();
+    }
+
+    internal class SprachePathParser : IPathParser
+    {
+        public IReadOnlyList<FalcorPath> Parse(string paths)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

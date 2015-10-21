@@ -1,19 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Falcor
 {
     public abstract class FalcorNode
     {
-        public abstract bool IsValue();
-        public bool IsTree() => !IsValue();
+        public static void test()
+        {
+            var list = new List<string>();
+        }
+
+        public abstract bool IsValue { get; }
+        public bool IsTree => !IsValue;
         public virtual FalcorValue AsValue() => null;
         public virtual FalcorTree AsTree() => null;
         public abstract T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree);
+
+        // public T Aggregate<T>(Func<FalcorValue, T> f1, Func<IDictionary<KeySegment, T>, T> f2)
+
         public FalcorValue Get(FalcorPath path) => Match(value => value, tree =>
         {
             FalcorNode child;
             //jif (!(path.IsEmpty() || !tree.Children.TryGetValue(path.First(), out child)))
-                //return child.Get(path);
+            //return child.Get(path);
             return null;
         });
 

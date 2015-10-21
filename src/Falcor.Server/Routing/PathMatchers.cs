@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public static class PathMatchers
+    internal static class PathMatchers
     {
         private static readonly MatchResult Matching = new MatchingResult();
         private static readonly MatchResult Unmatched = new UnmatchedResult();

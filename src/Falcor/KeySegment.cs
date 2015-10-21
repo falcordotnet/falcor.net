@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Falcor
@@ -15,7 +16,7 @@ namespace Falcor
         public bool IsNumeric() => IsNumber() || IsRange();
         public bool IsNumericSet() => IsNumeric() || IsRangeSet();
         public bool IsKeySet() => KeyType == KeyType.KeySet;
-        public bool AsBoolean() => false;
+        public virtual bool AsBoolean() => false;
         public virtual long AsLong() => 0;
         public virtual NumberRange AsRange() => new NumberRange(0, 0);
         public virtual NumericSet AsNumericSet() => new NumericSet();
@@ -41,5 +42,6 @@ namespace Falcor
         {
             return new NumberKey(value);
         }
+        
     }
 }

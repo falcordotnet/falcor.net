@@ -19,7 +19,7 @@ namespace Falcor.Server.Routing
             {
                 return routes[index](context)
                     .Where(r => r.IsComplete)
-                    .SwitchIfEmpty(Observable.Defer(() => FirstToComplete(routes, context, index++)));
+                    .SwitchIfEmpty(Observable.Defer(() => FirstToComplete(routes, context, ++index)));
             }
             return context.Reject();
         }
@@ -36,7 +36,7 @@ namespace Falcor.Server.Routing
         public static Route Extract<T>(Func<RequestContext, T> extractor, Func<T, Route> inner) => context => inner(extractor(context))(context);
 
 
-        public static Route MatchAndBindParameters(this Route inner, List<PathMatcher> pathMatchers)
+        internal static Route MatchAndBindParameters(this Route inner, IReadOnlyList<PathMatcher> pathMatchers)
         {
             return context =>
             {
@@ -55,7 +55,9 @@ namespace Falcor.Server.Routing
                 var unmatched = new FalcorPath(context.Unmatched.Skip(pathMatchers.Count));
                 var parameters = new DynamicDictionary();
                 matches.Where(m => m.HasValue && m.HasValue).ToList().ForEach(m => parameters.Add(m.Name, m.Value));
-                return inner(context.WithUnmatched(unmatched, parameters));
+                return inner(context.WithUnmatched(unmatched, parameters))
+                // Only allow partial matches if we have a ref in the results
+                .Select(result => result.IsComplete && result.UnmatchedPath.Any() && !result.Values.Any(pv => pv.Value is Ref) ? RouteResult.Reject() : result);
             };
         }
 
