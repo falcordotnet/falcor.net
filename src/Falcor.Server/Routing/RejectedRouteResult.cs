@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Falcor.Server.Routing
 {
-    public class RejectedRouteResult : RouteResult
+    internal class RejectedRouteResult : RouteResult
     {
         public RejectedRouteResult(string error)
         {

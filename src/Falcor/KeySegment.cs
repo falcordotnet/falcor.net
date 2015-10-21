@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Falcor
 {
-    public interface IKeySegment { }
     public abstract class KeySegment : IKeySegment
     {
         public abstract KeyType KeyType { get; }
@@ -17,10 +16,10 @@ namespace Falcor
         public bool IsNumericSet() => IsNumeric() || IsRangeSet();
         public bool IsKeySet() => KeyType == KeyType.KeySet;
         public virtual bool AsBoolean() => false;
-        public virtual long AsLong() => 0;
+        public virtual long AsInt() => 0;
         public virtual NumberRange AsRange() => new NumberRange(0, 0);
         public virtual NumericSet AsNumericSet() => new NumericSet();
-        public virtual SortedSet<long> AsSortedNumberSet() => new SortedSet<long>();
+        public virtual SortedSet<int> AsSortedNumberSet() => new SortedSet<int>();
         public virtual KeySet AsKeySet() => new KeySet();
 
         //        protected abstract string StringValue { get; set; }
@@ -38,7 +37,7 @@ namespace Falcor
             return new StringKey(value);
         }
 
-        public static implicit operator KeySegment(long value)
+        public static implicit operator KeySegment(int value)
         {
             return new NumberKey(value);
         }

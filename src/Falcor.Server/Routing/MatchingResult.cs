@@ -1,6 +1,6 @@
 namespace Falcor.Server.Routing
 {
-    public class MatchingResult : MatchResult
+    internal sealed class MatchingResult : MatchResult
     {
         public MatchingResult(string name = null, object value = null)
         {

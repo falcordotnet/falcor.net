@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public class ResponseSerializer
+    internal sealed class ResponseSerializer : IResponseSerializer
     {
         private readonly JsonSerializer _jsonSerializer;
 

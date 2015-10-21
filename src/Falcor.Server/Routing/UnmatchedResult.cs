@@ -2,7 +2,7 @@ using System;
 
 namespace Falcor.Server.Routing
 {
-    public class UnmatchedResult : MatchResult
+    internal class UnmatchedResult : MatchResult
     {
         public override bool HasValue { get; } = false;
         public override object Value { get; } = null;

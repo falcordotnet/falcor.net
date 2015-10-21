@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using Falcor.Server.Utils;
+using Falcor.Server.Routing.PathParser;
 
 namespace Falcor.Server.Routing
 {
@@ -57,7 +57,7 @@ namespace Falcor.Server.Routing
                 matches.Where(m => m.HasValue && m.HasValue).ToList().ForEach(m => parameters.Add(m.Name, m.Value));
                 return inner(context.WithUnmatched(unmatched, parameters))
                 // Only allow partial matches if we have a ref in the results
-                .Select(result => result.IsComplete && result.UnmatchedPath.Any() && !result.Values.Any(pv => pv.Value is Ref) ? RouteResult.Reject() : result);
+                .Select(result => result.IsComplete && result.UnmatchedPath.Any() && !result.Values.Any(pv => pv.Value is Ref) ? RouteResult.Reject($"Unhandled key segments: {result.UnmatchedPath}") : result);
             };
         }
 

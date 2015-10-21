@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using Falcor.Server.Routing;
+using Falcor.Server.Routing.PathParser;
 using Sprache;
 using Xbehave;
 using Xunit;
 
 namespace Falcor.Tests.Server.Routing
 {
-    public class RoutingGrammarTests
+    public class ParserTests
     {
         [Scenario]
         [Example("test")]
@@ -18,7 +19,7 @@ namespace Falcor.Tests.Server.Routing
         {
             "".x(() =>
             {
-                var matcher = PathParsingGrammar.StringKeyMatcher.Parse(routePath);
+                var matcher = PathGrammar.StringKeyMatcher.Parse(routePath);
                 Assert.True(matcher("test").IsMatched);
             });
         }
@@ -29,7 +30,15 @@ namespace Falcor.Tests.Server.Routing
 
         [Scenario]
         public void DoubleQuotedParser() =>
-            Assert.Equal("test", Parse.String("test").Text().DoubleQuoted().Parse("\"test\""));
+            Assert.Equal("test", PathGrammar.Text("test").DoubleQuoted().Parse("\"test\""));
+
+        [Scenario]
+        public void Bracketed() =>
+            Assert.Equal("foo", PathGrammar.Text("foo").Bracketed().Parse("[foo]"));
+
+        [Scenario]
+        public void Braced() =>
+            Assert.Equal("foo", PathGrammar.Text("foo").Braced().Parse("{foo}"));
 
         [Scenario]
         [Example(1, "1")]
@@ -37,8 +46,8 @@ namespace Falcor.Tests.Server.Routing
         [Example(0, "0")]
         public void Number(int expected, string input)
         {
-            Assert.Equal(expected, PathParsingGrammar.Number.Parse(input));
-            Assert.Equal(new NumberKey(expected), PathParsingGrammar.NumberKey.Parse(input));
+            Assert.Equal(expected, PathGrammar.Number.Parse(input));
+            Assert.Equal(new NumberKey(expected), PathGrammar.NumberKey.Parse(input));
         }
 
         [Scenario]
@@ -46,15 +55,15 @@ namespace Falcor.Tests.Server.Routing
         [Example(@"{""from"":10,""to"":15}", 10, 15)]
         [Example(@"{ ""from"":0,""to"":22}", 0, 22)]
         public void NumberRange(string input, int from, int to) =>
-            Assert.Equal(new NumberRange(from, to), PathParsingGrammar.NumberRange.Parse(input));
+            Assert.Equal(new NumberRange(from, to), PathGrammar.NumberRange.Parse(input));
 
         [Scenario]
         [Example("true", true)]
         [Example("false", false)]
         public void Boolean(string input, bool expected)
         {
-            Assert.Equal(expected, PathParsingGrammar.Boolean.Parse(input));
-            Assert.Equal(new BooleanKey(expected), PathParsingGrammar.BooleanKey.Parse(input));
+            Assert.Equal(expected, PathGrammar.Boolean.Parse(input));
+            Assert.Equal(new BooleanKey(expected), PathGrammar.BooleanKey.Parse(input));
         }
 
         [Scenario]
@@ -70,7 +79,7 @@ namespace Falcor.Tests.Server.Routing
             }.Select(kv => new { kv.Key, Expected = kv.Value })
             .ToList().ForEach(test =>
             {
-                var output = PathParsingGrammar.Key.Parse(test.Key);
+                var output = PathGrammar.Key.Parse(test.Key);
                 Assert.Equal(test.Expected, output);
             });
         }
@@ -80,7 +89,7 @@ namespace Falcor.Tests.Server.Routing
         [Example(@"""bar""", "bar")]
         [Example(@"""baz""", "baz")]
         public void StringKey(string input, string expected) =>
-            Assert.Equal(new StringKey(expected), PathParsingGrammar.StringKey.Parse(input));
+            Assert.Equal(new StringKey(expected), PathGrammar.StringKey.Parse(input));
 
 
         [Scenario]
@@ -101,7 +110,7 @@ namespace Falcor.Tests.Server.Routing
             {
                 $"Given a route pattern '{test.Pattern}' we can expect a match on a '{test.KeySegment}'".x(() =>
                 {
-                    var matcher = PathParsingGrammar.PatternMatcher.Parse("[" + test.Pattern + "]");
+                    var matcher = PathGrammar.PatternMatcher.Parse("[" + test.Pattern + "]");
                     var result = matcher(test.KeySegment);
                     if (test.ExpectName)
                         Assert.True(result.HasName && result.Name == "foo");
@@ -119,7 +128,7 @@ namespace Falcor.Tests.Server.Routing
             {
                 var expected = "howdydoody";
                 var input = $"'{expected}'";
-                var output = PathParsingGrammar.SingleQuotedString.Parse(input);
+                var output = PathGrammar.SingleQuotedString.Parse(input);
                 Assert.Equal(expected, output);
             });
 
@@ -127,14 +136,14 @@ namespace Falcor.Tests.Server.Routing
             {
                 var expected = "howdydoody";
                 var input = $"\"{expected}\"";
-                var output = PathParsingGrammar.DoubleQuotedString.Token().Parse(input);
+                var output = PathGrammar.DoubleQuotedString.Token().Parse(input);
                 Assert.Equal(expected, output);
             });
 
             "Comma seperated single quoted strings".x(() =>
             {
                 var input = "   'foo', \"bar\",'baz'   ";
-                var output = PathParsingGrammar.CommaSeperatedQuotedStrings.Parse(input);
+                var output = PathGrammar.CommaSeperatedQuotedStrings.Parse(input);
                 var expected = new[] { "foo", "bar", "baz" };
                 Assert.Equal(expected, output);
             });
@@ -151,6 +160,16 @@ namespace Falcor.Tests.Server.Routing
             var path3Expected = Path("foo", new NumberRange(1, 2));
             var path4 = @"[""foo"", [""bar"", ""baz""]]";
             var path4Expected = Path("foo", new KeySet("bar", "baz"));
+            var path5 = @"[""foo"", {""from"":1, ""to"":2 }, [""bar"", ""baz""]]";
+            var path5Expected = Path("foo", new NumberRange(1, 2), new KeySet("bar", "baz"));
+            var path6 = @"[""titlesById"",{""from"":1,""to"":100},[""rating"",""userRating""]]";
+            var path6parsed = PathGrammar.Path.Parse(path6);
+            var path6Expected = Path("titlesById", new NumberRange(1, 100), new KeySet("rating", "userRating"));
+
+            var path7 = @"[""genrelist"", [0,1,2], ""name""]";
+            var path7Expected = Path("genrelist", new NumericSet(0, 1, 2), "name");
+            Assert.Equal(path6Expected, path6parsed);
+
 
             new List<PathParsingTest>()
             {
@@ -158,11 +177,32 @@ namespace Falcor.Tests.Server.Routing
                 Paths(path2).ShouldEqual(path2Expected),
                 Paths(path3).ShouldEqual(path3Expected),
                 Paths(path4).ShouldEqual(path4Expected),
+                Paths(path5).ShouldEqual(path5Expected),
+                Paths(path7).ShouldEqual(path7Expected),
                 Paths(path1, path2, path3).ShouldEqual(path1Expected, path2Expected, path3Expected),
                 Paths(path4, path1, path2, path3).ShouldEqual(path4Expected, path1Expected, path2Expected, path3Expected),
             }.ForEach(test =>
             {
-                Assert.Equal(test.ExpectedPaths, PathParsingGrammar.Paths.Parse(test.Paths));
+                var parsed = PathGrammar.Paths.Parse(test.Paths);
+                Assert.Equal(test.ExpectedPaths, parsed);
+            });
+        }
+
+        [Scenario]
+        public void NumericSet()
+        {
+            new Dictionary<string, NumericSet>
+            {
+                {"[1,2,3]", new NumericSet(1, 2, 3)},
+                {"[1]", new NumericSet(1)},
+                {"[  1, 2, 3]", new NumericSet(1, 2, 3)},
+                {"[1,2,3, 4]", new NumericSet(1, 2, 3,4)},
+
+            }.Select(kv => new { Input = kv.Key, Expected = kv.Value })
+            .ToList().ForEach(test =>
+            {
+                var output = PathGrammar.NumericSet.Parse(test.Input);
+                Assert.Equal(test.Expected, output);
             });
         }
 
@@ -205,7 +245,7 @@ namespace Falcor.Tests.Server.Routing
             {
                 "".x(() =>
                 {
-                    var output = PathParsingGrammar.RouteMatcher.Parse(test.RoutePath).ToList();
+                    var output = PathGrammar.RouteMatcher.Parse(test.RoutePath).ToList();
                     foreach (var testPath in test.PathTests)
                     {
                         var outputResult = IsMatch(output, testPath.Path);
@@ -278,7 +318,6 @@ namespace Falcor.Tests.Server.Routing
                 return this;
             }
         }
-
 
         private static RouteParsingTest Route(string routePath) => new RouteParsingTest { RoutePath = routePath };
         private static PathParsingTest Paths(params string[] paths)

@@ -2,9 +2,9 @@
 using System.Linq;
 using Sprache;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server.Routing.PathParser
 {
-    internal static class PathParsingGrammar
+    internal static class PathGrammar
     {
         public static readonly Parser<char> Colon = Parse.Char(':');
         public static readonly Parser<char> Comma = Parse.Char(',');
@@ -20,7 +20,7 @@ namespace Falcor.Server.Routing
             from booleanString in Text("true").Or(Text("false"))
             select bool.Parse(booleanString);
 
-        public static readonly Parser<long> Number = Parse.Digit.Many().Select(chs => long.Parse(new string(chs.ToArray())));
+        public static readonly Parser<int> Number = Parse.Digit.Many().Select(chs => int.Parse(new string(chs.ToArray())));
         public static readonly Parser<string> SingleQuotedString = Parse.LetterOrDigit.Many().Text().SingleQuoted();
         public static readonly Parser<string> DoubleQuotedString = Parse.LetterOrDigit.Many().Text().DoubleQuoted();
         public static readonly Parser<string> QuotedString = SingleQuotedString.Or(DoubleQuotedString);
@@ -33,7 +33,6 @@ namespace Falcor.Server.Routing
             from item in parser
             from closeBracket in ClosingBracket
             select item;
-
 
         public static Parser<T> Braced<T>(this Parser<T> parser) =>
             from openBrace in OpeningBrace
@@ -105,10 +104,17 @@ namespace Falcor.Server.Routing
             from closingBracket in ClosingBracket
             select new KeySet(Cons(first, rest));
 
+        public static readonly Parser<KeySegment> NumericSet =
+            from openingBracket in OpeningBracket
+            from first in Number.Token()
+            from rest in Comma.Token().Then(_ => Number.Token()).Many()
+            from closingBracket in ClosingBracket
+            select new NumericSet(Cons(first, rest));
+
         public static readonly Parser<FalcorPath> Path =
             from openingBracket in OpeningBracket
             from first in StringKey.Token()
-            from rest in Comma.Token().Then(_ => Key.Or(KeySet).Or(NumberRange)).Many()
+            from rest in Comma.Token().Then(_ => Key.Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
             from closingBracket in ClosingBracket
             select new FalcorPath(Cons(first, rest));
 
@@ -129,9 +135,9 @@ namespace Falcor.Server.Routing
             select PathMatchers.KeySet(keys.ToList());
 
         public static readonly Parser<IEnumerable<PathMatcher>> RouteMatcher =
-                    from first in StringKeyMatcher
-                    from rest in DotKeyMatcher.Or(PatternMatcher).Or(KeySetMatcher).Many()
-                    select Cons(first, rest);
+            from first in StringKeyMatcher
+            from rest in DotKeyMatcher.Or(PatternMatcher).Or(KeySetMatcher).Many()
+            select Cons(first, rest);
 
         public static readonly Parser<PathMatcher> DotKeyMatcher =
             from dot in Dot

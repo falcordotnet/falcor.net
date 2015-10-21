@@ -64,32 +64,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FalcorPathExtensions.cs" />
+    <Compile Include="FalcorRouterConfiguration.cs" />
+    <Compile Include="FalcorRouterExtensions.cs" />
+    <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="Routing\CompleteHandlerResult.cs" />
     <Compile Include="Routing\ErrorHandlerResult.cs" />
     <Compile Include="Routing\FalcorRequest.cs" />
     <Compile Include="Routing\FalcorResponse.cs" />
-    <Compile Include="Routing\IRouteParser.cs" />
+    <Compile Include="Routing\FalcorResponseBuilder.cs" />
+    <Compile Include="Routing\PathParser\IPathParser.cs" />
+    <Compile Include="Routing\IResponseSerializer.cs" />
+    <Compile Include="Routing\PathParser\IRouteParser.cs" />
+    <Compile Include="Routing\PathParser\MemoizedPathParser.cs" />
+    <Compile Include="Routing\PathParser\SprachePathParser.cs" />
+    <Compile Include="Routing\PathParser\SpracheRouteParser.cs" />
     <Compile Include="Routing\ResponseSerializer.cs" />
     <Compile Include="Routing\RouteHandler.cs" />
     <Compile Include="Routing\RouteHandlerResult.cs" />
     <Compile Include="Routing\RouteHelpers.cs" />
     <Compile Include="Routing\MatchingResult.cs" />
     <Compile Include="Routing\MatchResult.cs" />
-    <Compile Include="Routing\PathMatchers.cs" />
+    <Compile Include="Routing\PathParser\PathMatchers.cs" />
     <Compile Include="Routing\UnmatchedResult.cs" />
-    <Compile Include="Routing\MemoizedRouteParser.cs" />
+    <Compile Include="Routing\PathParser\MemoizedRouteParser.cs" />
     <Compile Include="Routing\DynamicDictionary.cs" />
     <Compile Include="FalcorRouter.cs" />
     <Compile Include="Routing\ObservableExtensions.cs" />
-    <Compile Include="Routing\PathMatcher.cs" />
+    <Compile Include="Routing\PathParser\PathMatcher.cs" />
     <Compile Include="Routing\RequestContext.cs" />
     <Compile Include="Routing\Route.cs" />
     <Compile Include="Routing\CompleteRouteResult.cs" />
     <Compile Include="Routing\RejectedRouteResult.cs" />
     <Compile Include="Routing\RouteBuilder.cs" />
     <Compile Include="Routing\RouteResult.cs" />
-    <Compile Include="Routing\PathParsingGrammar.cs" />
+    <Compile Include="Routing\PathParser\PathGrammar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Falcor\Falcor.csproj">

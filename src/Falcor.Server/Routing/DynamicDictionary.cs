@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 
-namespace Falcor.Server.Utils
+namespace Falcor.Server.Routing
 {
     /*    
     The MIT License (MIT)
@@ -45,7 +45,7 @@ namespace Falcor.Server.Utils
     /// Assert.That( obj.superman == "Superman" );
     /// Assert.That( obj.sUpErMaN == "Superman" );
     /// </example>
-    internal class DynamicDictionary : DynamicObject, IDictionary<string, object>
+    internal sealed class DynamicDictionary : DynamicObject, IDictionary<string, object>
     {
         private readonly IDictionary<string, object> _dictionary = new DefaultValueDictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
 

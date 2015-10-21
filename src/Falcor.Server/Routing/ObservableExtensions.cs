@@ -5,7 +5,7 @@ using System.Reactive.Subjects;
 
 namespace Falcor.Server.Routing
 {
-    static class ObservableExtensions
+    internal static class ObservableExtensions
     {
         public static IObservable<T> SwitchIfEmpty<T>(this IObservable<T> first, IObservable<T> second)
         {

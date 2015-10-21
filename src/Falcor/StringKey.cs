@@ -2,7 +2,7 @@
 
 namespace Falcor
 {
-    public sealed class StringKey : SimpleKey, IEquatable<StringKey>
+    public sealed class StringKey : SimpleKey, IEquatable<StringKey>, IEquatable<string>
     {
         public string Value { get; }
         public override KeyType KeyType { get; } = KeyType.String;
@@ -20,6 +20,7 @@ namespace Falcor
 
         public override bool Equals(object obj)
         {
+            if (obj is string) return Equals((string) obj);
             return Equals(obj as StringKey);
         }
 
@@ -44,6 +45,11 @@ namespace Falcor
         public static implicit operator StringKey(string value)
         {
             return new StringKey(value);
+        }
+
+        public bool Equals(string other)
+        {
+            return string.Equals(Value, other);
         }
 
         public override string ToString() => Value;

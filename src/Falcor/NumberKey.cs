@@ -11,14 +11,14 @@ namespace Falcor
             return obj is NumberKey && Equals((NumberKey)obj);
         }
 
-        private readonly long _value;
+        private readonly int _value;
 
-        public NumberKey(long value)
+        public NumberKey(int value)
         {
             _value = value;
         }
 
-        public override long AsLong() => _value;
+        public override long AsInt() => _value;
 
         public override NumberRange AsRange() => new NumberRange(_value);
 

@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Falcor
 {
-    public sealed class NumberRange : NumericKey, IEquatable<NumberRange>, IEnumerable<long>
+    public sealed class NumberRange : NumericKey, IEquatable<NumberRange>, IEnumerable<int>
     {
         public override bool Equals(object obj)
         {
@@ -14,20 +15,20 @@ namespace Falcor
             return obj is NumberRange && Equals((NumberRange)obj);
         }
 
-        private IEnumerable<long> AsEnumerable()
+        private IEnumerable<int> AsEnumerable()
         {
             for (var i = From; i <= To; i++)
                 yield return i;
         }
         public override KeyType KeyType { get; } = KeyType.Range;
-        public long From { get; }
+        public int From { get; }
 
         /// <summary>
         /// To value of the range
         /// </summary>
-        public long To { get; }
+        public int To { get; }
 
-        public NumberRange(long from, long to, bool inclusive = true)
+        public NumberRange(int from, int to, bool inclusive = true)
         {
             if (inclusive)
                 Debug.Assert(to >= from, $"{nameof(to)} >= {nameof(from)}");
@@ -38,11 +39,11 @@ namespace Falcor
             To = inclusive ? to : (to - 1);
         }
 
-        public NumberRange(long value) : this(value, value) { }
+        public NumberRange(int value) : this(value, value) { }
 
         public override NumberRange AsRange() => this;
 
-        public override SortedSet<long> AsSortedNumberSet() => new SortedSet<long>(AsEnumerable());
+        public override SortedSet<int> AsSortedNumberSet() => new SortedSet<int>(AsEnumerable());
 
         public static bool operator ==(NumberRange lhs, NumberRange rhs) => Util.IfBothNullOrEquals(lhs, rhs);
 
@@ -66,9 +67,11 @@ namespace Falcor
         }
 
         [DebuggerStepThrough]
-        public IEnumerator<long> GetEnumerator() => AsEnumerable().GetEnumerator();
+        public IEnumerator<int> GetEnumerator() => AsEnumerable().GetEnumerator();
 
         [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public static implicit operator List<int>(NumberRange range) => range.ToList();
     }
 }

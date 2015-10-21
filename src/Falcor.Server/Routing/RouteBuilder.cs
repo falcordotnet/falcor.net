@@ -1,10 +1,12 @@
+using Falcor.Server.Routing.PathParser;
+
 namespace Falcor.Server.Routing
 {
     public class RouteBuilder
     {
         private readonly FalcorRouter _router;
         private readonly FalcorMethod _method;
-        private static readonly IRouteParser RouteParser = new MemoizedRouteParser(new SpracheRouteParser());
+        private static readonly IRouteParser RouteParser = FalcorRouterConfiguration.RouteParser;
 
         public RouteBuilder(FalcorMethod method, FalcorRouter router)
         {

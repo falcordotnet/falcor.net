@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public sealed class CompleteRouteResult : RouteResult
+    internal sealed class CompleteRouteResult : RouteResult
     {
         public CompleteRouteResult(FalcorPath unmatchedPath, IEnumerable<PathValue> values)
         {

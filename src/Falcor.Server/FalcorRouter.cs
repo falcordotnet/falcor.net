@@ -5,12 +5,10 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Falcor.Server.Routing;
+using Falcor.Server.Routing.PathParser;
 
 namespace Falcor.Server
 {
-    
-
-
     public abstract class FalcorRouter
     {
         public List<Route> Routes { get; } = new List<Route>();
@@ -22,10 +20,15 @@ namespace Falcor.Server
         protected RouteBuilder Set => new RouteBuilder(FalcorMethod.Set, this);
         protected RouteBuilder Call => new RouteBuilder(FalcorMethod.Call, this);
 
+        // Helpers
+        public static FalcorPath Path(params KeySegment[] keys) => new FalcorPath(keys);
+        public static FalcorPath Path(string path) => FalcorRouterConfiguration.MemoizedPathParser.ParseSingle(path);
         public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue>(1) { value });
-        public static RouteHandlerResult Complete(List<PathValue> values) => new CompleteHandlerResult(values);
+        public static RouteHandlerResult Complete(IEnumerable<PathValue> values) => new CompleteHandlerResult(values.ToList());
         public static RouteHandlerResult Error(string error = null) => new ErrorHandlerResult(error);
 
+
+        // Routing
         private IObservable<PathValue> Resolve(Route route, RequestContext context)
         {
             if (!context.Unmatched.Any() || _responseBuilder.Contains(context.Unmatched))
@@ -74,10 +77,5 @@ namespace Falcor.Server
             var response = _responseBuilder.CreateResponse();
             return response;
         }
-    }
-
-    public static class DynamicHelpers
-    {
-        public static NumericSet AsNumericSet(this object obj) => (NumericSet)obj;
     }
 }

@@ -5,16 +5,19 @@ namespace Falcor.Server.Owin
 {
     public static class FalcorMiddlewareExtensions
     {
-
-        public static void UseFalcor(this IAppBuilder appBuilder, string path, IServiceProvider serviceProvider, Func<IServiceProvider, FalcorRouter> routerFactory)
+        public static void UseFalcor(this IAppBuilder appBuilder, string path, Func<FalcorRouterConfiguration, FalcorRouter> routerFactory, IServiceProvider serviceProvider = null, Action<IAppBuilder> appBuilderConfiguration = null)
         {
-            var config = new FalcorConfiguration(path, serviceProvider, routerFactory);
-            appBuilder.UseFalcor(config);
+            var config = new FalcorRouterConfiguration(path, routerFactory, serviceProvider);
+            appBuilder.UseFalcor(config, appBuilderConfiguration);
         }
 
-        public static void UseFalcor(this IAppBuilder appBuilder, FalcorConfiguration config)
+        public static void UseFalcor(this IAppBuilder appBuilder, FalcorRouterConfiguration config, Action<IAppBuilder> appBuilderConfiguration)
         {
-            appBuilder.Map(config.Path, app => app.Use<FalcorMiddleware>(config));
+            appBuilder.Map(config.Path, app =>
+            {
+                app.Use<FalcorMiddleware>(config);
+                appBuilderConfiguration?.Invoke(app);
+            });
         }
     }
 }

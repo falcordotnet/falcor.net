@@ -1,6 +1,6 @@
 namespace Falcor.Server.Routing
 {
-    public class ErrorHandlerResult : RouteHandlerResult
+    internal sealed class ErrorHandlerResult : RouteHandlerResult
     {
         public ErrorHandlerResult(string error = null)
         {

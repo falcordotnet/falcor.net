@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public class FalcorRequest
+    public sealed class FalcorRequest
     {
         public FalcorRequest(FalcorMethod method, IReadOnlyList<FalcorPath> paths)
         {
