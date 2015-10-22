@@ -21,5 +21,10 @@ namespace Falcor
         }
 
         protected override ValueType ValueType { get; } = ValueType.Error;
+
+        public override string ToString()
+        {
+            return _error;
+        }
     }
 }

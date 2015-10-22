@@ -18,8 +18,7 @@ namespace Falcor.Server.Owin
         {
             var queryStringPaths = context.Request.Query["paths"];
             var queryStringMethod = context.Request.Query["method"];
-            //var method = queryStringMethod == "get" ? FalcorMethod.Get : queryStringMethod == "set" ? FalcorMethod.Set : FalcorMethod.Call;
-            var method = FalcorMethod.Get;
+            var method = queryStringMethod == "get" ? FalcorMethod.Get : queryStringMethod == "set" ? FalcorMethod.Set : FalcorMethod.Call;
             var paths = FalcorRouterConfiguration.PathParser.ParseMany(queryStringPaths);
             var request = new FalcorRequest(method, paths);
             var response = await RouterConfiguration.Router.RouteAsync(request);

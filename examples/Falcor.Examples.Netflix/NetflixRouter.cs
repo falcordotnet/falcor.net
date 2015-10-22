@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Falcor.Examples.Netflix.RatingService;
 using Falcor.Examples.Netflix.RecommendationService;
 using Falcor.Server;
@@ -8,7 +10,8 @@ namespace Falcor.Examples.Netflix
 {
     public class NetflixRouter : FalcorRouter
     {
-        public NetflixRouter(IRatingService ratingService,
+        public NetflixRouter(
+            IRatingService ratingService,
             IRecommendationService recommendationService,
             int userId)
         {
@@ -40,12 +43,17 @@ namespace Falcor.Examples.Netflix
                     }
                 });
 
-                return Complete(results.ToList());
+                return Complete(results);
             };
 
             Get["genrelist[{integers:indices}].name"] = async parameters =>
             {
+
+                Debug.WriteLine("Before: " + Thread.CurrentThread.ManagedThreadId);
                 var genreResults = await recommendationService.GetGenreListAsync(userId);
+                Debug.WriteLine("After: " + Thread.CurrentThread.ManagedThreadId);
+
+
                 List<int> indices = parameters.indices;
                 var results = indices.Select(index =>
                 {
@@ -54,6 +62,7 @@ namespace Falcor.Examples.Netflix
                         ? Path("genrelist", index, "name").Value(genre.Name)
                         : Path("genrelist", index).Undefined();
                 });
+                //return Complete(Path("genrelist", 0, "name").Error("test"));
                 return Complete(results);
             };
         }

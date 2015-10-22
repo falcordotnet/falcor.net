@@ -28,6 +28,10 @@ namespace Falcor.Examples.Netflix.RecommendationService
             "Animation"
         };
 
-        public Task<List<GenreResult>> GetGenreListAsync(int userId) => Task.FromResult(Genres.Select(GenreResult.SuccessResult).ToList());
+        public async Task<List<GenreResult>> GetGenreListAsync(int userId)
+        {
+            await Task.Delay(1);
+            return Genres.Select(GenreResult.SuccessResult).ToList();
+        }
     }
 }

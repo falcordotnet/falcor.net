@@ -43,6 +43,9 @@ namespace Falcor.Server.Routing
                 return SerializeRef(reference);
             }
 
+            var error = value as Error;
+            if (error != null) return SerializeError(error);
+
             var dict = value as IDictionary<string, object>;
             if (dict != null)
             {
@@ -69,6 +72,16 @@ namespace Falcor.Server.Routing
             var result = new JObject();
             result["$type"] = "ref";
             result["value"] = new JArray(reference.AsRef().ToList());
+            return result;
+        }
+
+        private JToken SerializeError(Error error)
+        {
+            var result = new JObject();
+            result["$type"] = "error";
+            var value = new JObject();
+            value["message"] = error.ToString();
+            result["value"] = value;
             return result;
         }
     }

@@ -20,7 +20,7 @@ namespace Falcor.Server.Routing.PathParser
             from booleanString in Text("true").Or(Text("false"))
             select bool.Parse(booleanString);
 
-        public static readonly Parser<int> Number = Parse.Digit.Many().Select(chs => int.Parse(new string(chs.ToArray())));
+        public static readonly Parser<int> Number = Parse.Digit.AtLeastOnce().Select(chs => int.Parse(new string(chs.ToArray())));
         public static readonly Parser<string> SingleQuotedString = Parse.LetterOrDigit.Many().Text().SingleQuoted();
         public static readonly Parser<string> DoubleQuotedString = Parse.LetterOrDigit.Many().Text().DoubleQuoted();
         public static readonly Parser<string> QuotedString = SingleQuotedString.Or(DoubleQuotedString);
@@ -51,7 +51,6 @@ namespace Falcor.Server.Routing.PathParser
             from item in parser.Except(SingleQuote)
             from closeQuote in SingleQuote
             select item;
-
 
         static IEnumerable<T> Cons<T>(T head, IEnumerable<T> rest)
         {
@@ -87,7 +86,7 @@ namespace Falcor.Server.Routing.PathParser
             from value in Parse.Letter.AtLeastOnce().Text().DoubleQuoted()
             select new StringKey(value);
 
-        public static readonly Parser<NumberKey> NumberKey =
+        public static readonly Parser<KeySegment> NumberKey =
             from value in Number
             select new NumberKey(value);
 
@@ -114,7 +113,7 @@ namespace Falcor.Server.Routing.PathParser
         public static readonly Parser<FalcorPath> Path =
             from openingBracket in OpeningBracket
             from first in StringKey.Token()
-            from rest in Comma.Token().Then(_ => Key.Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
+            from rest in Comma.Token().Then(_ => Key.Or(NumberKey).Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
             from closingBracket in ClosingBracket
             select new FalcorPath(Cons(first, rest));
 
