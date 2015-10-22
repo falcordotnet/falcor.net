@@ -15,21 +15,24 @@ exception InvalidSemVerException of string
 
 exception EnvironmentVariableAlreadyExistsException of string
 
-type Project(name : string, description : string, tags : string) =
+let sourcePath = "./src";
+let examplesPath = "./examples";
+
+type Project(name : string, description : string, tags : string, srcPath: string) = 
     let packagingRootPath = "./build" @@ "temp" @@ "packaging"
     member this.summary = ""
     member this.authors = [ "falcor.net" ]
     member this.name = name
     member this.description = name
     member this.tags = name
-    member this.assemblyInfoPath = "./src" @@ name @@ "Properties" @@ "AssemblyInfo.cs"
-    member this.binPath = "./src" @@ name @@ "bin"
+    member this.assemblyInfoPath = srcPath @@ name @@ "Properties" @@ "AssemblyInfo.cs"
+    member this.binPath = srcPath @@ name @@ "bin"
     member this.dllPath = this.binPath @@ "Release" @@ name + ".dll"
     member this.packagingPath = packagingRootPath @@ name
     member this.net45packagePath = this.packagingPath @@ "lib" @@ "net45"
 
 type BuildContext = 
-    { copyright: string
+    { copyright : string
       packagesDirPath : string
       projects : List<Project>
       publishUrl : string
@@ -39,18 +42,17 @@ type BuildContext =
       version : string }
 
 let falcorNetAuthor = [ "falcor.net" ]
-let falcorClient = new Project("Falcor.Client", "Falcor .NET Client", "")
-let falcorRouter = new Project("Falcor.Router", "Falcor .NET Router", "")
-let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router", "")
-let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "")
-let falcorWebOwin = new Project("Falcor.Web.Owin", "Falcor .NET Web OWIN interface", "")
-let falcorServerOwin= new Project("Falcor.Server.Owin", "Falcor .NET server OWIN interface", "")
+let falcorClient = new Project("Falcor.Client", "Falcor .NET Client", "", sourcePath)
+let falcorRouter = new Project("Falcor.Router", "Falcor .NET Router", "", sourcePath)
+let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router", "", sourcePath)
+let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "", sourcePath)
+let falcorWebOwin = new Project("Falcor.Web.Owin", "Falcor .NET Web OWIN interface", "", sourcePath)
 
 let createContext (baseProjects : List<Project>) (version : string) = 
     let projects = baseProjects //@ [ falcorClient; falcorRouter; falcorWebRouter; falcorWeb; falcorWebOwin; falcorServerOwin ]
     // Initialize local environment variables 
     if File.Exists "local.json" then 
-        let localVarProps = JsonValue.Parse(File.ReadAllText"local.json").Properties
+        let localVarProps = JsonValue.Parse(File.ReadAllText "local.json").Properties
         for key, jsonValue in localVarProps do
             let value = jsonValue.AsString()
             if (environVarOrNone(key).IsSome) then raise (EnvironmentVariableAlreadyExistsException(key))

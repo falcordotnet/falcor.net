@@ -9,10 +9,16 @@ open System
 
 RestorePackages()
 
-let version = "0.0.4-pre"
-let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor")
-let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "")
-let projects = [ falcor; falcorServer; falcorServerOwin ]
+let version = "0.0.7-pre"
+// Core
+let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor", sourcePath)
+let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "", sourcePath)
+let falcorServerOwin = new Project("Falcor.Server.Owin", "Falcor .NET server OWIN interface", "", sourcePath)
+// Examples
+let falcorExamplesNetflixCore = 
+    new Project("Falcor.Examples.Netflix", "Netflix example core libarary", "Falcor", examplesPath)
+let falcorExamplesNetflixWeb = new Project("Falcor.Examples.NetflixWeb", "Falcor.NET Core API", "Falcor", examplesPath)
+let projects = [ falcor; falcorServer; falcorServerOwin; falcorExamplesNetflixCore; falcorExamplesNetflixWeb ]
 let context = createContext projects version
 
 // Targets
@@ -37,8 +43,19 @@ Target "Compile"
 Target "CreatePackages" (fun _ -> 
     let withCore = dependsOn (falcor)
     createNuGetPackage falcor context useDefaults
-    createNuGetPackage falcorServer context withCore
-    createNuGetPackage falcorServerOwin context withCore)
+    createNuGetPackage falcorServer context (withCustomParams 
+        (fun context p -> { p with Dependencies = [ 
+        "Falcor", context.version 
+        "Sprache", GetPackageVersion context.packagesDirPath "Sprache"
+        ] }))
+    createNuGetPackage falcorServerOwin context (withCustomParams 
+        (fun context p -> { p with Dependencies = [ 
+        "Falcor", context.version 
+        "Falcor.Server", context.version
+        "Microsoft.Owin", GetPackageVersion context.packagesDirPath "Microsoft.Owin"
+        ] }))
+
+     )
 //createNuGetPackage falcorClient context withCore
 // createNuGetPackage falcorRouter context withCore
 //createNuGetPackage falcorWeb context withCore

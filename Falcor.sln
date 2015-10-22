@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{92
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.NetflixWeb", "examples\Falcor.Examples.NetflixWeb\Falcor.Examples.NetflixWeb.csproj", "{EAC33964-0631-49F8-9B1B-8CAFB048AA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.Netflix", "examples\Falcor.Examples.Netflix\Falcor.Examples.Netflix.csproj", "{98CA8942-193B-4132-9EEA-BDED4AE57408}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.Netflix", "examples\Falcor.Examples.Netflix\Falcor.Examples.Netflix.csproj", "{1340268A-0765-4DC7-AA70-8D6C1EEF7637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,10 +88,10 @@ Global
 		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98CA8942-193B-4132-9EEA-BDED4AE57408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98CA8942-193B-4132-9EEA-BDED4AE57408}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98CA8942-193B-4132-9EEA-BDED4AE57408}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98CA8942-193B-4132-9EEA-BDED4AE57408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +103,6 @@ Global
 		{0F11DB37-6F94-43E0-8B60-78D4B2BE1604} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{68C7FA84-D658-44FD-8DAA-B17E7E069D2A} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
 		{EAC33964-0631-49F8-9B1B-8CAFB048AA47} = {92F30E2D-B622-4682-9C44-05053AC5929F}
-		{98CA8942-193B-4132-9EEA-BDED4AE57408} = {92F30E2D-B622-4682-9C44-05053AC5929F}
+		{1340268A-0765-4DC7-AA70-8D6C1EEF7637} = {92F30E2D-B622-4682-9C44-05053AC5929F}
 	EndGlobalSection
 EndGlobal
