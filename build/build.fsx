@@ -11,14 +11,20 @@ RestorePackages()
 
 let version = "0.1.0-alpha"
 // Core
-let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor", sourcePath)
-let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "", sourcePath)
-let falcorServerOwin = new Project("Falcor.Server.Owin", "Falcor .NET server OWIN interface", "", sourcePath)
+let falcor = 
+    new Project("Falcor", "Falcor.NET core library", 
+                "Falcor.NET core libary providing models for both Falcor paths and JSON Graph. To use Falcor on the server, use the Falcor.Server.Owin package.", 
+                "Falcor Data Web Reactive", sourcePath)
+let falcorServer = 
+    new Project("Falcor.Server", "Falcor.NET router implementation", 
+                "Falcor.NET router implementation. To use Falcor on the server, use the Falcor.Server.Owin package.", 
+                "Falcor Router Data Web API Reactive", sourcePath)
+let falcorServerOwin = 
+    new Project("Falcor.Server.Owin", "Falcor.NET server OWIN middleware", 
+                "Falcor.NET server OWIN middleware for hosting a web-based Falcor datasource (router)", 
+                "Falcor Owin Data API Reactive", sourcePath)
 // Examples
-let falcorExamplesNetflixCore = 
-    new Project("Falcor.Examples.Netflix", "Netflix example core libarary", "Falcor", examplesPath)
-let falcorExamplesNetflixWeb = new Project("Falcor.Examples.NetflixWeb", "Falcor.NET Core API", "Falcor", examplesPath)
-let projects = [ falcor; falcorServer; falcorServerOwin; falcorExamplesNetflixCore; falcorExamplesNetflixWeb ]
+let projects = [ falcor; falcorServer; falcorServerOwin ]
 let context = createContext projects version
 
 // Targets

@@ -7,7 +7,7 @@
     <owners>@authors@</owners>
     <summary>@summary@</summary>
     <licenseUrl> https://github.com/falcordotnet/falcor.net/blob/master/LICENSE </licenseUrl>
-    <projectUrl>http://falcordotnet.github.io/</projectUrl>
+    <projectUrl>https://github.com/falcordotnet/falcor.net</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
