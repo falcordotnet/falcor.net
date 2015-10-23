@@ -14,15 +14,15 @@ let version = "0.1.0-alpha"
 let falcor = 
     new Project("Falcor", "Falcor.NET core library", 
                 "Falcor.NET core libary providing models for both Falcor paths and JSON Graph. To use Falcor on the server, use the Falcor.Server.Owin package.", 
-                "Falcor Data Web Reactive", sourcePath)
+                "Falcor Data Web Reactive")
 let falcorServer = 
     new Project("Falcor.Server", "Falcor.NET router implementation", 
                 "Falcor.NET router implementation. To use Falcor on the server, use the Falcor.Server.Owin package.", 
-                "Falcor Router Data Web API Reactive", sourcePath)
+                "Falcor Router Data Web API Reactive")
 let falcorServerOwin = 
     new Project("Falcor.Server.Owin", "Falcor.NET server OWIN middleware", 
                 "Falcor.NET server OWIN middleware for hosting a web-based Falcor datasource (router)", 
-                "Falcor Owin Data API Reactive", sourcePath)
+                "Falcor Owin Data API Reactive")
 // Examples
 let projects = [ falcor; falcorServer; falcorServerOwin ]
 let context = createContext projects version

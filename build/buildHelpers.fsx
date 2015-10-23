@@ -15,17 +15,16 @@ exception InvalidSemVerException of string
 
 exception EnvironmentVariableAlreadyExistsException of string
 
-let sourcePath = "./src";
-let examplesPath = "./examples";
+let srcPath = "./src";
 
 // Summary: A short description of the package. If specified, this shows up in the middle pane of the Add Package Dialog. If not specified, a truncated version of the description is used instead.
 // Description: A long description of the package. This shows up in the right pane of the Add Package Dialog as well as in the Package Manager Console when listing packages using the Get-Package command.
-type Project(name : string, summary: string, description : string, tags : string, srcPath: string) = 
+type Project(name : string, summary: string, description : string, tags : string) = 
     let packagingRootPath = "./build" @@ "temp" @@ "packaging"
     member this.summary = summary 
     member this.authors = [ "Craig Smitham" ]
     member this.name = name
-    member this.description = name
+    member this.description = description
     member this.tags = tags 
     member this.assemblyInfoPath = srcPath @@ name @@ "Properties" @@ "AssemblyInfo.cs"
     member this.binPath = srcPath @@ name @@ "bin"
@@ -44,7 +43,7 @@ type BuildContext =
       version : string }
 
 let falcorNetAuthor = [ "falcor.net" ]
-let falcorClient = new Project("Falcor.Client", "Falcor.NET client libarary", "Falcor.NET client library", "Falcor", sourcePath)
+let falcorClient = new Project("Falcor.Client", "Falcor.NET client libarary", "Falcor.NET client library", "Falcor")
 //let falcorRouter = new Project("Falcor.Router", "Falcor .NET Router", "", sourcePath)
 //let falcorWebRouter = new Project("Falcor.Web.Router", "Falcor .NET Web Router", "", sourcePath)
 //let falcorWeb = new Project("Falcor.Web", "Falcor .NET Web", "", sourcePath)

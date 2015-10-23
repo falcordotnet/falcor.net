@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitleAttribute("Falcor.Server.Owin")]
 [assembly: AssemblyCopyrightAttribute("2015 Falcor.NET")]
-[assembly: AssemblyDescriptionAttribute("Falcor.Server.Owin")]
+[assembly: AssemblyDescriptionAttribute("Falcor.NET server OWIN middleware for hosting a web-based Falcor datasource (router)")]
 [assembly: AssemblyProductAttribute("Falcor.NET")]
 [assembly: AssemblyVersionAttribute("0.1.0")]
 [assembly: InternalsVisibleToAttribute("Falcor.Tests")]
