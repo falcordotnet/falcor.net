@@ -1,4 +1,6 @@
-﻿namespace Falcor
+﻿using Newtonsoft.Json.Linq;
+
+namespace Falcor
 {
     public sealed class BooleanKey : SimpleKey
     {
@@ -11,6 +13,7 @@
 
         public override KeyType KeyType { get; } = KeyType.Boolean;
         public override bool AsBoolean() => _value;
+        public override JToken ToJToken() => JToken.FromObject(_value);
 
         private bool Equals(BooleanKey other)
         {

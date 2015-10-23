@@ -94,6 +94,7 @@
     <Compile Include="PathValueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangesPatternTests.cs" />
+    <Compile Include="SerializationTests.cs" />
     <Compile Include="Server\Routing\PathMatcherTests.cs" />
     <Compile Include="Server\Routing\ResponseBuilderTests.cs" />
     <Compile Include="Server\Routing\RouteBuilderTests.cs" />

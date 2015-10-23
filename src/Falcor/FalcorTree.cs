@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
@@ -9,6 +10,10 @@ namespace Falcor
         public override bool IsValue => false;
         public override FalcorTree AsTree() => this;
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree) => tree(this);
+        public override JToken ToJToken()
+        {
+            throw new NotImplementedException();
+        }
 
         public FalcorTree()
         {

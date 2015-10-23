@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public abstract class KeySegment : IKeySegment
+    public abstract class KeySegment : IKeySegment, IJToken
     {
         public abstract KeyType KeyType { get; }
         public bool IsString() => KeyType == KeyType.String;
@@ -21,7 +22,7 @@ namespace Falcor
         public virtual NumericSet AsNumericSet() => new NumericSet();
         public virtual SortedSet<int> AsSortedNumberSet() => new SortedSet<int>();
         public virtual KeySet AsKeySet() => new KeySet();
-
+        public abstract JToken ToJToken();
         //        protected abstract string StringValue { get; set; }
         //public static implicit operator string (KeySegment keySegment)
         //{
@@ -41,6 +42,6 @@ namespace Falcor
         {
             return new NumberKey(value);
         }
-        
+
     }
 }

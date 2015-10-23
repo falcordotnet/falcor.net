@@ -6,11 +6,11 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyrightAttribute("2015 Falcor.NET")]
 [assembly: AssemblyDescriptionAttribute("Falcor.Server.Owin")]
 [assembly: AssemblyProductAttribute("Falcor.NET")]
-[assembly: AssemblyVersionAttribute("0.0.7")]
+[assembly: AssemblyVersionAttribute("0.1.0")]
 [assembly: InternalsVisibleToAttribute("Falcor.Tests")]
-[assembly: AssemblyFileVersionAttribute("0.0.7")]
+[assembly: AssemblyFileVersionAttribute("0.1.0")]
 namespace System {
     internal static class AssemblyVersionInformation {
-        internal const string Version = "0.0.7";
+        internal const string Version = "0.1.0";
     }
 }

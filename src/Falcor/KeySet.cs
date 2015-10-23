@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
@@ -34,6 +35,7 @@ namespace Falcor
         }
 
         public override KeySet AsKeySet() => this;
+        public override JToken ToJToken() => new JArray(Keys.Select(k => k.ToJToken()));
 
         private bool Equals(KeySet other) => other != null && other.Keys.SequenceEqual(Keys);
 

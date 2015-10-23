@@ -38,8 +38,8 @@ namespace Falcor.Examples.Netflix
                     }
                     else
                     {
-                        results.Add(Path("titlesById", rating.TitleId, "userRating").Value(rating.UserRating));
-                        results.Add(Path("titlesById", rating.TitleId, "rating").Value(rating.Rating));
+                        results.Add(Path("titlesById", rating.TitleId, "userRating").Atom(rating.UserRating));
+                        results.Add(Path("titlesById", rating.TitleId, "rating").Atom(rating.Rating));
                     }
                 });
 
@@ -48,23 +48,30 @@ namespace Falcor.Examples.Netflix
 
             Get["genrelist[{integers:indices}].name"] = async parameters =>
             {
-
-                Debug.WriteLine("Before: " + Thread.CurrentThread.ManagedThreadId);
                 var genreResults = await recommendationService.GetGenreListAsync(userId);
-                Debug.WriteLine("After: " + Thread.CurrentThread.ManagedThreadId);
-
-
                 List<int> indices = parameters.indices;
                 var results = indices.Select(index =>
                 {
                     var genre = genreResults.ElementAtOrDefault(index);
                     return genre != null
-                        ? Path("genrelist", index, "name").Value(genre.Name)
+                        ? Path("genrelist", index, "name").Atom(genre.Name, expires:-3000000)
                         : Path("genrelist", index).Undefined();
                 });
                 //return Complete(Path("genrelist", 0, "name").Error("test"));
                 return Complete(results);
             };
+
+            Get["genrelist.mylist"] = async _ =>
+            {
+                var genreResults = await recommendationService.GetGenreListAsync(userId);
+                var myList = genreResults.SingleOrDefault(g => g.IsMyList);
+                var index = genreResults.IndexOf(myList);
+                return myList != null
+                    ? Complete(Path("genrelist", "mylist").Ref("genrelist", index))
+                    : Error("myList missing from genrelist");
+            };
+
+
         }
     }
 }

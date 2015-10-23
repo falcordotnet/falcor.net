@@ -30,9 +30,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Owin", "src\F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{92F30E2D-B622-4682-9C44-05053AC5929F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.NetflixWeb", "examples\Falcor.Examples.NetflixWeb\Falcor.Examples.NetflixWeb.csproj", "{EAC33964-0631-49F8-9B1B-8CAFB048AA47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.Netflix", "examples\Falcor.Examples.Netflix\Falcor.Examples.Netflix.csproj", "{1340268A-0765-4DC7-AA70-8D6C1EEF7637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Examples.Netflix.Web", "examples\Falcor.Examples.Netflix.Web\Falcor.Examples.Netflix.Web.csproj", "{EA64778E-8B66-443D-B6F4-307834DB6A92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,21 +60,21 @@ Global
 		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{932D3A57-CCC8-466D-8FBD-1C1833661ED8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAC33964-0631-49F8-9B1B-8CAFB048AA47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1340268A-0765-4DC7-AA70-8D6C1EEF7637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA64778E-8B66-443D-B6F4-307834DB6A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA64778E-8B66-443D-B6F4-307834DB6A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA64778E-8B66-443D-B6F4-307834DB6A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA64778E-8B66-443D-B6F4-307834DB6A92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6208068B-EA00-40DC-B536-54E759C44988} = {0D5D3DFC-B309-46AB-B296-D18A3EA05A2B}
-		{EAC33964-0631-49F8-9B1B-8CAFB048AA47} = {92F30E2D-B622-4682-9C44-05053AC5929F}
 		{1340268A-0765-4DC7-AA70-8D6C1EEF7637} = {92F30E2D-B622-4682-9C44-05053AC5929F}
+		{EA64778E-8B66-443D-B6F4-307834DB6A92} = {92F30E2D-B622-4682-9C44-05053AC5929F}
 	EndGlobalSection
 EndGlobal

@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public sealed class NumberRange : NumericKey, IEquatable<NumberRange>, IEnumerable<int>
     {
         public override bool Equals(object obj)
@@ -21,11 +24,14 @@ namespace Falcor
                 yield return i;
         }
         public override KeyType KeyType { get; } = KeyType.Range;
+
+        [JsonProperty]
         public int From { get; }
 
         /// <summary>
         /// To value of the range
         /// </summary>
+        [JsonProperty]
         public int To { get; }
 
         public NumberRange(int from, int to, bool inclusive = true)
@@ -44,6 +50,7 @@ namespace Falcor
         public override NumberRange AsRange() => this;
 
         public override SortedSet<int> AsSortedNumberSet() => new SortedSet<int>(AsEnumerable());
+        public override JToken ToJToken() => JToken.FromObject(this);
 
         public static bool operator ==(NumberRange lhs, NumberRange rhs) => Util.IfBothNullOrEquals(lhs, rhs);
 

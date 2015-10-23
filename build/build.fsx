@@ -9,7 +9,7 @@ open System
 
 RestorePackages()
 
-let version = "0.0.7-pre"
+let version = "0.1.0-alpha"
 // Core
 let falcor = new Project("Falcor", "Falcor.NET Core API", "Falcor", sourcePath)
 let falcorServer = new Project("Falcor.Server", "Falcor.NET Server", "", sourcePath)
@@ -40,24 +40,28 @@ Target "AssemblyInfo" (fun _ ->
                                                       Attribute.FileVersion context.version ])
 Target "Compile" 
     (fun _ -> MSBuild null "Build" [ "Configuration", "Release" ] [ "./Falcor.sln" ] |> Log "Build-Output: ")
-Target "CreatePackages" (fun _ -> 
+Target "CreatePackages" 
+    (fun _ -> 
     let withCore = dependsOn (falcor)
-    createNuGetPackage falcor context useDefaults
-    createNuGetPackage falcorServer context (withCustomParams 
-        (fun context p -> { p with Dependencies = [ 
-        "Falcor", context.version 
-        "Sprache", GetPackageVersion context.packagesDirPath "Sprache"
-        ] }))
-    createNuGetPackage falcorServerOwin context (withCustomParams 
-        (fun context p -> { p with Dependencies = [ 
-        "Falcor", context.version 
-        "Falcor.Server", context.version
-        "Microsoft.Owin", GetPackageVersion context.packagesDirPath "Microsoft.Owin"
-        ] }))
-
-     )
+    createNuGetPackage falcor context 
+        (withCustomParams 
+             (fun context p -> 
+             { p with Dependencies = [ "Newtonsoft.Json", GetPackageVersion context.packagesDirPath "Newtonsoft.Json" ] }))
+    createNuGetPackage falcorServer context 
+        (withCustomParams (fun context p -> 
+             { p with Dependencies = 
+                          [ "Falcor", context.version
+                            "Newtonsoft.Json", GetPackageVersion context.packagesDirPath "Newtonsoft.Json"
+                            "Rx-Main", GetPackageVersion context.packagesDirPath "Rx-Main"
+                            "Sprache", GetPackageVersion context.packagesDirPath "Sprache" ] }))
+    createNuGetPackage falcorServerOwin context 
+        (withCustomParams (fun context p -> 
+             { p with Dependencies = 
+                          [ "Falcor", context.version
+                            "Falcor.Server", context.version
+                            "Microsoft.Owin", GetPackageVersion context.packagesDirPath "Microsoft.Owin" ] })))
 //createNuGetPackage falcorClient context withCore
-// createNuGetPackage falcorRouter context withCore
+//createNuGetPackage falcorRouter context withCore
 //createNuGetPackage falcorWeb context withCore
 //createNuGetPackage falcorWebOwin context withCore
 //createNuGetPackage falcorWebRouter context withCore

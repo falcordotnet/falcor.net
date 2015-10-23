@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public abstract class FalcorNode
+    public abstract class FalcorNode : IJToken
     {
-        public static void test()
-        {
-            var list = new List<string>();
-        }
-
         public abstract bool IsValue { get; }
         public bool IsTree => !IsValue;
         public virtual FalcorValue AsValue() => null;
@@ -43,5 +39,6 @@ namespace Falcor
         }
 
 
+        public abstract JToken ToJToken();
     }
 }

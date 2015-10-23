@@ -31,7 +31,9 @@ namespace Falcor.Examples.Netflix.RecommendationService
         public async Task<List<GenreResult>> GetGenreListAsync(int userId)
         {
             await Task.Delay(1);
-            return Genres.Select(GenreResult.SuccessResult).ToList();
+            var results = new List<GenreResult> { GenreResult.SuccessResult("My List", true) };
+            results.AddRange(Genres.Select(GenreResult.SuccessResult));
+            return results;
         }
     }
 }

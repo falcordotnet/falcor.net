@@ -24,29 +24,17 @@ namespace Falcor.Server.Routing
             return stringWriter.ToString();
         }
 
-        private JToken SerializeItem(object value)
+        private static JToken SerializeItem(object value)
         {
-            if (value is int)
-            {
-                return new JValue((int)value);
-            }
+            var falcorValueOrKey = value as IJToken;
+            if (falcorValueOrKey != null) return ((IJToken)value).ToJToken();
 
+            if (value is int) return new JValue((int)value);
             var stringValue = value as string;
-            if (stringValue != null)
-            {
-                return new JValue(stringValue);
-            }
-
-            var reference = value as Ref;
-            if (reference != null)
-            {
-                return SerializeRef(reference);
-            }
-
-            var error = value as Error;
-            if (error != null) return SerializeError(error);
+            if (stringValue != null) return new JValue(stringValue);
 
             var dict = value as IDictionary<string, object>;
+
             if (dict != null)
             {
                 var obj = new JObject();
@@ -58,24 +46,20 @@ namespace Falcor.Server.Routing
             }
 
             var array = value as IEnumerable<object>;
-            if (array != null)
-            {
-                return new JArray(array.Select(SerializeItem).ToArray());
-            }
-
+            if (array != null) return new JArray(array.Select(SerializeItem).ToArray());
 
             return new JObject();
         }
 
-        private JToken SerializeRef(Ref reference)
+        private static JToken SerializeRef(Ref reference)
         {
             var result = new JObject();
             result["$type"] = "ref";
-            result["value"] = new JArray(reference.AsRef().ToList());
+            result["value"] = new JArray(reference.AsRef().Select(SerializeItem).ToList());
             return result;
         }
 
-        private JToken SerializeError(Error error)
+        private static JToken SerializeError(Error error)
         {
             var result = new JObject();
             result["$type"] = "error";

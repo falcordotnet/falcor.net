@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
@@ -10,6 +11,7 @@ namespace Falcor
         private readonly List<NumberRange> _ranges = new List<NumberRange>();
         public override KeyType KeyType { get; } = KeyType.RangeSet;
         public override NumericSet AsNumericSet() => this;
+        public override JToken ToJToken() => new JArray(_ranges.ToList());
 
 
         public NumericSet(IEnumerable<int> numericKeys)

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
@@ -20,6 +22,12 @@ namespace Falcor
         {
             throw new NotImplementedException();
         }
+
+        public override JToken ToJToken() => new JObject
+        {
+            ["$type"] = "ref",
+            ["value"] = new JArray(_path.Select(k => k.ToJToken()))
+        };
 
         protected override ValueType ValueType { get; } = ValueType.Ref;
 

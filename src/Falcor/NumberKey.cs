@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
@@ -23,6 +24,7 @@ namespace Falcor
         public override NumberRange AsRange() => new NumberRange(_value);
 
         public override NumericSet AsNumericSet() => new NumericSet(_value);
+        public override JToken ToJToken() => JToken.FromObject(_value);
 
         public override KeyType KeyType { get; } = KeyType.Number;
 
