@@ -49,9 +49,11 @@ namespace Falcor
             return new FalcorPath(result);
         }
 
+        
+
         public FalcorPath AppendAll(FalcorPath path)
         {
-            var result = new KeySegment[_keys.Length + path.Count()];
+            var result = new KeySegment[_keys.Length + path.Count];
             _keys.CopyTo(result, 0);
             path._keys.CopyTo(result, _keys.Length);
             return new FalcorPath(result);

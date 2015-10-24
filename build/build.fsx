@@ -9,7 +9,7 @@ open System
 
 RestorePackages()
 
-let version = "0.1.0-alpha"
+let version = "0.1.2-alpha"
 // Core
 let falcor = 
     new Project("Falcor", "Falcor.NET core library", 
