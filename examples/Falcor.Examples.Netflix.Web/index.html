@@ -30,7 +30,8 @@
         //     console.log(data);
         // });
 
-        model.boxValues().get('genrelist[0,2,3].name', 'genrelist.mylist').then(jlog, jerror);
+        model.get('titlesById[0..1]["rating", "userRating"]').then(jlog, jerror);
+        //model.boxValues().get('genrelist[0,2,3].name', 'genrelist.mylist').then(jlog, jerror);
         //model.get('genrelist[0].name').then(jlog, jerror);
         //model.get('genrelist[0].name').then(jlog, jerror);
 

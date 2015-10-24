@@ -26,6 +26,8 @@ namespace Falcor.Server.Routing
 
         private static JToken SerializeItem(object value)
         {
+            if (value == null) return null;
+
             var falcorValueOrKey = value as IJToken;
             if (falcorValueOrKey != null) return ((IJToken)value).ToJToken();
 

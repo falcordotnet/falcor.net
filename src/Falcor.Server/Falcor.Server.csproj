@@ -73,12 +73,14 @@
     <Compile Include="Routing\FalcorRequest.cs" />
     <Compile Include="Routing\FalcorResponse.cs" />
     <Compile Include="Routing\FalcorResponseBuilder.cs" />
+    <Compile Include="Routing\IPathValueUndefinedResult.cs" />
     <Compile Include="Routing\PathParser\IPathParser.cs" />
     <Compile Include="Routing\IResponseSerializer.cs" />
     <Compile Include="Routing\PathParser\IRouteParser.cs" />
     <Compile Include="Routing\PathParser\MemoizedPathParser.cs" />
     <Compile Include="Routing\PathParser\SprachePathParser.cs" />
     <Compile Include="Routing\PathParser\SpracheRouteParser.cs" />
+    <Compile Include="Routing\PathValueResultBuilder.cs" />
     <Compile Include="Routing\ResponseSerializer.cs" />
     <Compile Include="Routing\RouteHandler.cs" />
     <Compile Include="Routing\RouteHandlerResult.cs" />

@@ -7,19 +7,18 @@ namespace Falcor
 {
     public sealed class Atom : FalcorValue
     {
-        public Atom(object value, int? size, int? expires = null)
+        public Atom(object value, TimeSpan? expires = null)
         {
             Value = value;
-            Expires = expires;
-            Size = size;
+            if (expires != null)
+                Expires = expires.Value.TotalMilliseconds;
         }
 
         public DateTime Timestamp { get; } = DateTime.UtcNow;
         public object Value { get; }
-        public int? Size { get; }
 
         public override bool IsValue => true;
-        public int? Expires { get; }
+        public double? Expires { get; }
 
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {
@@ -32,7 +31,7 @@ namespace Falcor
             result["$type"] = "atom";
             result["$timestamp"] = Timestamp.Ticks;
             if (Expires.HasValue) result["$expires"] = Expires;
-            if (Size.HasValue) result["$size"] = Size;
+            //if (Size.HasValue) result["$size"] = Size;
             var value = SerializationHelper.SerializeItem(Value);
             result["value"] = value;
             return result;

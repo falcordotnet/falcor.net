@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Falcor.Examples.Netflix.RatingService;
 using Falcor.Examples.Netflix.RecommendationService;
 using Falcor.Server;
@@ -10,37 +9,21 @@ namespace Falcor.Examples.Netflix
 {
     public class NetflixRouter : FalcorRouter
     {
-        public NetflixRouter(
-            IRatingService ratingService,
-            IRecommendationService recommendationService,
-            int userId)
+        public NetflixRouter(IRatingService ratingService, IRecommendationService recommendationService, int userId)
         {
             Get["titlesById[{ranges:titleIds}]['rating']"] = async parameters =>
             {
                 List<int> titleIds = parameters.titleIds;
                 var ratings = await ratingService.GetRatingsAsync(titleIds, userId);
-                var results = new List<PathValue>();
-
-                titleIds.ToList().ForEach(titleId =>
+                var results = titleIds.Select(titleId =>
                 {
                     var rating = ratings.SingleOrDefault(r => r.TitleId == titleId);
-
-                    // Handle missing results
-                    if (rating == null)
-                    {
-                        results.Add(Path("titlesById", titleId).Undefined());
-                    }
-                    // Handle errors
-                    else if (rating.Error)
-                    {
-                        results.Add(Path("titlesById", rating.TitleId, "userRating").Error(rating.ErrorMessage));
-                        results.Add(Path("titlesById", rating.TitleId, "rating").Error(rating.ErrorMessage));
-                    }
-                    else
-                    {
-                        results.Add(Path("titlesById", rating.TitleId, "userRating").Atom(rating.UserRating));
-                        results.Add(Path("titlesById", rating.TitleId, "rating").Atom(rating.Rating));
-                    }
+                    var path = Path("titlesById", titleId);
+                    if (rating == null) return path.Keys("userRating", "rating").Undefined();
+                    if (rating.Error) return path.Keys("userRating", "rating").Error(rating.ErrorMessage);
+                    return path
+                        .Key("userRating").Atom(rating.UserRating)
+                        .Key("rating").Atom(rating.Rating);
                 });
 
                 return Complete(results);
@@ -50,14 +33,12 @@ namespace Falcor.Examples.Netflix
             {
                 var genreResults = await recommendationService.GetGenreListAsync(userId);
                 List<int> indices = parameters.indices;
-                var results = indices.Select(index =>
+                var results = indices.SelectMany(index =>
                 {
-                    var genre = genreResults.ElementAtOrDefault(index);
-                    return genre != null
-                        ? Path("genrelist", index, "name").Atom(genre.Name, expires:-3000000)
+                    var genre = genreResults.ElementAtOrDefault(index); return genre != null
+                        ? Path("genrelist", index, "name").Atom(genre.Name, TimeSpan.FromDays(-1))
                         : Path("genrelist", index).Undefined();
                 });
-                //return Complete(Path("genrelist", 0, "name").Error("test"));
                 return Complete(results);
             };
 
@@ -70,8 +51,6 @@ namespace Falcor.Examples.Netflix
                     ? Complete(Path("genrelist", "mylist").Ref("genrelist", index))
                     : Error("myList missing from genrelist");
             };
-
-
         }
     }
 }
