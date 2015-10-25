@@ -4,6 +4,8 @@
 
 # Falcor .NET [![Build status](https://ci.appveyor.com/api/projects/status/y7ybdqvvcrpxl1kq?svg=true)](https://ci.appveyor.com/project/CraigSmitham/falcor-net) [![NuGet package version](https://img.shields.io/nuget/v/Falcor.svg?style=flat)](https://www.nuget.org/packages/Falcor.Server.Owin)
 
+[![Join the chat at https://gitter.im/falcordotnet/falcor.net](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/falcordotnet/falcor.net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 ```
 PM> Install-Package Falcor.Server.Owin -Pre
