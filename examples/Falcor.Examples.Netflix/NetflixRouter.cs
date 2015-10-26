@@ -11,7 +11,7 @@ namespace Falcor.Examples.Netflix
     {
         public NetflixRouter(IRatingService ratingService, IRecommendationService recommendationService, int userId)
         {
-            Get["titlesById[{ranges:titleIds}]['rating']"] = async parameters =>
+            Get["titlesById[{ranges:titleIds}]['rating', 'userRating']"] = async parameters =>
             {
                 List<int> titleIds = parameters.titleIds;
                 var ratings = await ratingService.GetRatingsAsync(titleIds, userId);
@@ -33,10 +33,11 @@ namespace Falcor.Examples.Netflix
             {
                 var genreResults = await recommendationService.GetGenreListAsync(userId);
                 List<int> indices = parameters.indices;
-                var results = indices.SelectMany(index =>
+                var results = indices.Select(index =>
                 {
-                    var genre = genreResults.ElementAtOrDefault(index); return genre != null
-                        ? Path("genrelist", index, "name").Atom(genre.Name, TimeSpan.FromDays(-1))
+                    var genre = genreResults.ElementAtOrDefault(index);
+                    return genre != null
+                        ? Path("genrelist", index, "name").Atom(genre.Name)
                         : Path("genrelist", index).Undefined();
                 });
                 return Complete(results);

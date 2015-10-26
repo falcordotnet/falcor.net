@@ -71,6 +71,8 @@ To get started with Falcor.NET, follow these steps:
   
 # When to Use Falcor
 
+**_Consider the Falcor approach when you are developing a client/server architecture that is intended to provide a rich client user experience._** 
+
 | *Good Fit*                                                                                     | *Poor Fit*                                                                        |
 |------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | Fetching _large amounts_ of _small resources_ (e.g. web components, JSON, metadata, etc.)      | Fetching _small amounts_ of _large resources_ (e.g. web pages, images, files, etc.) |

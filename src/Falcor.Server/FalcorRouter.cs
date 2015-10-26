@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Falcor.Server.Routing;
-using Falcor.Server.Routing.PathParser;
 
 namespace Falcor.Server
 {
@@ -22,13 +20,12 @@ namespace Falcor.Server
         protected RouteBuilder Call => new RouteBuilder(FalcorMethod.Call, this);
 
         // Helpers
-        public static IPathValueBuilder Path(params KeySegment[] keys) => new PathValueResultBuilder(FalcorPath.From(keys));
-        public static IPathValueBuilder Path(FalcorPath path) => new PathValueResultBuilder(path);
-        public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue>(1) { value });
+        public static IPathValueBuilder Path(params KeySegment[] keys) => new PathValueBuilder(FalcorPath.From(keys));
+        public static IPathValueBuilder Path(FalcorPath path) => new PathValueBuilder(path);
+        public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue> { value });
         public static RouteHandlerResult Complete(IEnumerable<IEnumerable<PathValue>> values) => Complete(values.SelectMany(v => v.ToList()));
         public static RouteHandlerResult Complete(IEnumerable<PathValue> values) => new CompleteHandlerResult(values.ToList());
         public static RouteHandlerResult Error(string error = null) => new ErrorHandlerResult(error);
-
 
         // Routing
         private IObservable<PathValue> Resolve(Route route, RequestContext context)

@@ -12,27 +12,27 @@ namespace Falcor.Server.Routing
         IPathValueBuilderResult Error(string error = null);
         IPathValueBuilderResult Undefined();
         IPathValueBuilder Append(params KeySegment[] keys);
-        IKeyDefinedResult Key(KeySegment key);
-        IKeyDefinedResult Keys(params KeySegment[] keys);
+        IPathValueBuilderWithKey Key(KeySegment key);
+        IPathValueBuilderWithKey Keys(params KeySegment[] keys);
     }
 
-    public interface IKeyDefinedResult
+    public interface IPathValueBuilderWithKey
     {
-        IPathValueDefinedResult Atom(object value, TimeSpan? expires = null);
-        IPathValueDefinedResult Ref(params KeySegment[] keys);
-        IPathValueDefinedResult Error(string error = null);
-        IPathValueDefinedResult Undefined();
+        IPathValueBuilderIntermediateResult Atom(object value, TimeSpan? expires = null);
+        IPathValueBuilderIntermediateResult Ref(params KeySegment[] keys);
+        IPathValueBuilderIntermediateResult Error(string error = null);
+        IPathValueBuilderIntermediateResult Undefined();
     }
 
-    public interface IPathValueDefinedResult : IPathValueBuilderResult
+    public interface IPathValueBuilderIntermediateResult : IPathValueBuilderResult
     {
-        IKeyDefinedResult Key(KeySegment key);
-        IKeyDefinedResult Keys(params KeySegment[] keys);
+        IPathValueBuilderWithKey Key(KeySegment key);
+        IPathValueBuilderWithKey Keys(params KeySegment[] keys);
     }
 
     public interface IPathValueBuilderResult : IEnumerable<PathValue> { }
 
-    public class PathValueResultBuilder : IPathValueBuilder, IKeyDefinedResult, IPathValueDefinedResult
+    public class PathValueBuilder : IPathValueBuilder, IPathValueBuilderWithKey, IPathValueBuilderIntermediateResult
     {
         private static List<KeySegment> EmptyKeySegmentList { get; } = new List<KeySegment>();
         private static List<PathValue> EmptyPathValueList { get; } = new List<PathValue>();
@@ -40,42 +40,35 @@ namespace Falcor.Server.Routing
         private IReadOnlyList<KeySegment> CurrentKeys { get; }
         private IReadOnlyList<PathValue> Results { get; }
 
-        public PathValueResultBuilder(FalcorPath path, IReadOnlyList<KeySegment> keys = null, IReadOnlyList<PathValue> results = null)
+        public PathValueBuilder(FalcorPath path, IReadOnlyList<KeySegment> keys = null, IReadOnlyList<PathValue> results = null)
         {
             Path = path;
             CurrentKeys = keys ?? EmptyKeySegmentList;
             Results = results ?? EmptyPathValueList;
         }
 
-        private PathValueResultBuilder WithResult(object value) =>
-            new PathValueResultBuilder(Path, CurrentKeys,
-                Results.Concat(CurrentKeys.Any() ? CurrentKeys.Select(k => new PathValue(Path.Append(k), value))
-                    : new List<PathValue>() { new PathValue(Path, value) }).ToList());
+        public IPathValueBuilder Append(params KeySegment[] keys) =>
+            new PathValueBuilder(Path.AppendAll(new FalcorPath(keys)));
 
-        public IPathValueBuilder Append(params KeySegment[] keys) => new PathValueResultBuilder(Path.AppendAll(new FalcorPath(keys)));
+        public IPathValueBuilderWithKey Key(KeySegment key) => Keys(key);
+        public IPathValueBuilderWithKey Keys(params KeySegment[] keys) => new PathValueBuilder(Path, keys.ToList(), Results);
 
-        public IKeyDefinedResult Key(KeySegment key) => Keys(key);
-        public IKeyDefinedResult Keys(params KeySegment[] keys) =>
-            new PathValueResultBuilder(Path, keys.ToList(), Results);
+        IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Ref(params KeySegment[] keys) => WithResult(new Ref(new FalcorPath(keys)));
+        IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Error(string error) => WithResult(new Error(error));
+        IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Undefined() => WithResult(null);
+        IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Atom(object value, TimeSpan? expires) => WithResult(new Atom(value, expires));
 
         public IPathValueBuilderResult Atom(object value, TimeSpan? expires = null) => WithResult(new Atom(value, expires));
-
-        IPathValueDefinedResult IKeyDefinedResult.Ref(params KeySegment[] keys) => WithResult(new Ref(new FalcorPath(keys)));
-
-        IPathValueDefinedResult IKeyDefinedResult.Error(string error) => WithResult(new Error(error));
-
-        IPathValueDefinedResult IKeyDefinedResult.Undefined() => WithResult(null);
-
-        IPathValueDefinedResult IKeyDefinedResult.Atom(object value, TimeSpan? expires) => WithResult(new Atom(value, expires));
-
         public IPathValueBuilderResult Ref(params KeySegment[] keys) => WithResult(new Ref(new FalcorPath(keys)));
-
         public IPathValueBuilderResult Error(string error) => WithResult(new Error(error));
-
         public IPathValueBuilderResult Undefined() => WithResult(null);
+
+        private PathValueBuilder WithResult(object value) =>
+                    new PathValueBuilder(Path, CurrentKeys,
+                        Results.Concat(CurrentKeys.Any() ? CurrentKeys.Select(k => new PathValue(Path.Append(k), value))
+                            : new List<PathValue> { new PathValue(Path, value) }).ToList());
 
         public IEnumerator<PathValue> GetEnumerator() => Results.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-
 }

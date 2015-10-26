@@ -11,14 +11,14 @@ namespace Falcor
         {
             Value = value;
             if (expires != null)
-                Expires = expires.Value.TotalMilliseconds;
+                Expires = Convert.ToInt64(expires.Value.TotalMilliseconds);
         }
 
-        public DateTime Timestamp { get; } = DateTime.UtcNow;
+        //public DateTime Timestamp { get; } = DateTime.UtcNow;
         public object Value { get; }
 
         public override bool IsValue => true;
-        public double? Expires { get; }
+        public long? Expires { get; }
 
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {
@@ -27,9 +27,8 @@ namespace Falcor
 
         public override JToken ToJToken()
         {
-            var result = new JObject();
-            result["$type"] = "atom";
-            result["$timestamp"] = Timestamp.Ticks;
+            var result = new JObject {["$type"] = "atom" };
+            //result["$timestamp"] = Timestamp.Ticks;
             if (Expires.HasValue) result["$expires"] = Expires;
             //if (Size.HasValue) result["$size"] = Size;
             var value = SerializationHelper.SerializeItem(Value);
