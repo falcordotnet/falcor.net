@@ -88,6 +88,10 @@
   <ItemGroup>
     <Content Include="logging.js" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\falcor - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\falcor - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\falcortest - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\falcortest - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
