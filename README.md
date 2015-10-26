@@ -2,7 +2,7 @@
   <img src="https://cloud.githubusercontent.com/assets/1016365/8711049/66438ebc-2b03-11e5-8a8a-75934f7ca7ec.png">
 </p>
 
-# Falcor.NET [![Build status](https://ci.appveyor.com/api/projects/status/y7ybdqvvcrpxl1kq?svg=true)](https://ci.appveyor.com/project/CraigSmitham/falcor-net) [![NuGet package version](https://img.shields.io/nuget/v/Falcor.svg?style=flat)](https://www.nuget.org/packages/Falcor.Server.Owin) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/falcordotnet/falcor.net)
+# Falcor.NET [![Build status](https://ci.appveyor.com/api/projects/status/y7ybdqvvcrpxl1kq?svg=true)](https://ci.appveyor.com/project/CraigSmitham/falcor-net) [![NuGet package version](https://img.shields.io/nuget/v/Falcor.svg?style=flat)](https://www.nuget.org/packages/Falcor.Server.Owin)  [![Coverity](https://scan.coverity.com/projects/6781/badge.svg)](https://scan.coverity.com/projects/falcordotnet-falcor-net) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/falcordotnet/falcor.net)
 
 
 Falcor is an approach pioneered by Netflix that enables you to quickly build a data-driven APIs that deliver efficient payloads to a variety of client form factors, and is able to adapt quickly to changing data access patterns as your application evolves. 
