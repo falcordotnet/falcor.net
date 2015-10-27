@@ -26,6 +26,8 @@ To get started with Falcor.NET, follow these steps:
    {
        public HelloWorldRouter()
        {
+           // Route to match a JSON path, in this case the 'message' member 
+           // of the root JSON node of the virtual JSON Graph
            Get["message"] = async _ =>
            {
                var result = await Task.FromResult(Path("hello"message").Atom("Hello World"));
@@ -35,6 +37,8 @@ To get started with Falcor.NET, follow these steps:
        }
    }
    ```
+   **_Note_**: For a more realistic example router, see the [example Netflix router](https://github.com/falcordotnet/falcor.net/blob/master/examples/Falcor.Examples.Netflix/NetflixRouter.cs) which  is part of Falcor.Examples.Netflix.Web project that you can run yourself to see the router in action.
+
 3. In your OWIN startup class, configure your Falcor.NET router endpoint:
 
    ```cs
@@ -67,10 +71,9 @@ To get started with Falcor.NET, follow these steps:
          message: "Hello World!"
      }
   }
-  ```
+  ````
   
-# When to Use Falcor
-
+<h1 id="uses">When To Use Falcor</h1>
 **_Consider the Falcor approach when you are developing a client/server architecture that is intended to provide a rich client user experience._** 
 
 | *Good Fit*                                                                                     | *Poor Fit*                                                                        |
