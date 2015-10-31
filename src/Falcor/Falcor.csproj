@@ -11,6 +11,8 @@
     <AssemblyName>Falcor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +57,7 @@
     <Compile Include="IKeySegment.cs" />
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="Ref.cs" />
+    <Compile Include="SerializationHelper.cs" />
     <Compile Include="ValueType.cs" />
     <Compile Include="IDataSource.cs" />
     <Compile Include="JsonGraphEnvelope.cs" />

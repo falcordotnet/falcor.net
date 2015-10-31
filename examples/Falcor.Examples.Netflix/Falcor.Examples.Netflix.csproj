@@ -11,6 +11,8 @@
     <AssemblyName>Falcor.Examples.Netflix</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +54,7 @@
     <Compile Include="RatingService\RatingResult.cs" />
     <Compile Include="RecommendationService\GenreResult.cs" />
     <Compile Include="RecommendationService\IRecommendationService.cs" />
-    <Compile Include="RecommendationService\RecommendationService.cs" />
+    <Compile Include="RecommendationService\FakeRecommendationService.cs" />
     <Compile Include="ServiceResult.cs" />
   </ItemGroup>
   <ItemGroup>

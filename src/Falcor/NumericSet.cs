@@ -9,9 +9,6 @@ namespace Falcor
     public sealed class NumericSet : KeySegment, IEnumerable<int>
     {
         private readonly List<NumberRange> _ranges = new List<NumberRange>();
-        public override KeyType KeyType { get; } = KeyType.RangeSet;
-        public override NumericSet AsNumericSet() => this;
-        public override JToken ToJToken() => new JArray(_ranges.ToList());
 
 
         public NumericSet(IEnumerable<int> numericKeys)
@@ -24,6 +21,7 @@ namespace Falcor
             _ranges.AddRange(numericKeys.Select(k => k.AsRange()));
         }
 
+        public override KeyType KeyType { get; } = KeyType.RangeSet;
 
 
         [DebuggerStepThrough]
@@ -37,6 +35,9 @@ namespace Falcor
         {
             return GetEnumerator();
         }
+
+        public override NumericSet AsNumericSet() => this;
+        public override JToken ToJToken() => new JArray(_ranges.ToList());
 
         public static implicit operator List<int>(NumericSet set) => set.ToList();
     }

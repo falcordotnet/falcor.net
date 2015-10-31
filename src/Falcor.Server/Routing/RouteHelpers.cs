@@ -10,10 +10,11 @@ namespace Falcor.Server.Routing
 {
     public static class RouteHelpers
     {
-        public static Route FirstToComplete(this List<Route> routes) =>
+        public static Route FirstToComplete(this RouteCollection routes) =>
             context => FirstToComplete(routes, context, 0);
 
-        private static IObservable<RouteResult> FirstToComplete(IReadOnlyList<Route> routes, RequestContext context, int index)
+        private static IObservable<RouteResult> FirstToComplete(RouteCollection routes, RequestContext context,
+            int index)
         {
             if (routes.Count > index)
             {
@@ -24,16 +25,16 @@ namespace Falcor.Server.Routing
             return context.Reject();
         }
 
-        public static Route ForMethod(this Route inner, FalcorMethod routeMethod)
-        {
-            return ExtractMethod(requestMethod => routeMethod == requestMethod ? inner : Reject());
-        }
+        public static Route ForMethod(this Route inner, FalcorMethod routeMethod) =>
+            ExtractMethod(requestMethod => routeMethod == requestMethod ? inner : Reject());
 
         public static Route Reject(string error = null) => context => context.Reject(error);
 
-        private static Route ExtractMethod(Func<FalcorMethod, Route> inner) => Extract(context => context.Request.Method, inner);
+        private static Route ExtractMethod(Func<FalcorMethod, Route> inner)
+            => Extract(context => context.Request.Method, inner);
 
-        public static Route Extract<T>(Func<RequestContext, T> extractor, Func<T, Route> inner) => context => inner(extractor(context))(context);
+        public static Route Extract<T>(Func<RequestContext, T> extractor, Func<T, Route> inner)
+            => context => inner(extractor(context))(context);
 
 
         internal static Route MatchAndBindParameters(this Route inner, IReadOnlyList<PathMatcher> pathMatchers)
@@ -56,18 +57,24 @@ namespace Falcor.Server.Routing
                 var parameters = new DynamicDictionary();
                 matches.Where(m => m.HasValue && m.HasValue).ToList().ForEach(m => parameters.Add(m.Name, m.Value));
                 return inner(context.WithUnmatched(unmatched, parameters))
-                // Only allow partial matches if we have a ref in the results
-                .Select(result => result.IsComplete && result.UnmatchedPath.Any() && !result.Values.Any(pv => pv.Value is Ref) ? RouteResult.Reject($"Unhandled key segments: {result.UnmatchedPath}") : result);
+                    // Only allow partial matches if we have a ref in the results
+                    .Select(
+                        result =>
+                            result.IsComplete && result.UnmatchedPath.Any() && !result.Values.Any(pv => pv.Value is Ref)
+                                ? RouteResult.Reject($"Unhandled key segments: {result.UnmatchedPath}")
+                                : result);
             };
         }
 
         public static Route ToRoute(this RouteHandler handler)
         {
-            return context =>
-            {
-                return ((Task<RouteHandlerResult>)handler(context.Parameters)).ToObservable().Select(handlerResult => handlerResult.ToRouteResult(context.Unmatched));
-            };
+            return
+                context =>
+                {
+                    return
+                        ((Task<RouteHandlerResult>) handler(context.Parameters)).ToObservable()
+                            .Select(handlerResult => handlerResult.ToRouteResult(context.Unmatched));
+                };
         }
-
     }
 }

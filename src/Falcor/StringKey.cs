@@ -5,6 +5,18 @@ namespace Falcor
 {
     public sealed class StringKey : SimpleKey, IEquatable<StringKey>, IEquatable<string>
     {
+        public StringKey(string value)
+        {
+            Util.ThrowIfArgumentNull(value, nameof(value));
+            Value = value;
+        }
+
+        public string Value { get; }
+        public override KeyType KeyType { get; } = KeyType.String;
+
+
+        public bool Equals(string other) => string.Equals(Value, other);
+
         public bool Equals(StringKey other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -20,18 +32,7 @@ namespace Falcor
             return obj is StringKey && Equals((StringKey)obj);
         }
 
-        public string Value { get; }
-        public override KeyType KeyType { get; } = KeyType.String;
         public override JToken ToJToken() => JToken.FromObject(Value);
-        public StringKey(string value)
-        {
-            Util.ThrowIfArgumentNull(value, nameof(value));
-            Value = value;
-        }
-
-        protected StringKey(StringKey key)
-            : this(key.Value)
-        { }
 
         public override int GetHashCode()
         {
@@ -41,11 +42,8 @@ namespace Falcor
             }
         }
 
-        public static implicit operator string (StringKey stringKey) => stringKey.Value;
+        public static implicit operator string(StringKey stringKey) => stringKey.Value;
         public static implicit operator StringKey(string value) => new StringKey(value);
-
-
-        public bool Equals(string other) => string.Equals(Value, other);
         public override string ToString() => Value;
     }
 }

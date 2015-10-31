@@ -11,8 +11,17 @@ namespace Falcor.Server.Routing
         }
 
         public override bool IsComplete { get; } = false;
-        public override ICollection<PathValue> Values { get { throw new InvalidOperationException(); } }
-        public override FalcorPath UnmatchedPath { get { throw new InvalidOperationException(); } }
+
+        public override ICollection<PathValue> Values
+        {
+            get { throw new InvalidOperationException(); }
+        }
+
+        public override FalcorPath UnmatchedPath
+        {
+            get { throw new InvalidOperationException(); }
+        }
+
         public override string Error { get; }
     }
 }

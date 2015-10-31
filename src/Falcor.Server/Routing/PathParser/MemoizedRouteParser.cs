@@ -4,7 +4,9 @@ namespace Falcor.Server.Routing.PathParser
 {
     internal sealed class MemoizedRouteParser : IRouteParser
     {
-        private static readonly Dictionary<string, IReadOnlyList<PathMatcher>> RouteParsingCache = new Dictionary<string, IReadOnlyList<PathMatcher>>();
+        private static readonly Dictionary<string, IReadOnlyList<PathMatcher>> RouteParsingCache =
+            new Dictionary<string, IReadOnlyList<PathMatcher>>();
+
         private readonly IRouteParser _innerParser;
 
         public MemoizedRouteParser(IRouteParser innerParser)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Falcor
+﻿namespace Falcor
 {
     public abstract class SimpleKey : KeySegment
     {

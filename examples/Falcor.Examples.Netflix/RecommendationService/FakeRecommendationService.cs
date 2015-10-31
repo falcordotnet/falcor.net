@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Falcor.Examples.Netflix.RecommendationService
 {
-    public class RecommendationService : IRecommendationService
+    public class FakeRecommendationService : IRecommendationService
     {
         private static List<string> Genres { get; } = new List<string>
         {

@@ -21,15 +21,19 @@
             source: new falcor.HttpDataSource('/model.json')
         });
 
+        var model = new falcor.Model({
+            source: new falcor.HttpDataSource('/model.json')
+        });
+
         var getGenreLists = function () {
             model.boxValues().get(['genrelist', 1, 'name']).then(logJson, logJsonError);
         }
 
         // This works fine
-        getGenreLists();
+        //getGenreLists();
 
         // This gets error: "Uncaught MaxRetryExceededError: The allowed number of retries have been exceeded."
-        setTimeout(getGenreLists, expires * 2);
+        //setTimeout(getGenreLists, expires * 2);
 
 
 
@@ -42,12 +46,13 @@
 
         // Get a single path (using range)
         //model.get('titlesById[2..5]["rating", "userRating"]').then(logJson, logJsonError);
+        //model.get(['titlesById', { from: 2, to: 5 }, ["rating", "userRating"]]).then(logJson, logJsonError);
 
         // Get single path using a numeric key set
         //model.get('genrelist[1,3,5].name').then(logJson, logJsonError);
 
         // Get multiple paths using multiple ranges
-        //model.get('genrelist[1..3].name', 'genrelist[10..12].name').then(logJson, logJsonError);
+        model.get('genrelist[1..3].name', 'genrelist[10..12].name').then(logJson, logJsonError);
 
         //getGenreLists();
     </script>

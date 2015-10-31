@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Falcor
@@ -9,6 +7,9 @@ namespace Falcor
     {
         public abstract bool IsValue { get; }
         public bool IsTree => !IsValue;
+
+
+        public abstract JToken ToJToken();
         public virtual FalcorValue AsValue() => null;
         public virtual FalcorTree AsTree() => null;
         public abstract T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree);
@@ -37,8 +38,5 @@ namespace Falcor
             //    var head = path.First();
             //});
         }
-
-
-        public abstract JToken ToJToken();
     }
 }

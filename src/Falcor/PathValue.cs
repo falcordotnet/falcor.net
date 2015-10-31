@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace Falcor
+﻿namespace Falcor
 {
     public class PathValue
     {
@@ -14,7 +12,4 @@ namespace Falcor
         //public FalcorValue Value { get; }
         public object Value { get; }
     }
-
-
-    
 }

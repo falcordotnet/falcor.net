@@ -22,7 +22,7 @@ namespace Falcor.Examples.Netflix
                     if (rating == null) return path.Keys("userRating", "rating").Undefined();
                     if (rating.Error) return path.Keys("userRating", "rating").Error(rating.ErrorMessage);
                     return path
-                        .Key("userRating").Atom(rating.UserRating)
+                        .Key("userRating").Atom(rating.UserRating, TimeSpan.FromSeconds(-3))
                         .Key("rating").Atom(rating.Rating);
                 });
 

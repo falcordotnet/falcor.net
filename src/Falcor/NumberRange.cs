@@ -11,29 +11,6 @@ namespace Falcor
     [JsonObject(MemberSerialization.OptIn)]
     public sealed class NumberRange : NumericKey, IEquatable<NumberRange>, IEnumerable<int>
     {
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj is NumberRange && Equals((NumberRange)obj);
-        }
-
-        private IEnumerable<int> AsEnumerable()
-        {
-            for (var i = From; i <= To; i++)
-                yield return i;
-        }
-        public override KeyType KeyType { get; } = KeyType.Range;
-
-        [JsonProperty]
-        public int From { get; }
-
-        /// <summary>
-        /// To value of the range
-        /// </summary>
-        [JsonProperty]
-        public int To { get; }
-
         public NumberRange(int from, int to, bool inclusive = true)
         {
             if (inclusive)
@@ -45,7 +22,45 @@ namespace Falcor
             To = inclusive ? to : (to - 1);
         }
 
-        public NumberRange(int value) : this(value, value) { }
+        public NumberRange(int value) : this(value, value)
+        {
+        }
+
+        public override KeyType KeyType { get; } = KeyType.Range;
+
+        [JsonProperty]
+        public int From { get; }
+
+        /// <summary>
+        ///     To value of the range
+        /// </summary>
+        [JsonProperty]
+        public int To { get; }
+
+        [DebuggerStepThrough]
+        public IEnumerator<int> GetEnumerator() => AsEnumerable().GetEnumerator();
+
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public bool Equals(NumberRange other)
+        {
+            if (other == null) return false;
+            return To == other.To && From == other.From;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj is NumberRange && Equals((NumberRange) obj);
+        }
+
+        private IEnumerable<int> AsEnumerable()
+        {
+            for (var i = From; i <= To; i++)
+                yield return i;
+        }
 
         public override NumberRange AsRange() => this;
 
@@ -60,24 +75,12 @@ namespace Falcor
         {
             unchecked
             {
-                var hashCode = (int)KeyType;
-                hashCode = (hashCode * 397) ^ From.GetHashCode();
-                hashCode = (hashCode * 397) ^ To.GetHashCode();
+                var hashCode = (int) KeyType;
+                hashCode = (hashCode*397) ^ From.GetHashCode();
+                hashCode = (hashCode*397) ^ To.GetHashCode();
                 return hashCode;
             }
         }
-
-        public bool Equals(NumberRange other)
-        {
-            if (other == null) return false;
-            return To == other.To && From == other.From;
-        }
-
-        [DebuggerStepThrough]
-        public IEnumerator<int> GetEnumerator() => AsEnumerable().GetEnumerator();
-
-        [DebuggerStepThrough]
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public static implicit operator List<int>(NumberRange range) => range.ToList();
     }

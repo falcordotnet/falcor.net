@@ -11,6 +11,8 @@
     <AssemblyName>Falcor.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,23 +66,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FalcorPathExtensions.cs" />
-    <Compile Include="FalcorRouterConfiguration.cs" />
-    <Compile Include="FalcorRouterExtensions.cs" />
+    <Compile Include="Routing\FalcorRouterConfiguration.cs" />
+    <Compile Include="Routing\IRouter.cs" />
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
+    <Compile Include="Routing\RouteCollection.cs" />
+    <Compile Include="Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Routing\RoutingEngine.cs" />
     <Compile Include="Routing\CompleteHandlerResult.cs" />
     <Compile Include="Routing\ErrorHandlerResult.cs" />
     <Compile Include="Routing\FalcorRequest.cs" />
     <Compile Include="Routing\FalcorResponse.cs" />
     <Compile Include="Routing\FalcorResponseBuilder.cs" />
-    <Compile Include="Routing\IPathValueUndefinedResult.cs" />
+    <Compile Include="Routing\PathValueResultHelper.cs" />
     <Compile Include="Routing\PathParser\IPathParser.cs" />
     <Compile Include="Routing\IResponseSerializer.cs" />
     <Compile Include="Routing\PathParser\IRouteParser.cs" />
     <Compile Include="Routing\PathParser\MemoizedPathParser.cs" />
     <Compile Include="Routing\PathParser\SprachePathParser.cs" />
     <Compile Include="Routing\PathParser\SpracheRouteParser.cs" />
-    <Compile Include="Routing\PathValueResultBuilder.cs" />
     <Compile Include="Routing\ResponseSerializer.cs" />
     <Compile Include="Routing\RouteHandler.cs" />
     <Compile Include="Routing\RouteHandlerResult.cs" />
@@ -98,7 +101,6 @@
     <Compile Include="Routing\Route.cs" />
     <Compile Include="Routing\CompleteRouteResult.cs" />
     <Compile Include="Routing\RejectedRouteResult.cs" />
-    <Compile Include="Routing\RouteBuilder.cs" />
     <Compile Include="Routing\RouteResult.cs" />
     <Compile Include="Routing\PathParser\PathGrammar.cs" />
   </ItemGroup>
@@ -112,7 +114,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Routing\NewFolder1\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

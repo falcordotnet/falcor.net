@@ -4,7 +4,8 @@ namespace Falcor
 {
     public class JsonGraphEnvelope
     {
-        public JsonGraphEnvelope(object jsonGraph, IEnumerable<FalcorPath> missing, IEnumerable<FalcorPath> paths = null, IEnumerable<FalcorPath> invalidated = null, IEnumerable<FalcorPath> reportedPaths = null)
+        public JsonGraphEnvelope(object jsonGraph, IEnumerable<FalcorPath> missing, IEnumerable<FalcorPath> paths = null,
+            IEnumerable<FalcorPath> invalidated = null, IEnumerable<FalcorPath> reportedPaths = null)
         {
             JsonGraph = jsonGraph;
             Missing = missing;
@@ -18,6 +19,5 @@ namespace Falcor
         public IEnumerable<FalcorPath> Invalidated { get; }
         public IEnumerable<FalcorPath> Missing { get; }
         public IEnumerable<FalcorPath> ReportedPaths { get; }
-
     }
 }

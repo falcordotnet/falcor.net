@@ -18,6 +18,14 @@ namespace Falcor
 
         public override bool IsValue => false;
 
+        protected override ValueType ValueType { get; } = ValueType.Ref;
+
+        [DebuggerStepThrough]
+        public IEnumerator<KeySegment> GetEnumerator() => _path.GetEnumerator();
+
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {
             throw new NotImplementedException();
@@ -29,14 +37,6 @@ namespace Falcor
             ["value"] = new JArray(_path.Select(k => k.ToJToken()))
         };
 
-        protected override ValueType ValueType { get; } = ValueType.Ref;
-
         public override FalcorPath AsRef() => _path;
-
-        [DebuggerStepThrough]
-        public IEnumerator<KeySegment> GetEnumerator() => _path.GetEnumerator();
-
-        [DebuggerStepThrough]
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -8,8 +8,6 @@ namespace Falcor.Tests.Server.Routing
 {
     public class RouterTests
     {
-        //private static FalcorRouterConfiguration _routerConfiguration = FalcorRouterConfiguration.Create("model.json", config => new TestRouter());
-
         [Scenario]
         public void GetFoo()
         {
@@ -30,6 +28,5 @@ namespace Falcor.Tests.Server.Routing
             Assert.Equal(new List<string> { "1", "2", "3" }, foos.Select(kv => kv.Key));
             Assert.Equal(new List<string> { "Jill-1", "Jill-2", "Jill-3" }, foos.Select(kv => ((Dictionary<string, object>)kv.Value)["name"]));
         }
-
     }
 }

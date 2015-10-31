@@ -20,7 +20,7 @@ namespace Falcor.Server.Routing
 
             IList<IList<string>> paths = _pathValues
                 .Select(pv => pv.Path)
-                .Select(path => (IList<string>)path.Select(key => key.ToString()).ToList())
+                .Select(path => (IList<string>) path.Select(key => key.ToString()).ToList())
                 .ToList();
 
             var response = new FalcorResponse(jsonGraph, paths);
@@ -46,7 +46,7 @@ namespace Falcor.Server.Routing
                 }
                 else
                 {
-                    nextData = (IDictionary<string, object>)jsonGraphNode[key];
+                    nextData = (IDictionary<string, object>) jsonGraphNode[key];
                 }
                 AddPath(nextData, path.Skip(1).ToList(), value);
             }

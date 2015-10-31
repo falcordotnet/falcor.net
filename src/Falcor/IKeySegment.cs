@@ -1,4 +1,6 @@
 namespace Falcor
 {
-    public interface IKeySegment { }
+    public interface IKeySegment
+    {
+    }
 }

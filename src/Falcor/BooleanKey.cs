@@ -24,16 +24,15 @@ namespace Falcor
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is BooleanKey && Equals((BooleanKey)obj);
+            return obj is BooleanKey && Equals((BooleanKey) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_value.GetHashCode() * 397) ^ (int)KeyType;
+                return (_value.GetHashCode()*397) ^ (int) KeyType;
             }
         }
-
     }
 }

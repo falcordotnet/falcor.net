@@ -97,7 +97,6 @@
     <Compile Include="SerializationTests.cs" />
     <Compile Include="Server\Routing\PathMatcherTests.cs" />
     <Compile Include="Server\Routing\ResponseBuilderTests.cs" />
-    <Compile Include="Server\Routing\RouteBuilderTests.cs" />
     <Compile Include="Server\Routing\RouterTests.cs" />
     <Compile Include="Server\Routing\ParserTests.cs" />
     <Compile Include="Server\Routing\TestRouter.cs" />

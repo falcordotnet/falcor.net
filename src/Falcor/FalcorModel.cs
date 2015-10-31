@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace Falcor
 
         public IEnumerator<PathValue> GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

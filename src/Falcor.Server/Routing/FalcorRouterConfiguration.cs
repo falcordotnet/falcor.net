@@ -1,12 +1,10 @@
 using System;
-using Falcor.Server.Routing;
 using Falcor.Server.Routing.PathParser;
 
-namespace Falcor.Server
+namespace Falcor.Server.Routing
 {
     public sealed class FalcorRouterConfiguration
     {
-
         public FalcorRouterConfiguration(string path, Func<FalcorRouterConfiguration, FalcorRouter> routerFactory, IServiceProvider serviceProvider = null)
         {
             Path = path;
@@ -31,7 +29,5 @@ namespace Falcor.Server
 
         public Func<FalcorRouterConfiguration, FalcorRouter> RouterFactory { get; }
         public FalcorRouter Router => RouterFactory(this);
-
-
     }
 }

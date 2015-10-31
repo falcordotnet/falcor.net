@@ -22,7 +22,6 @@ namespace Falcor.Tests.Server.Routing
 
         // Test router helper methods
         public static Task<RouteHandlerResult> Complete(params PathValue[] values) => Complete(values.ToList());
-
         public static Task<RouteHandlerResult> Complete(IEnumerable<PathValue> values)
             => Task.FromResult(FalcorRouter.Complete(values.ToList()));
     }

@@ -8,7 +8,6 @@ namespace Falcor.Server.Routing.PathParser
     {
         public static List<FalcorPath> Empty { get; } = new List<FalcorPath>();
 
-
         public IReadOnlyList<FalcorPath> ParseMany(string paths) =>
             string.IsNullOrWhiteSpace(paths) ? Empty : PathGrammar.Paths.Parse(paths).ToList();
 

@@ -12,9 +12,11 @@ namespace Falcor
             _error = error;
         }
 
-        public override string AsError() => _error;
-
         public override bool IsValue => true;
+
+        protected override ValueType ValueType { get; } = ValueType.Error;
+
+        public override string AsError() => _error;
 
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
         {
@@ -30,8 +32,6 @@ namespace Falcor
             result["value"] = value;
             return result;
         }
-
-        protected override ValueType ValueType { get; } = ValueType.Error;
 
         public override string ToString()
         {

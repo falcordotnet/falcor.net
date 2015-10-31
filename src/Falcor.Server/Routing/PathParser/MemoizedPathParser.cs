@@ -4,13 +4,14 @@ namespace Falcor.Server.Routing.PathParser
 {
     internal sealed class MemoizedPathParser : IPathParser
     {
-        private static IDictionary<string, FalcorPath> PathParsingCache { get; } = new Dictionary<string, FalcorPath>();
         private readonly IPathParser _innnerParser;
 
         public MemoizedPathParser(IPathParser innnerParser)
         {
             _innnerParser = innnerParser;
         }
+
+        private static IDictionary<string, FalcorPath> PathParsingCache { get; } = new Dictionary<string, FalcorPath>();
 
         public IReadOnlyList<FalcorPath> ParseMany(string paths) => _innnerParser.ParseMany(paths);
 

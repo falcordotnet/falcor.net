@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Falcor.Server.Routing
 {
@@ -16,7 +15,9 @@ namespace Falcor.Server.Routing
 
         public static FalcorRequest Get(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Get, paths);
         public static FalcorRequest Get(params KeySegment[] keys) => Get(new FalcorPath(keys));
-        //public static FalcorRequest Set(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Get, paths);
-        //public static FalcorRequest Call(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Get, paths);
+        public static FalcorRequest Set(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Set, paths);
+        public static FalcorRequest Set(params KeySegment[] keys) => Set(new FalcorPath(keys));
+        public static FalcorRequest Call(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Call, paths);
+        public static FalcorRequest Call(params KeySegment[] keys) => Call(new FalcorPath(keys));
     }
 }
