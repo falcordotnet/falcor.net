@@ -10,8 +10,11 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyVersion("0.0.4")]
 [assembly: InternalsVisibleTo("Falcor.Tests")]
 [assembly: AssemblyFileVersion("0.0.4")]
-namespace Falcor.Properties {
-    internal static class AssemblyVersionInformation {
+
+namespace Falcor.Properties
+{
+    internal static class AssemblyVersionInformation
+    {
         internal const string Version = "0.0.4";
     }
 }

@@ -9,11 +9,10 @@ namespace Falcor.Server.Routing
         }
 
 
-
         public override bool IsMatched => true;
         public override bool HasName => Name != null;
         public override bool HasValue => Value != null;
-        public override sealed object Value { get; }
-        public override sealed string Name { get; }
+        public override object Value { get; }
+        public override string Name { get; }
     }
 }

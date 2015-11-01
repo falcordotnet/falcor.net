@@ -29,25 +29,141 @@ namespace Falcor.Server.Routing
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
+
     /// <summary>
-    /// A dynamic dictionary allowing case-insensitive access and returns null when accessing non-existent properties.
+    ///     A dynamic dictionary allowing case-insensitive access and returns null when accessing non-existent properties.
     /// </summary>
     /// <example>
-    /// // Non-existent properties will return null
-    /// dynamic obj = new DynamicDictionary();
-    /// var firstName = obj.FirstName;
-    /// Assert.Null( firstName );
-    /// 
-    /// // Allows case-insensitive property access
-    /// dynamic obj = new DynamicDictionary();
-    /// obj.SuperHeroName = "Superman";
-    /// Assert.That( obj.SUPERMAN == "Superman" );
-    /// Assert.That( obj.superman == "Superman" );
-    /// Assert.That( obj.sUpErMaN == "Superman" );
+    ///     // Non-existent properties will return null
+    ///     dynamic obj = new DynamicDictionary();
+    ///     var firstName = obj.FirstName;
+    ///     Assert.Null( firstName );
+    ///     // Allows case-insensitive property access
+    ///     dynamic obj = new DynamicDictionary();
+    ///     obj.SuperHeroName = "Superman";
+    ///     Assert.That( obj.SUPERMAN == "Superman" );
+    ///     Assert.That( obj.superman == "Superman" );
+    ///     Assert.That( obj.sUpErMaN == "Superman" );
     /// </example>
     internal sealed class DynamicDictionary : DynamicObject, IDictionary<string, object>
     {
-        private readonly IDictionary<string, object> _dictionary = new DefaultValueDictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly IDictionary<string, object> _dictionary =
+            new DefaultValueDictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+
+        #region IEnumerable<KeyValuePair<string,object>> Members
+
+        [DebuggerStepThrough]
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => _dictionary.GetEnumerator();
+
+        #endregion IEnumerable<KeyValuePair<string,object>> Members
+
+        #region IEnumerable Members
+
+        [DebuggerStepThrough]
+        IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
+
+        #endregion IEnumerable Members
+
+        #region Nested Types
+
+        /// <summary>
+        ///     A dictionary that returns the default value when accessing keys that do not exist in the dictionary.
+        /// </summary>
+        public class DefaultValueDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+        {
+            private readonly IDictionary<TKey, TValue> _dictionary;
+
+            #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+            [DebuggerStepThrough]
+            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
+
+            #endregion IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+            #region IEnumerable Members
+
+            [DebuggerStepThrough]
+            IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
+
+            #endregion IEnumerable Members
+
+            #region Constructors
+
+            public DefaultValueDictionary()
+            {
+                _dictionary = new Dictionary<TKey, TValue>();
+            }
+
+            /// <summary>
+            ///     Initializes with an existing dictionary.
+            /// </summary>
+            /// <param name="dictionary"></param>
+            public DefaultValueDictionary(IDictionary<TKey, TValue> dictionary)
+            {
+                _dictionary = dictionary;
+            }
+
+            /// <summary>
+            ///     Initializes using the given equality comparer.
+            /// </summary>
+            /// <param name="comparer"></param>
+            public DefaultValueDictionary(IEqualityComparer<TKey> comparer)
+            {
+                _dictionary = new Dictionary<TKey, TValue>(comparer);
+            }
+
+            #endregion Constructors
+
+            #region IDictionary<string,TValue> Members
+
+            public void Add(TKey key, TValue value) => _dictionary.Add(key, value);
+
+            public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
+
+            public ICollection<TKey> Keys => _dictionary.Keys;
+
+            public bool Remove(TKey key) => _dictionary.Remove(key);
+
+            public bool TryGetValue(TKey key, out TValue value) => _dictionary.TryGetValue(key, out value);
+
+            public ICollection<TValue> Values => _dictionary.Values;
+
+            public TValue this[TKey key]
+            {
+                get
+                {
+                    TValue value;
+
+                    _dictionary.TryGetValue(key, out value);
+
+                    return value;
+                }
+                set { _dictionary[key] = value; }
+            }
+
+            #endregion IDictionary<string,TValue> Members
+
+            #region ICollection<KeyValuePair<string,TValue>> Members
+
+            public void Add(KeyValuePair<TKey, TValue> item) => _dictionary.Add(item);
+
+            public void Clear() => _dictionary.Clear();
+
+            public bool Contains(KeyValuePair<TKey, TValue> item) => _dictionary.Contains(item);
+
+            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+                => _dictionary.CopyTo(array, arrayIndex);
+
+            public int Count => _dictionary.Count;
+
+            public bool IsReadOnly => _dictionary.IsReadOnly;
+
+            public bool Remove(KeyValuePair<TKey, TValue> item) => _dictionary.Remove(item);
+
+            #endregion ICollection<KeyValuePair<TKey,TValue>> Members
+        }
+
+        #endregion Nested Types
 
         #region DynamicObject Overrides
 
@@ -125,7 +241,8 @@ namespace Falcor.Server.Routing
 
         public bool Contains(KeyValuePair<string, object> item) => _dictionary.Contains(item);
 
-        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex) => _dictionary.CopyTo(array, arrayIndex);
+        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+            => _dictionary.CopyTo(array, arrayIndex);
 
         public int Count => _dictionary.Count;
 
@@ -134,119 +251,5 @@ namespace Falcor.Server.Routing
         public bool Remove(KeyValuePair<string, object> item) => _dictionary.Remove(item);
 
         #endregion ICollection<KeyValuePair<string,object>> Members
-
-        #region IEnumerable<KeyValuePair<string,object>> Members
-
-        [DebuggerStepThrough]
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => _dictionary.GetEnumerator();
-
-        #endregion IEnumerable<KeyValuePair<string,object>> Members
-
-        #region IEnumerable Members
-
-        [DebuggerStepThrough]
-        IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
-
-        #endregion IEnumerable Members
-
-        #region Nested Types
-
-        /// <summary>
-        /// A dictionary that returns the default value when accessing keys that do not exist in the dictionary.
-        /// </summary>
-        public class DefaultValueDictionary<TKey, TValue> : IDictionary<TKey, TValue>
-        {
-            private readonly IDictionary<TKey, TValue> _dictionary;
-
-            #region Constructors
-
-            public DefaultValueDictionary()
-            {
-                _dictionary = new Dictionary<TKey, TValue>();
-            }
-
-            /// <summary>
-            /// Initializes with an existing dictionary.
-            /// </summary>
-            /// <param name="dictionary"></param>
-            public DefaultValueDictionary(IDictionary<TKey, TValue> dictionary)
-            {
-                _dictionary = dictionary;
-            }
-
-            /// <summary>
-            /// Initializes using the given equality comparer.
-            /// </summary>
-            /// <param name="comparer"></param>
-            public DefaultValueDictionary(IEqualityComparer<TKey> comparer)
-            {
-                _dictionary = new Dictionary<TKey, TValue>(comparer);
-            }
-
-            #endregion Constructors
-
-            #region IDictionary<string,TValue> Members
-
-            public void Add(TKey key, TValue value) => _dictionary.Add(key, value);
-
-            public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
-
-            public ICollection<TKey> Keys => _dictionary.Keys;
-
-            public bool Remove(TKey key) => _dictionary.Remove(key);
-
-            public bool TryGetValue(TKey key, out TValue value) => _dictionary.TryGetValue(key, out value);
-
-            public ICollection<TValue> Values => _dictionary.Values;
-
-            public TValue this[TKey key]
-            {
-                get
-                {
-                    TValue value;
-
-                    _dictionary.TryGetValue(key, out value);
-
-                    return value;
-                }
-                set { _dictionary[key] = value; }
-            }
-
-            #endregion IDictionary<string,TValue> Members
-
-            #region ICollection<KeyValuePair<string,TValue>> Members
-
-            public void Add(KeyValuePair<TKey, TValue> item) => _dictionary.Add(item);
-
-            public void Clear() => _dictionary.Clear();
-
-            public bool Contains(KeyValuePair<TKey, TValue> item) => _dictionary.Contains(item);
-
-            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => _dictionary.CopyTo(array, arrayIndex);
-
-            public int Count => _dictionary.Count;
-
-            public bool IsReadOnly => _dictionary.IsReadOnly;
-
-            public bool Remove(KeyValuePair<TKey, TValue> item) => _dictionary.Remove(item);
-
-            #endregion ICollection<KeyValuePair<TKey,TValue>> Members
-
-            #region IEnumerable<KeyValuePair<TKey,TValue>> Members
-
-            [DebuggerStepThrough]
-            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
-
-            #endregion IEnumerable<KeyValuePair<TKey,TValue>> Members
-
-            #region IEnumerable Members
-
-            [DebuggerStepThrough]
-            IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
-
-            #endregion IEnumerable Members
-        }
-
-        #endregion Nested Types
     }
 }

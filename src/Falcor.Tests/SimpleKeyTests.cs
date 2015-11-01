@@ -1,4 +1,6 @@
 namespace Falcor.Tests
 {
-    public class SimpleKeyTests { }
+    public class SimpleKeyTests
+    {
+    }
 }

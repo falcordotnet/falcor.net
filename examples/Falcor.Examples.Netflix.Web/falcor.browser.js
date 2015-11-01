@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Copyright 2015 Netflix, Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -3518,7 +3518,7 @@ function subscribeToResponse(observer) {
     var boundCallPath = boundPath.concat(callPath);
 
     /*eslint-disable consistent-return*/
-    // Precisely the same error as the router when a call function does not
+    // Precisely the same error as the falcorRouter when a call function does not
     // exist.
     if (!model._source) {
         observer.onError(new Error("function does not exist"));

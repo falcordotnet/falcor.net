@@ -36,7 +36,8 @@ namespace Falcor.Server.Routing
     }
 
     // Helper
-    internal class PathValueResultHelper : IPathValueBuilder, IPathValueBuilderWithKey, IPathValueBuilderIntermediateResult
+    internal class PathValueResultHelper : IPathValueBuilder, IPathValueBuilderWithKey,
+        IPathValueBuilderIntermediateResult
     {
         public PathValueResultHelper(FalcorPath path, IReadOnlyList<KeySegment> keys = null,
             IReadOnlyList<PathValue> results = null)
@@ -83,6 +84,6 @@ namespace Falcor.Server.Routing
             new PathValueResultHelper(Path, CurrentKeys,
                 Results.Concat(CurrentKeys.Any()
                     ? CurrentKeys.Select(k => new PathValue(Path.Append(k), value))
-                    : new List<PathValue> { new PathValue(Path, value) }).ToList());
+                    : new List<PathValue> {new PathValue(Path, value)}).ToList());
     }
 }

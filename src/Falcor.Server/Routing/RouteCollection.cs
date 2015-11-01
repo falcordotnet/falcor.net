@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Falcor.Server.Routing
 {
@@ -24,5 +26,10 @@ namespace Falcor.Server.Routing
             get { return _routes[index]; }
             set { _routes[index] = value; }
         }
+    }
+
+    public interface IBatchProxy
+    {
+        Task<TResult> Batch<TParam, TResult>(TParam parameters, Func<TParam, TResult> batchable);
     }
 }

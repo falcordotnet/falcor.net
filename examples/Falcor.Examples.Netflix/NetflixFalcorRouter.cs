@@ -7,9 +7,10 @@ using Falcor.Server;
 
 namespace Falcor.Examples.Netflix
 {
-    public class NetflixRouter : FalcorRouter
+    public class NetflixFalcorRouter : FalcorRouter
     {
-        public NetflixRouter(IRatingService ratingService, IRecommendationService recommendationService, int userId)
+        public NetflixFalcorRouter(IRatingService ratingService, IRecommendationService recommendationService,
+            int userId)
         {
             Get["titlesById[{ranges:titleIds}]['rating', 'userRating']"] = async parameters =>
             {

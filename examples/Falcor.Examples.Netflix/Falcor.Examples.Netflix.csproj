@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ListExtensions.cs" />
-    <Compile Include="NetflixRouter.cs" />
+    <Compile Include="NetflixFalcorRouter.cs" />
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="RatingService\FakeRatingService.cs" />
     <Compile Include="RatingService\IRatingService.cs" />

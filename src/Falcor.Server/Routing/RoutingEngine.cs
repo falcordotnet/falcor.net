@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -6,25 +7,23 @@ using System.Threading.Tasks;
 
 namespace Falcor.Server.Routing
 {
-    public class RoutingEngine : IRouter
+    public class RoutingEngine : IFalcorRouter
     {
-        private readonly FalcorResponseBuilder _responseBuilder = new FalcorResponseBuilder();
-
+        private readonly List<PathValue> _results = new List<PathValue>();
         private Lazy<Route> LazyRootRoute => new Lazy<Route>(() => Routes.FirstToComplete());
         private Route RootRoute => LazyRootRoute.Value;
         public RouteCollection Routes { get; } = new RouteCollection();
 
         public async Task<FalcorResponse> RouteAsync(FalcorRequest request)
         {
-            var result = await Route(request).ToList().ToTask();
-            var response = _responseBuilder.CreateResponse();
+            await Route(request).ToList().ToTask();
+            var response = FalcorResponse.From(_results);
             return response;
         }
 
-        // Routing
         private IObservable<PathValue> Resolve(Route route, RequestContext context)
         {
-            if (!context.Unmatched.Any() || _responseBuilder.Contains(context.Unmatched))
+            if (!context.Unmatched.Any() || _results.Any(pv => pv.Path.Equals(context.Unmatched)))
                 return Observable.Empty<PathValue>();
 
             var results = route(context).SelectMany(result =>
@@ -34,7 +33,7 @@ namespace Falcor.Server.Routing
                     var pathValues = result.Values;
                     if (pathValues.Any())
                     {
-                        _responseBuilder.AddRange(pathValues);
+                        _results.AddRange(pathValues);
                         if (result.UnmatchedPath.Any())
                         {
                             return pathValues.ToObservable()
@@ -52,7 +51,7 @@ namespace Falcor.Server.Routing
                 else
                 {
                     var error = new Error(result.Error);
-                    _responseBuilder.Add(context.Unmatched, error);
+                    _results.Add(new PathValue(context.Unmatched, error));
                     return Observable.Return(new PathValue(context.Unmatched, error));
                 }
                 return Observable.Empty<PathValue>();
@@ -61,7 +60,7 @@ namespace Falcor.Server.Routing
             return results;
         }
 
-        public IObservable<PathValue> Route(FalcorRequest request) =>
+        private IObservable<PathValue> Route(FalcorRequest request) =>
             request.Paths.ToObservable()
                 .SelectMany(unmatched => Resolve(RootRoute, new RequestContext(request, unmatched)));
     }

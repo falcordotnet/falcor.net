@@ -28,8 +28,8 @@ namespace Falcor
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj is string) return Equals((string)obj);
-            return obj is StringKey && Equals((StringKey)obj);
+            if (obj is string) return Equals((string) obj);
+            return obj is StringKey && Equals((StringKey) obj);
         }
 
         public override JToken ToJToken() => JToken.FromObject(Value);
@@ -38,7 +38,7 @@ namespace Falcor
         {
             unchecked
             {
-                return ((Value != null ? Value.GetHashCode() : 0) * 397) ^ (int)KeyType;
+                return ((Value != null ? Value.GetHashCode() : 0)*397) ^ (int) KeyType;
             }
         }
 

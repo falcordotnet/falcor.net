@@ -20,44 +20,12 @@ namespace Falcor.Server.Routing.PathParser
             from booleanString in Text("true").Or(Text("false"))
             select bool.Parse(booleanString);
 
-        public static readonly Parser<int> Number = Parse.Digit.AtLeastOnce().Select(chs => int.Parse(new string(chs.ToArray())));
+        public static readonly Parser<int> Number =
+            Parse.Digit.AtLeastOnce().Select(chs => int.Parse(new string(chs.ToArray())));
+
         public static readonly Parser<string> SingleQuotedString = Parse.LetterOrDigit.Many().Text().SingleQuoted();
         public static readonly Parser<string> DoubleQuotedString = Parse.LetterOrDigit.Many().Text().DoubleQuoted();
         public static readonly Parser<string> QuotedString = SingleQuotedString.Or(DoubleQuotedString);
-
-        // Helpers
-        public static Parser<string> Text(string s) => Parse.String(s).Text();
-
-        public static Parser<T> Bracketed<T>(this Parser<T> parser) =>
-            from openBracket in OpeningBracket
-            from item in parser
-            from closeBracket in ClosingBracket
-            select item;
-
-        public static Parser<T> Braced<T>(this Parser<T> parser) =>
-            from openBrace in OpeningBrace
-            from item in parser
-            from closeBrace in ClosingBrace
-            select item;
-
-        public static Parser<T> DoubleQuoted<T>(this Parser<T> parser) =>
-            from openQuote in DoubleQuote
-            from item in parser.Except(DoubleQuote)
-            from closeQuote in DoubleQuote
-            select item;
-
-        public static Parser<T> SingleQuoted<T>(this Parser<T> parser) =>
-            from openQuote in SingleQuote
-            from item in parser.Except(SingleQuote)
-            from closeQuote in SingleQuote
-            select item;
-
-        static IEnumerable<T> Cons<T>(T head, IEnumerable<T> rest)
-        {
-            yield return head;
-            foreach (var item in rest)
-                yield return item;
-        }
 
         // General Parsers
         public static readonly Parser<IEnumerable<string>> CommaSeperatedQuotedStrings =
@@ -152,8 +120,44 @@ namespace Falcor.Server.Routing.PathParser
             from closingBrace in ClosingBrace
             from closingBracket in ClosingBracket
             let name = maybeName.GetOrElse(null)
-            select pattern == "ranges" ? PathMatchers.RangesPattern(name)
-                : pattern == "integers" ? PathMatchers.IntegersPattern(name)
-                : pattern == "keys" ? PathMatchers.KeysPattern(name) : null;
+            select pattern == "ranges"
+                ? PathMatchers.RangesPattern(name)
+                : pattern == "integers"
+                    ? PathMatchers.IntegersPattern(name)
+                    : pattern == "keys" ? PathMatchers.KeysPattern(name) : null;
+
+        // Helpers
+        public static Parser<string> Text(string s) => Parse.String(s).Text();
+
+        public static Parser<T> Bracketed<T>(this Parser<T> parser) =>
+            from openBracket in OpeningBracket
+            from item in parser
+            from closeBracket in ClosingBracket
+            select item;
+
+        public static Parser<T> Braced<T>(this Parser<T> parser) =>
+            from openBrace in OpeningBrace
+            from item in parser
+            from closeBrace in ClosingBrace
+            select item;
+
+        public static Parser<T> DoubleQuoted<T>(this Parser<T> parser) =>
+            from openQuote in DoubleQuote
+            from item in parser.Except(DoubleQuote)
+            from closeQuote in DoubleQuote
+            select item;
+
+        public static Parser<T> SingleQuoted<T>(this Parser<T> parser) =>
+            from openQuote in SingleQuote
+            from item in parser.Except(SingleQuote)
+            from closeQuote in SingleQuote
+            select item;
+
+        private static IEnumerable<T> Cons<T>(T head, IEnumerable<T> rest)
+        {
+            yield return head;
+            foreach (var item in rest)
+                yield return item;
+        }
     }
 }

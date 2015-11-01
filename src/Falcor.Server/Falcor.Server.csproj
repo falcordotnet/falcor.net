@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Routing\FalcorRouterConfiguration.cs" />
-    <Compile Include="Routing\IRouter.cs" />
+    <Compile Include="Routing\IFalcorRouter.cs" />
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="Routing\RouteCollection.cs" />
     <Compile Include="Routing\RouteCollectionExtensions.cs" />
@@ -76,7 +76,6 @@
     <Compile Include="Routing\ErrorHandlerResult.cs" />
     <Compile Include="Routing\FalcorRequest.cs" />
     <Compile Include="Routing\FalcorResponse.cs" />
-    <Compile Include="Routing\FalcorResponseBuilder.cs" />
     <Compile Include="Routing\PathValueResultHelper.cs" />
     <Compile Include="Routing\PathParser\IPathParser.cs" />
     <Compile Include="Routing\IResponseSerializer.cs" />

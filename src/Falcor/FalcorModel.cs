@@ -18,10 +18,7 @@ namespace Falcor
             throw new NotImplementedException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public bool Contains(FalcorPath path) => _cache.Contains(path);
     }

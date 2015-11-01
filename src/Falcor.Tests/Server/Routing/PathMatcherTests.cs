@@ -12,7 +12,7 @@ namespace Falcor.Tests.Server.Routing
         public void KeySetMatcher()
         {
             var keySetMatcher = PathMatchers.KeySet("foo", "bar");
-            new List<MatchResult>()
+            new List<MatchResult>
             {
                 keySetMatcher(new KeySet("foo", "bar")),
                 keySetMatcher(new KeySet("foo")),

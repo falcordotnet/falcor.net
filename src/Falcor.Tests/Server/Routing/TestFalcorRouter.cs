@@ -6,9 +6,9 @@ using Falcor.Server.Routing;
 
 namespace Falcor.Tests.Server.Routing
 {
-    public class TestRouter : FalcorRouter
+    public class TestFalcorRouter : FalcorRouter
     {
-        public TestRouter()
+        public TestFalcorRouter()
         {
             Get["foo[{integers:ids}].name"] = parameters =>
             {
@@ -20,8 +20,9 @@ namespace Falcor.Tests.Server.Routing
             Get["foo"] = parameters => Complete(new PathValue(new FalcorPath("foo"), "bar"));
         }
 
-        // Test router helper methods
+        // Test helper methods
         public static Task<RouteHandlerResult> Complete(params PathValue[] values) => Complete(values.ToList());
+
         public static Task<RouteHandlerResult> Complete(IEnumerable<PathValue> values)
             => Task.FromResult(FalcorRouter.Complete(values.ToList()));
     }

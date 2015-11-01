@@ -17,7 +17,9 @@ namespace Falcor.Examples.Netflix.RatingService
         public int UserRating { get; }
         public int Rating { get; }
 
-        public static RatingResult SuccessResult(int titleId, int userRating, int rating) => new RatingResult(titleId, userRating, rating);
+        public static RatingResult SuccessResult(int titleId, int userRating, int rating)
+            => new RatingResult(titleId, userRating, rating);
+
         public static RatingResult ErrorResult(int titleId, string error) => new RatingResult(titleId, error);
     }
 }
