@@ -5,9 +5,9 @@
 # Falcor.NET [![Build status](https://ci.appveyor.com/api/projects/status/y7ybdqvvcrpxl1kq?svg=true)](https://ci.appveyor.com/project/CraigSmitham/falcor-net) [![NuGet package version](https://img.shields.io/nuget/v/Falcor.svg?style=flat)](https://www.nuget.org/packages/Falcor.Server.Owin)  [![Coverity](https://scan.coverity.com/projects/6781/badge.svg)](https://scan.coverity.com/projects/falcordotnet-falcor-net) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/falcordotnet/falcor.net)
 
 ## What is Falcor?
-Falcor is an approach pioneered by Netflix that enables you to quickly build a data-driven APIs that deliver efficient payloads to a variety of client form factors, and is able to adapt quickly to changing data access patterns as your application evolves. 
+Falcor is an approach pioneered by Netflix that enables you to quickly build a data-driven APIs that deliver efficient payloads to a variety of client form factors, and is able to adapt quickly to changing data access patterns as your application evolves.
 
-Falcor provides many of the benefits of both REST and RPC, while addressing shortcomings these approaches face when building modern web applications. 
+Falcor provides many of the benefits of both REST and RPC, while addressing shortcomings these approaches face when building modern web applications.
 
 ## Release Status: _Developer Preview_
 **Falcor.NET will remain in developer preview** until a stable client and server reference version is released from Netflix all baseline functionality is implemented. Follow progress on this GitHub issue: https://github.com/falcordotnet/falcor.net/issues/1
@@ -29,11 +29,11 @@ To get started with Falcor.NET, follow these steps:
    {
        public HelloWorldRouter()
        {
-           // Route to match a JSON path, in this case the 'message' member 
+           // Route to match a JSON path, in this case the 'message' member
            // of the root JSON node of the virtual JSON Graph
            Get["message"] = async _ =>
            {
-               var result = await Task.FromResult(Path("hello"message").Atom("Hello World"));
+               var result = await Task.FromResult(Path("message").Atom("Hello World"));
                return Complete(result);
            };
            // Define additional routes for your virtual model here
@@ -49,7 +49,7 @@ To get started with Falcor.NET, follow these steps:
    {
        public void Configuration(IAppBuilder app)
        {
-           app.UseFalcor("/helloWolrdModel.json", routerFactory: config => new HelloWorldRouter());
+           app.UseFalcor("/helloWorldModel.json", routerFactory: config => new HelloWorldRouter());
            ...
        }
    }
@@ -75,9 +75,9 @@ To get started with Falcor.NET, follow these steps:
      }
   }
   ````
-  
+
 <h1 id="uses">When To Use Falcor</h1>
-**_Consider the Falcor approach when you are developing a client/server architecture that is intended to provide a rich client user experience._** 
+**_Consider the Falcor approach when you are developing a client/server architecture that is intended to provide a rich client user experience._**
 
 | *Good Fit*                                                                                     | *Poor Fit*                                                                        |
 |------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
