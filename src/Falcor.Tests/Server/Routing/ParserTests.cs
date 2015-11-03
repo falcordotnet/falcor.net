@@ -86,7 +86,12 @@ namespace Falcor.Tests.Server.Routing
         [Example(@"""foo""", "foo")]
         [Example(@"""bar""", "bar")]
         [Example(@"""baz""", "baz")]
-        public void StringKey(string input, string expected) =>
+		[Example(@"""51f2928f34""", "51f2928f34")]
+		[Example(@"""9bdc2705-75d8-4ae0-9a9a-fd7d47b75113""", "9bdc2705-75d8-4ae0-9a9a-fd7d47b75113")]
+		[Example(@"""1""", "1")]
+		[Example(@""" 1 """, " 1 ")]
+		[Example("\"\tfoo\t\"", "\tfoo\t")]
+		public void StringKeyParser(string input, string expected) =>
             Assert.Equal(new StringKey(expected), PathGrammar.StringKey.Parse(input));
 
 
