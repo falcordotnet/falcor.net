@@ -165,7 +165,11 @@ namespace Falcor.Tests.Server.Routing
 
             var path7 = @"[""genrelist"", [0,1,2], ""name""]";
             var path7Expected = Path("genrelist", new NumericSet(0, 1, 2), "name");
-            Assert.Equal(path6Expected, path6parsed);
+
+			var path8 = @"[""genrelist"", [""51f2928f34"",""a32e8912f34""], ""name""]";
+			var path8Expected = Path("genrelist", new KeySet("51f2928f34", "a32e8912f34"), "name");
+
+			Assert.Equal(path6Expected, path6parsed);
 
 
             new List<PathParsingTest>
@@ -176,7 +180,8 @@ namespace Falcor.Tests.Server.Routing
                 Paths(path4).ShouldEqual(path4Expected),
                 Paths(path5).ShouldEqual(path5Expected),
                 Paths(path7).ShouldEqual(path7Expected),
-                Paths(path1, path2, path3).ShouldEqual(path1Expected, path2Expected, path3Expected),
+				Paths(path8).ShouldEqual(path8Expected),
+				Paths(path1, path2, path3).ShouldEqual(path1Expected, path2Expected, path3Expected),
                 Paths(path4, path1, path2, path3)
                     .ShouldEqual(path4Expected, path1Expected, path2Expected, path3Expected)
             }.ForEach(test =>
