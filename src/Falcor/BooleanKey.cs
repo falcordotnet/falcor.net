@@ -13,7 +13,7 @@ namespace Falcor
 
         public override KeyType KeyType { get; } = KeyType.Boolean;
         public override bool AsBoolean() => _value;
-        public override JToken ToJToken() => JToken.FromObject(_value);
+        public override JToken ToJson() => JToken.FromObject(_value);
 
         private bool Equals(BooleanKey other)
         {

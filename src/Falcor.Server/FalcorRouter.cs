@@ -28,7 +28,7 @@ namespace Falcor.Server
             => new PathValueResultHelper(FalcorPath.From(keys));
 
         public static IPathValueBuilder Path(FalcorPath path) => new PathValueResultHelper(path);
-        public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue> {value});
+        public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue> { value });
 
         protected static RouteHandlerResult Complete(IEnumerable<IEnumerable<PathValue>> values)
             => Complete(values.SelectMany(v => v.ToList()));

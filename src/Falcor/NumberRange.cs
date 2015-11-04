@@ -65,7 +65,7 @@ namespace Falcor
         public override NumberRange AsRange() => this;
 
         public override SortedSet<int> AsSortedNumberSet() => new SortedSet<int>(AsEnumerable());
-        public override JToken ToJToken() => JToken.FromObject(this);
+        public override JToken ToJson() => JToken.FromObject(this);
 
         public static bool operator ==(NumberRange lhs, NumberRange rhs) => Util.IfBothNullOrEquals(lhs, rhs);
 

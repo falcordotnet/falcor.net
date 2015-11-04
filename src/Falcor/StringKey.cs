@@ -32,7 +32,7 @@ namespace Falcor
             return obj is StringKey && Equals((StringKey) obj);
         }
 
-        public override JToken ToJToken() => JToken.FromObject(Value);
+        public override JToken ToJson() => JToken.FromObject(Value);
 
         public override int GetHashCode()
         {

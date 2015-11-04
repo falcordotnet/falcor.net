@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Falcor
@@ -26,15 +24,10 @@ namespace Falcor
         [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override JToken ToJToken() => new JObject
+        public override JToken ToJson() => new JObject
         {
             ["$type"] = "ref",
-            ["value"] = new JArray(_path.Select(k => k.ToJToken()))
+            ["value"] = _path.ToJson()
         };
 
         public override FalcorPath AsRef() => _path;

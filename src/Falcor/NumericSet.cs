@@ -37,7 +37,7 @@ namespace Falcor
         }
 
         public override NumericSet AsNumericSet() => this;
-        public override JToken ToJToken() => new JArray(_ranges.ToList());
+        public override JToken ToJson() => new JArray(_ranges.ToList());
 
         public static implicit operator List<int>(NumericSet set) => set.ToList();
     }

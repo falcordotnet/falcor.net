@@ -3,13 +3,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public abstract class FalcorNode : IJToken
+    public abstract class FalcorNode : IJson
     {
         public abstract bool IsValue { get; }
         public bool IsTree => !IsValue;
 
 
-        public abstract JToken ToJToken();
+        public abstract JToken ToJson();
         public virtual FalcorValue AsValue() => null;
         public virtual FalcorTree AsTree() => null;
         public abstract T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree);

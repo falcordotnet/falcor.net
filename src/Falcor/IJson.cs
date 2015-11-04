@@ -2,8 +2,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public interface IJToken
+    public interface IJson
     {
-        JToken ToJToken();
+        JToken ToJson();
     }
 }

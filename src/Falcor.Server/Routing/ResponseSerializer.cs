@@ -28,8 +28,8 @@ namespace Falcor.Server.Routing
         {
             if (value == null) return null;
 
-            var falcorValueOrKey = value as IJToken;
-            if (falcorValueOrKey != null) return ((IJToken) value).ToJToken();
+            var falcorValueOrKey = value as IJson;
+            if (falcorValueOrKey != null) return ((IJson) value).ToJson();
 
             if (value is int) return new JValue((int) value);
             var stringValue = value as string;

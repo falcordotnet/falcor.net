@@ -41,7 +41,7 @@ namespace Falcor
         }
 
         public override KeySet AsKeySet() => this;
-        public override JToken ToJToken() => new JArray(Keys.Select(k => k.ToJToken()));
+        public override JToken ToJson() => new JArray(Keys.Select(k => k.ToJson()));
 
         private bool Equals(KeySet other) => other != null && other.Keys.SequenceEqual(Keys);
 

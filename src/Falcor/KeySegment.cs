@@ -3,10 +3,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public abstract class KeySegment : IKeySegment, IJToken
+    public abstract class KeySegment : IKeySegment, IJson
     {
         public abstract KeyType KeyType { get; }
-        public abstract JToken ToJToken();
+        public abstract JToken ToJson();
         public bool IsString() => KeyType == KeyType.String;
         public bool IsBoolean() => KeyType == KeyType.Boolean;
         public bool IsNull() => KeyType == KeyType.Null;

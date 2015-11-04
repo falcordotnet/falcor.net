@@ -16,7 +16,7 @@ namespace Falcor
         public override FalcorTree AsTree() => this;
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree) => tree(this);
 
-        public override JToken ToJToken()
+        public override JToken ToJson()
         {
             throw new NotImplementedException();
         }

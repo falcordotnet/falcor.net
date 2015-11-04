@@ -53,8 +53,9 @@
     <Compile Include="FalcorNode.cs" />
     <Compile Include="FalcorTree.cs" />
     <Compile Include="FalcorValue.cs" />
-    <Compile Include="IJToken.cs" />
+    <Compile Include="IJson.cs" />
     <Compile Include="IKeySegment.cs" />
+    <Compile Include="IPathCollapser.cs" />
     <Compile Include="Properties\AssemblyVersionInformation.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="SerializationHelper.cs" />

@@ -23,7 +23,7 @@ namespace Falcor
             throw new NotImplementedException();
         }
 
-        public override JToken ToJToken()
+        public override JToken ToJson()
         {
             var result = new JObject();
             result["$type"] = "error";

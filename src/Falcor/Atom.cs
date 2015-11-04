@@ -25,9 +25,9 @@ namespace Falcor
             throw new NotImplementedException();
         }
 
-        public override JToken ToJToken()
+        public override JToken ToJson()
         {
-            var result = new JObject {["$type"] = "atom"};
+            var result = new JObject { ["$type"] = "atom" };
             result["$timestamp"] = Timestamp.Ticks;
             if (Expires.HasValue) result["$expires"] = Expires;
             var value = SerializationHelper.SerializeItem(Value);

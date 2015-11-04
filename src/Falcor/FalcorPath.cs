@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public class FalcorPath : IEquatable<FalcorPath>, IReadOnlyList<KeySegment>
+    public class FalcorPath : IEquatable<FalcorPath>, IReadOnlyList<KeySegment>, IJson
     {
         private readonly KeySegment[] _keys;
 
@@ -80,7 +81,8 @@ namespace Falcor
             return new FalcorPath(result);
         }
 
-        public override bool Equals(object obj) => Equals((FalcorPath) obj);
+        public override bool Equals(object obj) => Equals((FalcorPath)obj);
+        public JToken ToJson() => new JArray(_keys.Select(key => key.ToJson()));
 
         public static bool operator ==(FalcorPath lhs, FalcorPath rhs) => Util.IfBothNullOrEquals(lhs, rhs);
 

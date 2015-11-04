@@ -1,5 +1,8 @@
 @echo off
+
+powershell -Command "if(!(Get-Command "Invoke-WebRequest" -errorAction SilentlyContinue)) { Write-Host "Falcor.NET build script requires version 3.0 or greater: https://www.microsoft.com/en-us/download/details.aspx?id=40855" }"
 powershell -Command "if(!(Test-Path ./build/tools/nuget/nuget.exe)) { Invoke-WebRequest https://nuget.org/nuget.exe -OutFile ./build/tools/nuget/nuget.exe }"
+
 "build\tools\nuget\nuget.exe" "install" "xunit.runner.console" "-OutputDirectory" "./build/packages" "-ExcludeVersion" "-version" "2.0.0"
 "build\tools\nuget\nuget.exe" "install" "FAKE.Core" "-OutputDirectory" "./build/packages" "-ExcludeVersion" "-version" "4.4.2"
 "build\tools\nuget\nuget.exe" "install" "FSharp.Data" "-OutputDirectory" "./build/packages" "-ExcludeVersion" "-version" "2.2.5"

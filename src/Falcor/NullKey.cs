@@ -24,6 +24,6 @@ namespace Falcor
             return (int) KeyType;
         }
 
-        public override JToken ToJToken() => JToken.FromObject(null);
+        public override JToken ToJson() => JToken.FromObject(null);
     }
 }

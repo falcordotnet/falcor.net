@@ -19,62 +19,71 @@ To get started with Falcor.NET, follow these steps:
 
 1. In your ASP.NET web project, install the _Falcor.Server.Owin_ NuGet package:
 
-   ```
-   PM> Install-Package Falcor.Server.Owin -Pre
-   ```
+```
+PM> Install-Package Falcor.Server.Owin -Pre
+```
 2. Create your application router to match paths to a virtual JSON Graph model:
 
-   ```cs
-   public class HelloWorldRouter : FalcorRouter
-   {
-       public HelloWorldRouter()
-       {
-           // Route to match a JSON path, in this case the 'message' member
-           // of the root JSON node of the virtual JSON Graph
-           Get["message"] = async _ =>
-           {
-               var result = await Task.FromResult(Path("message").Atom("Hello World"));
-               return Complete(result);
-           };
-           // Define additional routes for your virtual model here
-       }
-   }
-   ```
-   **_Note_**: For a more realistic example router, see the [example Netflix router](https://github.com/falcordotnet/falcor.net/blob/master/examples/Falcor.Examples.Netflix/NetflixRouter.cs) which  is part of Falcor.Examples.Netflix.Web project that you can run yourself to see the router in action.
+```cs
+public class HelloWorldRouter : FalcorRouter
+{
+    public HelloWorldRouter()
+    {
+        // Route to match a JSON path, in this case the 'message' member
+        // of the root JSON node of the virtual JSON Graph
+        Get["message"] = async _ =>
+        {
+            var result = await Task.FromResult(Path("message").Atom("Hello World"));
+            return Complete(result);
+        };
+        // Define additional routes for your virtual model here
+    }
+}
+```
+**_Note_**: For a more realistic example router, see the [example Netflix router](https://github.com/falcordotnet/falcor.net/blob/master/examples/Falcor.Examples.Netflix/NetflixRouter.cs) which  is part of Falcor.Examples.Netflix.Web project that you can run yourself to see the router in action.
 
 3. In your OWIN startup class, configure your Falcor.NET router endpoint:
 
-   ```cs
-   public class Startup
-   {
-       public void Configuration(IAppBuilder app)
-       {
-           app.UseFalcor("/helloWorldModel.json", routerFactory: config => new HelloWorldRouter());
-           ...
-       }
-   }
+```cs
+public class Startup
+{
+    public void Configuration(IAppBuilder app)
+    {
+        app.UseFalcor("/helloWorldModel.json", routerFactory: config => new HelloWorldRouter());
+        ...
+    }
+}
 
-   ```
+```
+If you are using IIS (and for most development environments), ensure the web.config has a similar handler configured for your model endpoint:
+
+```xml
+<system.webServer>
+  <handlers>
+    <add name="NetflixFalcorModelHandler" path="model.json" verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+  </handlers>
+</system.webServer>
+```
 4. Using [falcor.js](https://netflix.github.io/falcor/build/falcor.browser.js) in your client, create a new Falcor model, specifying the URL of your new endpoint for your datasource:
 
-   ```js
-   var model = new falcor.Model({
-       source: new falcor.HttpDataSource('/helloWorldModel.json')
-   });
-   ```
+```js
+var model = new falcor.Model({
+  source: new falcor.HttpDataSource('/helloWorldModel.json')
+});
+```
 5. You've done all you need to talk to your router, call your model like so:
 
-   ```js
-   model.get('message').then(function(json) {
-       console.log(json);
-   });
-  // Result:
-  {
-     json: {
-         message: "Hello World!"
-     }
+```js
+model.get('message').then(function(json) {
+  console.log(json);
+});
+// Result:
+{
+  json: {
+    message: "Hello World!"
   }
-  ````
+}
+````
 
 <h1 id="uses">When To Use Falcor</h1>
 **_Consider the Falcor approach when you are developing a client/server architecture that is intended to provide a rich client user experience._**
