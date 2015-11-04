@@ -24,8 +24,8 @@ namespace Falcor.Server.Routing.PathParser
             Parse.Digit.AtLeastOnce().Select(chs => int.Parse(new string(chs.ToArray())));
 
         public static readonly Parser<string> SingleQuotedString = Parse.LetterOrDigit.Many().Text().SingleQuoted();
-        public static readonly Parser<string> DoubleQuotedString = Parse.LetterOrDigit.Many().Text().DoubleQuoted();
-        public static readonly Parser<string> QuotedString = SingleQuotedString.Or(DoubleQuotedString);
+		public static readonly Parser<string> DoubleQuotedString = Parse.LetterOrDigit.Many().Text().DoubleQuoted();		
+		public static readonly Parser<string> QuotedString = SingleQuotedString.Or(DoubleQuotedString);
 
         // General Parsers
         public static readonly Parser<IEnumerable<string>> CommaSeperatedQuotedStrings =
@@ -51,8 +51,8 @@ namespace Falcor.Server.Routing.PathParser
             select Falcor.NullKey.Instance;
 
         public static readonly Parser<SimpleKey> StringKey =
-            from value in Parse.Letter.AtLeastOnce().Text().DoubleQuoted()
-            select new StringKey(value);
+            from value in Parse.AnyChar.Except(DoubleQuote).Many().Text().DoubleQuoted()			
+			select new StringKey(value);
 
         public static readonly Parser<KeySegment> NumberKey =
             from value in Number
@@ -81,8 +81,8 @@ namespace Falcor.Server.Routing.PathParser
         public static readonly Parser<FalcorPath> Path =
             from openingBracket in OpeningBracket
             from first in StringKey.Token()
-            from rest in Comma.Token().Then(_ => Key.Or(NumberKey).Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
-            from closingBracket in ClosingBracket
+			from rest in Comma.Token().Then(_ => Key.Or(NumberKey).Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
+			from closingBracket in ClosingBracket
             select new FalcorPath(Cons(first, rest));
 
         public static readonly Parser<IEnumerable<FalcorPath>> Paths =

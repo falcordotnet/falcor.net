@@ -18,7 +18,13 @@ namespace Falcor.Tests.Server.Routing
             };
 
             Get["foo"] = parameters => Complete(new PathValue(new FalcorPath("foo"), "bar"));
-        }
+
+			Get["foo[{keys:ids}].name"] = parameters => {
+				KeySet ids = parameters.ids;
+				var results = ids.Select(id => new PathValue(FalcorPath.From("foo", id, "name"), "Jill-" + id));
+				return Complete(results);
+			};
+		}
 
         // Test helper methods
         public static Task<RouteHandlerResult> Complete(params PathValue[] values) => Complete(values.ToList());
