@@ -1,25 +1,25 @@
 namespace Falcor.Examples.Netflix.RatingService
 {
-    public class RatingResult : ServiceResult
+    public class RatingResult<TId> : ServiceResult
     {
-        private RatingResult(int titleId, int userRating, int rating) : this(titleId, null)
+        private RatingResult(TId titleId, int userRating, int rating) : this(titleId, null)
         {
             UserRating = userRating;
             Rating = rating;
         }
 
-        private RatingResult(int titleId, string error) : base(error)
+        private RatingResult(TId titleId, string error) : base(error)
         {
             TitleId = titleId;
         }
 
-        public int TitleId { get; }
+        public TId TitleId { get; }
         public int UserRating { get; }
         public int Rating { get; }
 
-        public static RatingResult SuccessResult(int titleId, int userRating, int rating)
-            => new RatingResult(titleId, userRating, rating);
+        public static RatingResult<TId> SuccessResult(TId titleId, int userRating, int rating)
+            => new RatingResult<TId>(titleId, userRating, rating);
 
-        public static RatingResult ErrorResult(int titleId, string error) => new RatingResult(titleId, error);
+        public static RatingResult<TId> ErrorResult(TId titleId, string error) => new RatingResult<TId>(titleId, error);
     }
 }
