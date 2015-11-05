@@ -12,14 +12,37 @@ namespace Falcor.Examples.Netflix
         public NetflixFalcorRouter(IRatingService ratingService, IRecommendationService recommendationService,
             int userId)
         {
-            Get["titlesById[{ranges:titleIds}]['rating', 'userRating']"] = async parameters =>
+            Get["titlesById[{ranges:titleIds}]['rating', 'userRating', 'titleId']"] = async parameters =>
             {
                 List<int> titleIds = parameters.titleIds;
-                var ratings = await ratingService.GetRatingsAsync(titleIds, userId);
+                var ratings = await ratingService.GetRatingsAsync(titleIds.Select(x => Guid.NewGuid()), userId);
                 var results = titleIds.Select(titleId =>
                 {
-                    var rating = ratings.SingleOrDefault(r => r.TitleId == titleId);
+                    var rating = ratings.ElementAtOrDefault(titleId);
                     var path = Path("titlesById", titleId);
+                    if (rating == null) return path.Keys("userRating", "rating").Undefined();
+                    if (rating.Error) return path.Keys("userRating", "rating").Error(rating.ErrorMessage);
+                    return path
+                        .Key("userRating").Atom(rating.UserRating, TimeSpan.FromSeconds(-3))
+                        .Key("rating").Atom(rating.Rating)
+                        .Key("titleId").Atom(rating.TitleId);
+                });
+
+                return Complete(results);
+            };
+
+            Get["titlesById[{keys:ids}][{keys:props}]"] = async parameters => 
+            {
+                KeySet idsSet = parameters.ids;
+                KeySet propsSet = parameters.props;
+
+                var ids = idsSet.Select(x => Guid.Parse(x.ToString()));
+                var ratings = await ratingService.GetRatingsAsync(ids, userId);
+
+                var results = ids.Select(titleId => 
+                {
+                    var rating = ratings.SingleOrDefault(r => r.TitleId == titleId);
+                    var path = Path("titlesById", titleId.ToString());
                     if (rating == null) return path.Keys("userRating", "rating").Undefined();
                     if (rating.Error) return path.Keys("userRating", "rating").Error(rating.ErrorMessage);
                     return path
