@@ -9,9 +9,9 @@ namespace Falcor
         public static JToken SerializeItem(object value)
         {
             var falcorValueOrKey = value as IJson;
-            if (falcorValueOrKey != null) return ((IJson) value).ToJson();
+            if (falcorValueOrKey != null) return ((IJson)value).ToJson();
 
-            if (value is int) return new JValue((int) value);
+            if (value is int) return new JValue((int)value);
             var stringValue = value as string;
             if (stringValue != null) return new JValue(stringValue);
 
@@ -29,6 +29,7 @@ namespace Falcor
 
             var array = value as IEnumerable<object>;
             if (array != null) return new JArray(array.Select(SerializeItem));
+
             return new JObject();
         }
     }

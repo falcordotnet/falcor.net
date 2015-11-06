@@ -38,5 +38,7 @@ namespace Falcor
             //    var head = path.First();
             //});
         }
+
+        public static implicit operator FalcorNode(int value) => new Atom(value);
     }
 }

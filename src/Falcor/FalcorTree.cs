@@ -1,17 +1,25 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
     public sealed class FalcorTree : FalcorNode
     {
-        public FalcorTree()
+        public FalcorTree(IDictionary<SimpleKey, FalcorNode> values)
         {
-            Children = new ConcurrentDictionary<KeySegment, FalcorNode>();
+            Children = new ConcurrentDictionary<SimpleKey, FalcorNode>(values);
         }
 
-        public ConcurrentDictionary<KeySegment, FalcorNode> Children { get; private set; }
+
+        public FalcorTree()
+        {
+            Children = new ConcurrentDictionary<SimpleKey, FalcorNode>();
+        }
+
+        public ConcurrentDictionary<SimpleKey, FalcorNode> Children { get; }
         public override bool IsValue => false;
         public override FalcorTree AsTree() => this;
         public override T Match<T>(Func<FalcorValue, T> value, Func<FalcorTree, T> tree) => tree(this);
@@ -20,5 +28,7 @@ namespace Falcor
         {
             throw new NotImplementedException();
         }
+
     }
+
 }
