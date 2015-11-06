@@ -80,6 +80,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FalcorPathsToFalcorTreeTests.cs" />
+    <Compile Include="FalcorTestHelpers.cs" />
     <Compile Include="HelloWorldTests.cs" />
     <Compile Include="FalcorValueTests.cs" />
     <Compile Include="NumberKeyTests.cs" />
