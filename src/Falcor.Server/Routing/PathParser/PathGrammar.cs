@@ -51,7 +51,7 @@ namespace Falcor.Server.Routing.PathParser
             select Falcor.NullKey.Instance;
 
         public static readonly Parser<SimpleKey> StringKey =
-            from value in Parse.Letter.AtLeastOnce().Text().DoubleQuoted()
+            from value in Parse.AnyChar.Except(DoubleQuote).Many().Text().DoubleQuoted()
             select new StringKey(value);
 
         public static readonly Parser<KeySegment> NumberKey =
