@@ -66,6 +66,9 @@ namespace Falcor.Tests.Server.Routing
             new List<RouteParsingTest>
             {
                 Route("foo").ShouldBehaveLike(StringKey("foo")).ShouldMatch("foo").ShouldFail("bar"),
+                Route("foo[{keys:ids}]").ShouldBehaveLike(StringKey("foo"),KeysPattern("ids"))
+                    .ShouldMatch("foo", new KeySet("id1", "id2"))
+                    .ShouldMatch("foo", "id1"),
                 Route("foo.bar[{ranges:baz}]")
                     .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
                         RangesPattern("baz"))
