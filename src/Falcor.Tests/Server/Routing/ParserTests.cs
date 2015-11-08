@@ -5,6 +5,7 @@ using Falcor.Server.Routing.PathParser;
 using Sprache;
 using Xbehave;
 using Xunit;
+using static Falcor.Server.Routing.PathParser.PathMatchers;
 
 namespace Falcor.Tests.Server.Routing
 {
@@ -64,32 +65,32 @@ namespace Falcor.Tests.Server.Routing
         {
             new List<RouteParsingTest>
             {
-                Route("foo").ShouldBehaveLike(PathMatchers.StringKey("foo")).ShouldMatch("foo").ShouldFail("bar"),
+                Route("foo").ShouldBehaveLike(StringKey("foo")).ShouldMatch("foo").ShouldFail("bar"),
                 Route("foo.bar[{ranges:baz}]")
-                    .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"),
-                        PathMatchers.RangesPattern("baz"))
+                    .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
+                        RangesPattern("baz"))
                     .ShouldMatch("foo", "bar", new NumberRange(0, 1))
                     .ShouldFail("bar"),
                 Route("foo.bar[{keys}]")
-                    .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"),
-                        PathMatchers.KeysPattern("any"))
+                    .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
+                        KeysPattern("any"))
                     .ShouldMatch("foo", "bar", new KeySet("baz"))
                     .ShouldFail("bar"),
                 Route("foo.bar['baz', 'howdy']")
-                    .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"),
-                        PathMatchers.KeySet("baz", "howdy"))
+                    .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
+                        KeySet("baz", "howdy"))
                     .ShouldMatch("foo", "bar", "baz")
                     .ShouldMatch("foo", "bar", "howdy")
                     .ShouldFail("bar"),
                 Route("foo.bar[{integers}].baz")
-                    .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"),
-                        PathMatchers.IntegersPattern(), PathMatchers.StringKey("baz"))
+                    .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
+                        IntegersPattern(), StringKey("baz"))
                     .ShouldMatch("foo", "bar", new NumericSet(1, 2, 3), "baz")
                     .ShouldMatch("foo", "bar", 1, "baz")
                     .ShouldFail("bar"),
                 Route("foo.bar[{integers:ids}]['baz','texas']")
-                    .ShouldBehaveLike(PathMatchers.StringKey("foo"), PathMatchers.StringKey("bar"),
-                        PathMatchers.IntegersPattern("ids"), PathMatchers.KeySet("baz", "texas"))
+                    .ShouldBehaveLike(StringKey("foo"), StringKey("bar"),
+                        IntegersPattern("ids"), KeySet("baz", "texas"))
                     .ShouldMatch("foo", "bar", 1, "baz")
                     .ShouldMatch("foo", "bar", 1, "texas")
                     .ShouldFail("bar")
