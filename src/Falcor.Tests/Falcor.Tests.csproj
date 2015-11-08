@@ -101,6 +101,8 @@
     <Compile Include="Server\Routing\ResponseBuilderTests.cs" />
     <Compile Include="Server\Routing\RouterTests.cs" />
     <Compile Include="Server\Routing\ParserTests.cs" />
+    <Compile Include="Server\Routing\SpracheParserTests.cs" />
+    <Compile Include="Server\Routing\SprachePathGrammarTests.cs" />
     <Compile Include="Server\Routing\TestFalcorRouter.cs" />
     <Compile Include="SimpleKeyTests.cs" />
     <Compile Include="StringKeyTests.cs" />
