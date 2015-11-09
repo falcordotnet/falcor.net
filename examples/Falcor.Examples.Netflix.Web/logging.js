@@ -1,6 +1,6 @@
 ﻿//logging:
 var stringifyReplacer = function (key, value) {
-    if (key === '\u001Eparent' || key === '\u001Ekey') {
+    if (key === '\u001Eparent' || key === '\u001Ekey' || key === '\u001Epath') {
         return undefined;
     } else {
         return value;

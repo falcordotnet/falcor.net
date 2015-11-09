@@ -49,6 +49,6 @@ namespace Falcor.Server.Routing.PathParser
             => PatternPathMatcher(k => k.IsNumericSet(), k => k.AsNumericSet(), name);
 
         public static PathMatcher KeysPattern(string name = null)
-            => PatternPathMatcher(k => k.IsKeySet(), k => k.AsKeySet(), name);
+            => PatternPathMatcher(k => k.IsKeySet() || k.IsSimpleKey(), k => k.AsKeySet(), name);
     }
 }
