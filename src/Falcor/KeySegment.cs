@@ -16,6 +16,7 @@ namespace Falcor
         public bool IsNumeric() => IsNumber() || IsRange();
         public bool IsNumericSet() => IsNumeric() || IsRangeSet();
         public bool IsKeySet() => KeyType == KeyType.KeySet;
+        public virtual bool IsSimpleKey() => !IsKeySet();
         public virtual bool AsBoolean() => false;
         public virtual long AsInt() => 0;
         public virtual NumberRange AsRange() => new NumberRange(0, 0);

@@ -4,6 +4,8 @@
     {
         public override KeySet AsKeySet() => new KeySet(this);
 
+        public override bool IsSimpleKey() => true;
+
         public static implicit operator SimpleKey(string value)
         {
             return new StringKey(value);
