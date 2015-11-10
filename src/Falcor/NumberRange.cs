@@ -19,7 +19,7 @@ namespace Falcor
                 Debug.Assert(to > from, $"{nameof(to)} > {nameof(from)}");
 
             From = from;
-            To = inclusive ? to : (to - 1);
+            To = inclusive ? to : to - 1;
         }
 
         public NumberRange(int value) : this(value, value)
@@ -53,7 +53,7 @@ namespace Falcor
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is NumberRange && Equals((NumberRange) obj);
+            return obj is NumberRange && Equals((NumberRange)obj);
         }
 
         private IEnumerable<int> AsEnumerable()
@@ -75,9 +75,9 @@ namespace Falcor
         {
             unchecked
             {
-                var hashCode = (int) KeyType;
-                hashCode = (hashCode*397) ^ From.GetHashCode();
-                hashCode = (hashCode*397) ^ To.GetHashCode();
+                var hashCode = (int)KeyType;
+                hashCode = (hashCode * 397) ^ From.GetHashCode();
+                hashCode = (hashCode * 397) ^ To.GetHashCode();
                 return hashCode;
             }
         }

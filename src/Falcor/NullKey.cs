@@ -7,22 +7,16 @@ namespace Falcor
         public static NullKey Instance { get; } = new NullKey();
         public override KeyType KeyType { get; } = KeyType.Null;
 
-        private bool Equals(NullKey other)
-        {
-            return KeyType == other.KeyType;
-        }
+        private bool Equals(NullKey other) => KeyType == other.KeyType;
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is NullKey && Equals((NullKey) obj);
+            return obj is NullKey && Equals((NullKey)obj);
         }
 
-        public override int GetHashCode()
-        {
-            return (int) KeyType;
-        }
+        public override int GetHashCode() => (int)KeyType;
 
         public override JToken ToJson() => JToken.FromObject(null);
     }

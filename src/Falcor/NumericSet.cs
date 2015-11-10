@@ -10,7 +10,6 @@ namespace Falcor
     {
         private readonly List<NumberRange> _ranges = new List<NumberRange>();
 
-
         public NumericSet(IEnumerable<int> numericKeys)
         {
             _ranges.AddRange(numericKeys.Select(k => new NumberRange(k)));
@@ -31,10 +30,7 @@ namespace Falcor
         }
 
         [DebuggerStepThrough]
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public override NumericSet AsNumericSet() => this;
         public override JToken ToJson() => new JArray(_ranges.ToList());

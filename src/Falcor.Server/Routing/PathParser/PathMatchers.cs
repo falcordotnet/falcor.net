@@ -9,8 +9,8 @@ namespace Falcor.Server.Routing.PathParser
         private static readonly MatchResult Matching = new MatchingResult();
         private static readonly MatchResult Unmatched = new UnmatchedResult();
 
-        public static PathMatcher BooleanTrue = PathMatcher(k => k.IsBoolean(), k => k.AsBoolean(), b => b);
-        public static PathMatcher BooleanFalse = PathMatcher(k => k.IsBoolean(), k => k.AsBoolean(), b => !b);
+        public static PathMatcher BooleanTrue = PathMatcher(k => k.IsBoolean, k => k.AsBoolean(), b => b);
+        public static PathMatcher BooleanFalse = PathMatcher(k => k.IsBoolean, k => k.AsBoolean(), b => !b);
 
         private static PathMatcher PathMatcher<TValue>(Predicate<KeySegment> keyTest, Func<KeySegment, TValue> getValue,
             Predicate<TValue> valueTest) =>
@@ -21,7 +21,7 @@ namespace Falcor.Server.Routing.PathParser
                 key => keyTest(key) ? new MatchingResult(name, getValue(key)) : Unmatched;
 
         public static PathMatcher StringKey(string value)
-            => PathMatcher(k => k.IsString(), k => k.ToString(), s => s == value);
+            => PathMatcher(k => k.IsString, k => k.ToString(), s => s == value);
 
         public static PathMatcher KeySet(params string[] keys) => KeySet(keys.ToList());
 
@@ -30,11 +30,11 @@ namespace Falcor.Server.Routing.PathParser
             return key =>
             {
                 var match = false;
-                if (key.IsKeySet())
+                if (key.IsKeySet)
                 {
                     match = key.AsKeySet().Any(k => keys.Contains(k.ToString()));
                 }
-                else if (key.IsString())
+                else if (key.IsString)
                 {
                     match = keys.Contains(key.ToString());
                 }
@@ -43,12 +43,12 @@ namespace Falcor.Server.Routing.PathParser
         }
 
         public static PathMatcher RangesPattern(string name = null)
-            => PatternPathMatcher(k => k.IsRange(), k => k.AsRange(), name);
+            => PatternPathMatcher(k => k.IsRange, k => k.AsRange(), name);
 
         public static PathMatcher IntegersPattern(string name = null)
-            => PatternPathMatcher(k => k.IsNumericSet(), k => k.AsNumericSet(), name);
+            => PatternPathMatcher(k => k.IsNumericSet, k => k.AsNumericSet(), name);
 
         public static PathMatcher KeysPattern(string name = null)
-            => PatternPathMatcher(k => k.IsKeySet() || k.IsSimpleKey(), k => k.AsKeySet(), name);
+            => PatternPathMatcher(k => k.IsKeySet || k.IsSimpleKey, k => k.AsKeySet(), name);
     }
 }

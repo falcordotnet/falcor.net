@@ -2,18 +2,11 @@
 {
     public abstract class SimpleKey : KeySegment
     {
+        public override bool IsSimpleKey => true;
         public override KeySet AsKeySet() => new KeySet(this);
 
-        public override bool IsSimpleKey() => true;
+        public static implicit operator SimpleKey(string value) => new StringKey(value);
 
-        public static implicit operator SimpleKey(string value)
-        {
-            return new StringKey(value);
-        }
-
-        public static implicit operator SimpleKey(bool value)
-        {
-            return new BooleanKey(value);
-        }
+        public static implicit operator SimpleKey(bool value) => new BooleanKey(value);
     }
 }

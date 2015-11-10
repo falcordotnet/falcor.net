@@ -15,23 +15,20 @@ namespace Falcor
         public override bool AsBoolean() => _value;
         public override JToken ToJson() => JToken.FromObject(_value);
 
-        private bool Equals(BooleanKey other)
-        {
-            return _value == other._value && KeyType == other.KeyType;
-        }
+        private bool Equals(BooleanKey other) => _value == other._value && KeyType == other.KeyType;
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is BooleanKey && Equals((BooleanKey) obj);
+            return obj is BooleanKey && Equals((BooleanKey)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_value.GetHashCode()*397) ^ (int) KeyType;
+                return (_value.GetHashCode() * 397) ^ (int)KeyType;
             }
         }
     }
