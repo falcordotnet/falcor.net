@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,25 @@ namespace Falcor.Tests.Server.Routing
 {
     public class TestFalcorRouter : FalcorRouter
     {
+        static List<TodoItem> todos = new List<TodoItem>
+        {
+            new TodoItem
+            {
+                name = "get milk from corner store",
+                done = false
+            },
+            new TodoItem
+            {
+                name= "froth milk",
+                done= true
+            },
+            new TodoItem
+            {
+                name= "make coffee",
+                done= false
+            }
+        };
+
         public TestFalcorRouter()
         {
             Get["foo[{integers:ids}].name"] = parameters =>
@@ -18,6 +38,27 @@ namespace Falcor.Tests.Server.Routing
             };
 
             Get["foo"] = parameters => Complete(new PathValue(new FalcorPath("foo"), "bar"));
+
+            Set["todos[{integers:ids}].done"] = async parameters =>
+            {
+                try
+                {
+                    NumericSet ids = parameters.ids;
+                    dynamic jsonGraph = parameters.jsonGraph;
+
+                    ids.ToList().ForEach(id =>
+                    {
+                        todos[id].done = (bool)jsonGraph["todos"][id.ToString()]["done"];
+                    });
+
+                    var result = await Task.FromResult(ids.Select(id => Path("todos", id).Key("done").Atom(todos[id].done)));
+                    return Complete(result);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            };
         }
 
         // Test helper methods
@@ -25,5 +66,11 @@ namespace Falcor.Tests.Server.Routing
 
         public static Task<RouteHandlerResult> Complete(IEnumerable<PathValue> values)
             => Task.FromResult(FalcorRouter.Complete(values.ToList()));
+    }
+
+    internal class TodoItem
+    {
+        public string name { get; set; }
+        public bool done { get; set; }
     }
 }
