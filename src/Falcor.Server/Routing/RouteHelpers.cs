@@ -56,6 +56,7 @@ namespace Falcor.Server.Routing
                 var unmatched = new FalcorPath(context.Unmatched.Skip(pathMatchers.Count));
                 var parameters = new DynamicDictionary();
                 matches.Where(m => m.HasValue && m.HasValue).ToList().ForEach(m => parameters.Add(m.Name, m.Value));
+                parameters.Add("jsonGraph",context.Request.JsonGraph);
                 return inner(context.WithUnmatched(unmatched, parameters))
                     // Only allow partial matches if we have a ref in the results
                     .Select(
