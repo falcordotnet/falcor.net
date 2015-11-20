@@ -4,14 +4,20 @@ namespace Falcor.Server.Routing
 {
     public sealed class FalcorRequest
     {
-        public FalcorRequest(FalcorMethod method, IReadOnlyList<FalcorPath> paths)
+        public FalcorRequest(FalcorMethod method, IReadOnlyList<FalcorPath> paths) : this(method, paths, null)
+        {
+        }
+
+        public FalcorRequest(FalcorMethod method, IReadOnlyList<FalcorPath> paths, dynamic jsonGraph)
         {
             Method = method;
             Paths = paths;
+            JsonGraph = jsonGraph;
         }
 
         public FalcorMethod Method { get; }
         public IReadOnlyList<FalcorPath> Paths { get; }
+        public dynamic JsonGraph { get; }
 
         public static FalcorRequest Get(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Get, paths);
         public static FalcorRequest Get(params KeySegment[] keys) => Get(new FalcorPath(keys));

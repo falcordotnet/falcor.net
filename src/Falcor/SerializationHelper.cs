@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    internal static class SerializationHelper
+    public static class SerializationHelper
     {
         public static JToken SerializeItem(object value)
         {
@@ -12,6 +12,7 @@ namespace Falcor
             if (falcorValueOrKey != null) return ((IJson)value).ToJson();
 
             if (value is int) return new JValue((int)value);
+            if (value is bool) return new JValue((bool)value);
             var stringValue = value as string;
             if (stringValue != null) return new JValue(stringValue);
 
