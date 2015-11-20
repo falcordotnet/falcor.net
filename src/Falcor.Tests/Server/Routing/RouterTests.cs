@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Falcor.Server.Routing;
 using Newtonsoft.Json;
 using Xbehave;
@@ -42,9 +43,9 @@ namespace Falcor.Tests.Server.Routing
             var falcorRequest = new FalcorRequest(FalcorMethod.Set, paths, jsonGraphEnvelope.jsonGraph);
             var falcorResponse = router.RouteAsync(falcorRequest).Result;
 
-            dynamic jsonGraph = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(falcorResponse.JsonGraph));
-            bool expected = jsonGraph["todos"]["1"]["done"].Value;
-            Assert.Equal(expected,false);
+            Assert.Equal(((Dictionary<string, object>) falcorResponse.JsonGraph["todos"])
+                .Any(kv1 => kv1.Key.Equals("1") && ((Dictionary<string, object>) kv1.Value)
+                .Any(kv2 => kv2.Key.Equals("done") && ((Atom)kv2.Value).Value.Equals(false))), true);
         }
     }
 }
