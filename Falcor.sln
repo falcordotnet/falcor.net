@@ -1,11 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24627.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{053672D2-EA31-4F46-A2EB-09B73FCFF0D1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		AUTHORS = AUTHORS
 		README.md = README.md
 	EndProjectSection
 EndProject
