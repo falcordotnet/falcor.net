@@ -20,10 +20,10 @@ namespace Falcor.Server.Routing
         public dynamic JsonGraph { get; }
 
         public static FalcorRequest Get(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Get, paths);
-        public static FalcorRequest Get(params KeySegment[] keys) => Get(new FalcorPath(keys));
+        public static FalcorRequest Get(params KeySegment[] keys) => Get(FalcorPath.Create(keys));
         public static FalcorRequest Set(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Set, paths);
-        public static FalcorRequest Set(params KeySegment[] keys) => Set(new FalcorPath(keys));
+        public static FalcorRequest Set(params KeySegment[] keys) => Set(FalcorPath.Create(keys));
         public static FalcorRequest Call(params FalcorPath[] paths) => new FalcorRequest(FalcorMethod.Call, paths);
-        public static FalcorRequest Call(params KeySegment[] keys) => Call(new FalcorPath(keys));
+        public static FalcorRequest Call(params KeySegment[] keys) => Call(FalcorPath.Create(keys));
     }
 }

@@ -9,14 +9,30 @@ namespace Falcor
 {
     public class FalcorPath : IEquatable<FalcorPath>, IReadOnlyList<KeySegment>, IJson
     {
+        public bool Equals(FalcorPath other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return _keys.SequenceEqual(other._keys);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj is FalcorPath && Equals((FalcorPath)obj);
+        }
+
+        public override int GetHashCode() => _keys?.GetHashCode() ?? 0;
+
         private readonly KeySegment[] _keys;
 
-        public FalcorPath(params KeySegment[] keys)
+        private FalcorPath(params KeySegment[] keys)
         {
             _keys = keys;
         }
 
-        public FalcorPath(IEnumerable<KeySegment> keys) : this(keys.ToArray())
+        private FalcorPath(IEnumerable<KeySegment> keys) : this(keys.ToArray())
         {
         }
 
@@ -25,24 +41,6 @@ namespace Falcor
 
         public KeySegment Head => _keys.First();
         public FalcorPath Tail => new FalcorPath(_keys.Skip(1));
-
-
-        public bool Equals(FalcorPath other)
-        {
-            var isMatch = _keys.SequenceEqual(other._keys);
-            return isMatch;
-        }
-
-        //public FalcorPath Prepend(KeySegment key)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public FalcorPath PrependAll(FalcorPath path)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
 
         [DebuggerStepThrough]
         public IEnumerator<KeySegment> GetEnumerator() => KeysList.GetEnumerator();
@@ -55,13 +53,12 @@ namespace Falcor
         public int Count => _keys.Length;
 
         public FalcorPath Append(IEnumerable<KeySegment> keys) =>
-            From(_keys.Concat(keys));
+            Create(_keys.Concat(keys));
 
-        public static FalcorPath From(IEnumerable<KeySegment> output) =>
+        public static FalcorPath Create(IEnumerable<KeySegment> output) =>
             new FalcorPath(output.ToList());
 
-        public static FalcorPath From(params KeySegment[] keys) =>
-            From(keys.ToList());
+        public static FalcorPath Create(params KeySegment[] keys) => Create(keys.ToList());
 
 
         public FalcorPath Append(KeySegment key)
@@ -81,12 +78,7 @@ namespace Falcor
             return new FalcorPath(result);
         }
 
-        public override bool Equals(object obj) => Equals((FalcorPath)obj);
         public JToken ToJson() => new JArray(_keys.Select(key => key.ToJson()));
-
-        public static bool operator ==(FalcorPath lhs, FalcorPath rhs) => Util.IfBothNullOrEquals(lhs, rhs);
-
-        public static bool operator !=(FalcorPath lhs, FalcorPath rhs) => !(lhs == rhs);
 
         public static implicit operator FalcorPath(List<KeySegment> keys) => new FalcorPath(keys);
     }

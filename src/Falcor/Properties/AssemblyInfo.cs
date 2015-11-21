@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescriptionAttribute("Falcor.NET core libary providing models for both Falcor paths and JSON Graph. To use Falcor on the server, use the Falcor.Server.Owin package.")]
 [assembly: AssemblyProductAttribute("Falcor.NET")]
 [assembly: AssemblyVersionAttribute("0.1.4")]
+[assembly: InternalsVisibleToAttribute("Falcor.Server")]
 [assembly: InternalsVisibleToAttribute("Falcor.Tests")]
 [assembly: AssemblyFileVersionAttribute("0.1.4")]
 namespace System {

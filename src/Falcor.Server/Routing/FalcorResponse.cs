@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public sealed class FalcorResponse
+    public sealed class FalcorResponse : IJson
     {
         private FalcorResponse(IDictionary<string, object> jsonGraph, IList<IList<string>> paths)
         {
@@ -57,6 +58,11 @@ namespace Falcor.Server.Routing
                 }
                 AddPath(nextData, path.Skip(1).ToList(), value);
             }
+        }
+
+        public JToken ToJson()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

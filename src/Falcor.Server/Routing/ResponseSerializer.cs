@@ -23,23 +23,6 @@ namespace Falcor.Server.Routing
             _jsonSerializer.Serialize(stringWriter, result);
             return stringWriter.ToString();
         }
-
-        private static JToken SerializeRef(Ref reference)
-        {
-            var result = new JObject();
-            result["$type"] = "ref";
-            result["value"] = new JArray(reference.AsRef().Select(SerializationHelper.SerializeItem).ToList());
-            return result;
-        }
-
-        private static JToken SerializeError(Error error)
-        {
-            var result = new JObject();
-            result["$type"] = "error";
-            var value = new JObject();
-            value["message"] = error.ToString();
-            result["value"] = value;
-            return result;
-        }
+        
     }
 }

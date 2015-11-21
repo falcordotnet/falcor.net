@@ -83,7 +83,7 @@ namespace Falcor.Server.Routing.PathParser
             from first in StringKey.Token()
             from rest in Comma.Token().Then(_ => Key.Or(NumberKey).Or(KeySet).Or(NumberRange).Or(NumericSet)).Many()
             from closingBracket in ClosingBracket
-            select new FalcorPath(Cons(first, rest));
+            select FalcorPath.Create(Cons(first, rest));
 
         public static readonly Parser<IEnumerable<FalcorPath>> Paths =
             from openingBracket in OpeningBracket

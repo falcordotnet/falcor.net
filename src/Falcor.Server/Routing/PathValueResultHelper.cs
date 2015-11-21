@@ -54,7 +54,7 @@ namespace Falcor.Server.Routing
         private IReadOnlyList<PathValue> Results { get; }
 
         public IPathValueBuilder Append(params KeySegment[] keys) =>
-            new PathValueResultHelper(Path.AppendAll(new FalcorPath(keys)));
+            new PathValueResultHelper(Path.AppendAll(FalcorPath.Create(keys)));
 
         public IPathValueBuilderWithKey Key(KeySegment key) => Keys(key);
 
@@ -64,7 +64,7 @@ namespace Falcor.Server.Routing
         public IPathValueBuilderResult Atom(object value, TimeSpan? expires = null)
             => WithResult(new Atom(value, expires));
 
-        public IPathValueBuilderResult Ref(params KeySegment[] keys) => WithResult(new Ref(new FalcorPath(keys)));
+        public IPathValueBuilderResult Ref(params KeySegment[] keys) => WithResult(new Ref(FalcorPath.Create(keys)));
         public IPathValueBuilderResult Error(string error) => WithResult(new Error(error));
         public IPathValueBuilderResult Undefined() => WithResult(null);
 
@@ -72,7 +72,7 @@ namespace Falcor.Server.Routing
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Ref(params KeySegment[] keys)
-            => WithResult(new Ref(new FalcorPath(keys)));
+            => WithResult(new Ref(FalcorPath.Create(keys)));
 
         IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Error(string error) => WithResult(new Error(error));
         IPathValueBuilderIntermediateResult IPathValueBuilderWithKey.Undefined() => WithResult(null);

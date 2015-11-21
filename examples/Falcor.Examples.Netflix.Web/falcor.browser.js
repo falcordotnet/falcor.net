@@ -9428,7 +9428,7 @@ Promise.prototype.nodeify = function (callback, ctx) {
   // All code after this point will be filtered from stack traces reported by RxJS
   var rStartingLine = captureLine(), rFileName;
 
-  var STACK_JUMP_SEPARATOR = "From previous event:";
+  var STACK_JUMP_SEPARATOR = "Create previous event:";
 
   function makeStackTraceLong(error, observable) {
       // If possible, transform the error stack trace by removing Node and RxJS

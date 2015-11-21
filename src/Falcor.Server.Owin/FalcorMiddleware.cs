@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Falcor.Server.Routing;
 using Microsoft.Owin;
@@ -43,7 +41,7 @@ namespace Falcor.Server.Owin
 
             var method = queryStringMethod == "get" ? FalcorMethod.Get : queryStringMethod == "set" ? FalcorMethod.Set : FalcorMethod.Call;
             var paths = FalcorRouterConfiguration.PathParser.ParseMany(queryStringPaths);
-            var request = new FalcorRequest(method, paths,jsonGraph);
+            var request = new FalcorRequest(method, paths, jsonGraph);
             var response = await RouterConfiguration.Router.RouteAsync(request);
             var jsonResponse = FalcorRouterConfiguration.ResponseSerializer.Serialize(response);
             context.Response.Headers.Set("content-type", "application/json");

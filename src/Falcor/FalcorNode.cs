@@ -18,7 +18,7 @@ namespace Falcor
 
         public FalcorValue Get(FalcorPath path) => Match(value => value, tree =>
         {
-            FalcorNode child;
+            //FalcorNode child;
             //jif (!(path.IsEmpty() || !tree.Children.TryGetValue(path.First(), out child)))
             //return child.Get(path);
             return null;

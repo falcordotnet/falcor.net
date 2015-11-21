@@ -141,7 +141,7 @@ namespace Falcor.Tests.Server.Routing
             return new PathParsingTest { Paths = sb.ToString() };
         }
 
-        private static FalcorPath Path(params KeySegment[] keys) => new FalcorPath(keys);
+        private static FalcorPath Path(params KeySegment[] keys) => FalcorPath.Create(keys);
 
         private class PathParsingTest
         {
@@ -182,13 +182,13 @@ namespace Falcor.Tests.Server.Routing
 
             public RouteParsingTest ShouldMatch(params KeySegment[] keys)
             {
-                PathTests.Add(new RouteParsingSubTest { Path = new FalcorPath(keys), ShouldMatch = true });
+                PathTests.Add(new RouteParsingSubTest { Path = FalcorPath.Create(keys), ShouldMatch = true });
                 return this;
             }
 
             public RouteParsingTest ShouldFail(params KeySegment[] keys)
             {
-                PathTests.Add(new RouteParsingSubTest { Path = new FalcorPath(keys), ShouldMatch = false });
+                PathTests.Add(new RouteParsingSubTest { Path = FalcorPath.Create(keys), ShouldMatch = false });
                 return this;
             }
         }

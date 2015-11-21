@@ -15,17 +15,17 @@ namespace Falcor.Tests.Server.Routing
                 var results = new List<PathValue>();
                 var pathValues = new List<PathValue>
                 {
-                    new PathValue(FalcorPath.From("foo"), "hello"),
-                    new PathValue(FalcorPath.From("bar"), "hello"),
-                    new PathValue(FalcorPath.From("baz", 1, "first"), "Jessica"),
-                    new PathValue(FalcorPath.From("baz", 1, "last"), "Smith"),
-                    new PathValue(FalcorPath.From("baz", 1, "phone"), "111-222-1245"),
-                    new PathValue(FalcorPath.From("baz", 2, "first"), "Jessica"),
-                    new PathValue(FalcorPath.From("baz", 2, "last"), "Smith"),
-                    new PathValue(FalcorPath.From("baz", 2, "phone"), "111-222-1245"),
-                    new PathValue(FalcorPath.From("baz", 3, "first"), "Jessica"),
-                    new PathValue(FalcorPath.From("baz", 3, "last"), "Smith"),
-                    new PathValue(FalcorPath.From("baz", 3, "phone"), "111-222-1245")
+                    new PathValue(FalcorPath.Create("foo"), "hello"),
+                    new PathValue(FalcorPath.Create("bar"), "hello"),
+                    new PathValue(FalcorPath.Create("baz", 1, "first"), "Jessica"),
+                    new PathValue(FalcorPath.Create("baz", 1, "last"), "Smith"),
+                    new PathValue(FalcorPath.Create("baz", 1, "phone"), "111-222-1245"),
+                    new PathValue(FalcorPath.Create("baz", 2, "first"), "Jessica"),
+                    new PathValue(FalcorPath.Create("baz", 2, "last"), "Smith"),
+                    new PathValue(FalcorPath.Create("baz", 2, "phone"), "111-222-1245"),
+                    new PathValue(FalcorPath.Create("baz", 3, "first"), "Jessica"),
+                    new PathValue(FalcorPath.Create("baz", 3, "last"), "Smith"),
+                    new PathValue(FalcorPath.Create("baz", 3, "phone"), "111-222-1245")
                 };
                 var nameHello = new Dictionary<string, object>
                 {

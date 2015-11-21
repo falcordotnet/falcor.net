@@ -53,7 +53,7 @@ namespace Falcor.Server.Routing
                     matches.Add(matchResult);
                 }
 
-                var unmatched = new FalcorPath(context.Unmatched.Skip(pathMatchers.Count));
+                var unmatched = FalcorPath.Create(context.Unmatched.Skip(pathMatchers.Count));
                 var parameters = new DynamicDictionary();
                 matches.Where(m => m.HasValue && m.HasValue).ToList().ForEach(m => parameters.Add(m.Name, m.Value));
                 parameters.Add("jsonGraph",context.Request.JsonGraph);

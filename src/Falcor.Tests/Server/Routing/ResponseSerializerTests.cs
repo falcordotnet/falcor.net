@@ -22,7 +22,7 @@ namespace Falcor.Tests.Server.Routing
             {               
                 var response = new List<PathValue>
                 {
-                    new PathValue(FalcorPath.From("todos",1,"done"), true)
+                    new PathValue(FalcorPath.Create("todos",1,"done"), true)
                 };
                 var serialize = new ResponseSerializer().Serialize(FalcorResponse.From(response.AsReadOnly()));
                 dynamic result = JsonConvert.DeserializeObject(serialize);
@@ -37,7 +37,7 @@ namespace Falcor.Tests.Server.Routing
             {               
                 var response = new List<PathValue>
                 {
-                    new PathValue(FalcorPath.From("todos",1,"done"), new Atom(true))
+                    new PathValue(FalcorPath.Create("todos",1,"done"), new Atom(true))
                 };
                 var serialize = new ResponseSerializer().Serialize(FalcorResponse.From(response.AsReadOnly()));
                 dynamic result = JsonConvert.DeserializeObject(serialize);

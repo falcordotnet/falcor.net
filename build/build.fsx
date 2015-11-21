@@ -42,6 +42,7 @@ Target "AssemblyInfo" (fun _ ->
                                                       Attribute.Description p.description
                                                       Attribute.Product "Falcor.NET"
                                                       Attribute.Version context.version
+                                                      Attribute.InternalsVisibleTo "Falcor.Server"
                                                       Attribute.InternalsVisibleTo "Falcor.Tests"
                                                       Attribute.FileVersion context.version ])
 Target "Compile" 
@@ -65,7 +66,8 @@ Target "CreatePackages"
              { p with Dependencies = 
                           [ "Falcor", context.version
                             "Falcor.Server", context.version
-                            "Microsoft.Owin", GetPackageVersion context.packagesDirPath "Microsoft.Owin" ] })))
+                            "Microsoft.Owin", GetPackageVersion context.packagesDirPath "Microsoft.Owin"
+                            "Newtonsoft.Json", GetPackageVersion context.packagesDirPath "Newtonsoft.Json" ] })))
 //createNuGetPackage falcorClient context withCore
 //createNuGetPackage falcorRouter context withCore
 //createNuGetPackage falcorWeb context withCore

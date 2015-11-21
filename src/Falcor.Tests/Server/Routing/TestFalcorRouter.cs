@@ -33,11 +33,11 @@ namespace Falcor.Tests.Server.Routing
             Get["foo[{integers:ids}].name"] = parameters =>
             {
                 NumericSet ids = parameters.ids;
-                var results = ids.Select(id => new PathValue(FalcorPath.From("foo", id, "name"), "Jill-" + id));
-                return Complete(results);
+                var results = ids.Select(id => new PathValue(FalcorPath.Create("foo", id, "name"), "Jill-" + id));
+                return CompleteAsync(results);
             };
 
-            Get["foo"] = parameters => Complete(new PathValue(new FalcorPath("foo"), "bar"));
+            Get["foo"] = parameters => CompleteAsync(new PathValue(FalcorPath.Create("foo"), "bar"));
 
             Set["todos[{integers:ids}].done"] = async parameters =>
             {
@@ -62,9 +62,9 @@ namespace Falcor.Tests.Server.Routing
         }
 
         // Test helper methods
-        public static Task<RouteHandlerResult> Complete(params PathValue[] values) => Complete(values.ToList());
+        public static Task<RouteHandlerResult> CompleteAsync(params PathValue[] values) => CompleteAsync(values.ToList());
 
-        public static Task<RouteHandlerResult> Complete(IEnumerable<PathValue> values)
+        public static Task<RouteHandlerResult> CompleteAsync(IEnumerable<PathValue> values)
             => Task.FromResult(FalcorRouter.Complete(values.ToList()));
     }
 

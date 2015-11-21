@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Falcor
 {
-    public static class SerializationHelper
+    internal static class SerializationHelper
     {
         public static JToken SerializeItem(object value)
         {

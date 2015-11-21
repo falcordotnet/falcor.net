@@ -25,7 +25,7 @@ namespace Falcor.Server
 
         // Helpers
         protected static IPathValueBuilder Path(params KeySegment[] keys)
-            => new PathValueResultHelper(FalcorPath.From(keys));
+            => new PathValueResultHelper(FalcorPath.Create(keys));
 
         public static IPathValueBuilder Path(FalcorPath path) => new PathValueResultHelper(path);
         public static RouteHandlerResult Complete(PathValue value) => Complete(new List<PathValue> { value });
